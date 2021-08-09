@@ -7,7 +7,7 @@
 \format{
 data.frame containing data set
   \describe{
-  \item{\code{trat}}{numeric vector with factor 1}
+  \item{\code{trat}}{Numeric vector with temperature}
   \item{\code{resp}}{Numeric vector with response}
   }
 }

@@ -64,6 +64,8 @@ To change the regression model, change the "model" argument to:
 \item \strong{biexponential:} Biexponential regression.
 \item \strong{log:} Logarithmic regression.
 \item \strong{GP:} Gompertz regression.
+\item \strong{mitscherlich:} Mitscherlich regression.
+\item \strong{asymptotic:} Asymptotic regression
 }
 }
 \examples{

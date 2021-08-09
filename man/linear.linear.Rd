@@ -16,7 +16,13 @@ linear.linear(
   xlab = "Independent",
   theme = theme_classic(),
   point = "all",
-  legend.position = "top"
+  width.bar = NA,
+  legend.position = "top",
+  textsize = 12,
+  pointsize = 4.5,
+  linesize = 0.8,
+  pointshape = 21,
+  comment = NA
 )
 }
 \arguments{
@@ -42,7 +48,19 @@ linear.linear(
 
 \item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
 
+\item{width.bar}{Bar width}
+
 \item{legend.position}{legend position (\emph{default} is "top")}
+
+\item{textsize}{Font size}
+
+\item{pointsize}{shape size}
+
+\item{linesize}{line size}
+
+\item{pointshape}{format point (default is 21)}
+
+\item{comment}{Add text after equation}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); breakpoint and the graph using ggplot2 with the equation automatically.
@@ -53,10 +71,10 @@ This function performs linear linear regression analysis.
 \details{
 The linear-linear model is defined by:
 First curve:
-\deqn{f(x) = b0+b1*x (x<breakpoint)}
+\deqn{f(x) = \beta_0 + \beta_1 \times x (x < breakpoint)}
 
 Second curve:
-\deqn{f(x) = b0+b1*breakpoint+w*x (x>breakpoint)}
+\deqn{f(x) = \beta_0 + \beta_1 \times breakpoint + w \times x (x > breakpoint)}
 }
 \examples{
 library(AgroReg)

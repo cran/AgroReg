@@ -1,55 +1,81 @@
-#' Analysis: Exponential Regression
+#' Analysis: Beta regression
 #'
-#' This function performs exponential regression analysis.
+#' This function performs beta regression analysis.
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
 #' @param ylab Variable response name (Accepts the \emph{expression}() function)
-#' @param xlab treatments name (Accepts the \emph{expression}() function)
+#' @param xlab Treatments name (Accepts the \emph{expression}() function)
 #' @param theme ggplot2 theme (\emph{default} is theme_bw())
-#' @param legend.position legend position (\emph{default} is "top")
-#' @param r2 coefficient of determination of the mean or all values (\emph{default} is all)
+#' @param legend.position Legend position (\emph{default} is "top")
+#' @param r2 Coefficient of determination of the mean or all values (\emph{default} is all)
 #' @param scale Sets x scale (\emph{default} is none, can be "log")
-#' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
+#' @param point Defines whether you want to plot all points ("all") or only the mean ("mean")
 #' @param width.bar	Bar width
 #' @param textsize Font size
-#' @param pointsize	shape size
-#' @param linesize	line size
-#' @param pointshape format point (default is 21)
+#' @param pointsize	Shape size
+#' @param linesize	Line size
+#' @param pointshape Format point (default is 21)
 #' @param comment Add text after equation
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
-#' @seealso \link{biexponential}, \link{exponential_neg}
 #' @details
-#' The exponential model is defined by:
-#' \deqn{y = \alpha \times e^{\beta \cdot x} + \theta \cdot x}
+#' The beta model is defined by:
+#' \deqn{Y = d \times \{(\frac{X-X_b}{X_o-X_b})(\frac{X_c-X}{X_c-X_o})^{\frac{X_c-X_o}{X_o-X_b}}\}^b}
+#' @author Model imported from the aomisc package (Andrea Onofri)
 #' @author Gabriel Danilo Shimizu
 #' @author Leandro Simoes Azeredo Goncalves
-#' @references Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley \& Sons (p. 330).
+#' @references Onofri, A., 2020. The broken bridge between biologists and statisticians: a blog and R package. Statforbiology. http://www.statforbiology.com/tags/aomisc/
 #' @export
-#'
+#' @seealso \link{exponential}, \link{exponential_neg}
 #' @examples
 #' library(AgroReg)
 #' data("granada")
 #' attach(granada)
-#' exponential(time,100-WL)
+#' biexponential(time,WL)
 
-exponential=function(trat,
-            resp,
-            ylab="Dependent",
-            xlab="Independent",
-            theme=theme_classic(),
-            legend.position="top",
-            error="SE",
-            r2="all",
-            point="all",
-            width.bar=NA,
-            scale="none",
-            textsize = 12,
-            pointsize = 4.5,
-            linesize = 0.8,
-            pointshape = 21,
-            comment=NA){
+beta_reg=function(trat,
+                       resp,
+                       ylab="Dependent",
+                       xlab="Independent",
+                       theme=theme_classic(),
+                       legend.position="top",
+                       error="SE",
+                       r2="all",
+                       point="all",
+                       width.bar=NA,
+                       scale="none",
+                  textsize = 12,
+                  pointsize = 4.5,
+                  linesize = 0.8,
+                  pointshape = 21,
+                  comment=NA){
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
+  beta.fun <- function(X, b, d, Xb, Xo, Xc){
+    .expr1 <-  (X - Xb)/(Xo - Xb)
+    .expr2 <- (Xc - X)/(Xc - Xo)
+    .expr3 <- (Xc - Xo)/(Xo - Xb)
+    ifelse(X > Xb & X < Xc, d * (.expr1*.expr2^.expr3)^b, 0)}
+  DRC.beta <- function(){
+    fct <- function(x, parm) {
+      beta.fun(x, parm[,1], parm[,2], parm[,3], parm[,4], parm[,5])
+    }
+    ssfct <- function(data){
+      x <- data[, 1]
+      y <- data[, 2]
+
+      d <- max(y)
+      Xo <- x[which.max(y)]
+      firstidx <- min( which(y !=0) )
+      Xb <- ifelse(firstidx == 1,  x[1], (x[firstidx] + x[(firstidx - 1)])/2)
+      secidx <- max( which(y !=0) )
+      Xc <- ifelse(secidx == length(y),  x[length(x)], (x[secidx] + x[(secidx + 1)])/2)
+      c(1, d, Xb, Xo, Xc)
+    }
+    names <- c("b", "d", "Xb", "Xo", "Xc")
+    text <- "Beta function"
+    returnList <- list(fct = fct, ssfct = ssfct, names = names, text = text)
+    class(returnList) <- "drcMean"
+    invisible(returnList)}
   requireNamespace("crayon")
   requireNamespace("ggplot2")
   ymean=tapply(resp,trat,mean)
@@ -58,21 +84,31 @@ exponential=function(trat,
   if(error=="FALSE"){ysd=0}
   desvio=ysd
   xmean=tapply(trat,trat,mean)
-  theta.0 <- min(resp) * 0.5
-  model.0 <- lm(log(resp - theta.0) ~ trat)
-  alpha.0 <- exp(coef(model.0)[1])
-  beta.0 <- coef(model.0)[2]
-  start <- list(alpha = alpha.0, beta = beta.0, theta = theta.0)
-  model <- nls(resp ~ alpha * exp(beta * trat) + theta ,start = start)
+  model <- drm(resp~trat,fct=DRC.beta())
   coef=summary(model)
   b=coef$coefficients[,1][1]
   d=coef$coefficients[,1][2]
-  e=coef$coefficients[,1][3]
+  Xb=coef$coefficients[,1][3]
+  Xo=coef$coefficients[,1][4]
+  Xc=coef$coefficients[,1][5]
   if(r2=="all"){r2=cor(resp, fitted(model))^2}
-  if(r2=="mean"){r2=cor(ymean, predict(model,newdata=data.frame(trat=unique(trat))))^2}
+  if(r2=="mean"){r2=cor(ymean, predict(model,
+                                       newdata=data.frame(trat=unique(trat))))^2}
   r2=floor(r2*100)/100
-  equation=sprintf("~~~y==%0.3e*e^{%0.3e*x}+%0.3e ~~~~~ italic(R^2) == %0.2f",
-                   b,d,e,r2)
+
+  xoxb=Xo-Xb
+  xcxo=Xc-Xo
+  xcxoxoxb=(Xc-Xo)/(Xo-Xb)
+  equation=sprintf("~~~y==%0.3e*bgroup(\"{\",group(\"(\",frac(x %s %0.3e, %0.3e),\")\")*group(\"(\",frac(%0.3e-x, %0.3e),\")\")^%0.3e,\"}\")^%0.3e ~~~~~ italic(R^2) == %0.2f",
+                   d,
+                   ifelse(Xb >= 0, "+", "-"),
+                   abs(Xb),
+                   xoxb,
+                   Xc,
+                   xcxo,
+                   xcxoxoxb,
+                   b,
+                   r2)
   if(is.na(comment)==FALSE){equation=paste(equation,"~\"",comment,"\"")}
   xp=seq(min(trat),max(trat),length.out = 1000)
   preditos=data.frame(x=xp,
@@ -86,18 +122,18 @@ exponential=function(trat,
   data=data.frame(xmean,ymean)
   data1=data.frame(trat=xmean,resp=ymean)
   if(point=="mean"){
-  graph=ggplot(data,aes(x=xmean,y=ymean))
-  if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
-                                               width=width.bar)}
-  graph=graph+
-    geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
+    graph=ggplot(data,aes(x=xmean,y=ymean))
+    if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
+                                                 width=width.bar)}
+    graph=graph+
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   if(point=="all"){
     graph=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
 
   graph=graph+theme+geom_line(data=preditos,aes(x=x,
-                                y=y,color="black"),size=linesize)+
+                                                y=y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black"),
           legend.position = legend.position,

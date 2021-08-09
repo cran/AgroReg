@@ -14,7 +14,13 @@ linear.plateau(
   error = "SE",
   r2 = "all",
   point = "all",
-  scale = "none"
+  width.bar = NA,
+  scale = "none",
+  textsize = 12,
+  pointsize = 4.5,
+  linesize = 0.8,
+  pointshape = 21,
+  comment = NA
 )
 }
 \arguments{
@@ -36,7 +42,19 @@ linear.plateau(
 
 \item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
 
+\item{width.bar}{Bar width}
+
 \item{scale}{Sets x scale (\emph{default} is none, can be "log")}
+
+\item{textsize}{Font size}
+
+\item{pointsize}{shape size}
+
+\item{linesize}{line size}
+
+\item{pointshape}{format point (default is 21)}
+
+\item{comment}{Add text after equation}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); breakpoint and the graph using ggplot2 with the equation automatically.
@@ -47,10 +65,10 @@ This function performs the quadratic-plateau regression analysis.
 \details{
 The linear-plateau model is defined by:
 First curve:
-\deqn{f(x) = b0+b1*x (x<breakpoint)}
+\deqn{f(x) = \beta_0 + \beta_1 \times x (x < breakpoint)}
 
 Second curve:
-\deqn{f(x) = b0+b1*breakpoint (x>breakpoint)}
+\deqn{f(x) = \beta_0 + \beta_1 \times breakpoint (x > breakpoint)}
 }
 \examples{
 library(AgroReg)

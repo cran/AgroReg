@@ -13,7 +13,11 @@ Nreg(
   theme = theme_classic(),
   legend.position = "top",
   legend.text = "not~significant",
-  point = "all"
+  width.bar = NA,
+  point = "all",
+  textsize = 12,
+  pointsize = 4.5,
+  pointshape = 21
 )
 }
 \arguments{
@@ -33,7 +37,15 @@ Nreg(
 
 \item{legend.text}{legend text}
 
+\item{width.bar}{Bar width}
+
 \item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
+
+\item{textsize}{Font size}
+
+\item{pointsize}{shape size}
+
+\item{pointshape}{format point (default is 21)}
 }
 \value{
 The function returns an exploratory graph of segments

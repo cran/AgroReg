@@ -8,18 +8,24 @@
 #' @param theme ggplot2 theme (\emph{default} is theme_bw())
 #' @param legend.position legend position (\emph{default} is "top")
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
+#' @param width.bar	Bar width
 #' @param r2 coefficient of determination of the mean or all values (\emph{default} is all)
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
 #' @param scale Sets x scale (\emph{default} is none, can be "log")
+#' @param textsize Font size
+#' @param pointsize	shape size
+#' @param linesize	line size
+#' @param pointshape format point (default is 21)
+#' @param comment Add text after equation
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @details
 #' The linear-linear model is defined by:
 #'
 #' First curve:
-#' \deqn{f(x) = b0+b1*x+b2*x^2 (x<breakpoint)}
+#' \deqn{f(x) = \beta_0 + \beta_1 \cdot x + \beta_2 \cdot x^2 (x < breakpoint)}
 #'
 #' Second curve:
-#' \deqn{f(x) = b0+b1*breakpoint+b2*breakpoint^2 (x>breakpoint)}
+#' \deqn{f(x) = \beta_0 + \beta_1 \cdot breakpoint + \beta_2 \cdot breakpoint^2 (x > breakpoint)}
 #' @export
 #' @author Gabriel Danilo Shimizu
 #' @author Leandro Simoes Azeredo Goncalves
@@ -44,8 +50,15 @@ quadratic.plateau=function(trat,resp,
                       error="SE",
                       r2="all",
                       point="all",
-                      scale="none"){
+                      width.bar=NA,
+                      scale="none",
+                      textsize = 12,
+                      pointsize = 4.5,
+                      linesize = 0.8,
+                      pointshape = 21,
+                      comment=NA){
   requireNamespace("minpack.lm")
+  if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   requireNamespace("dplyr")
   requireNamespace("rcompanion")
   qp <- function(x, b0, b1, b2) {
@@ -125,6 +138,7 @@ quadratic.plateau=function(trat,resp,
                                 breakpoint,
                                 r2)
   equation=s
+  if(is.na(comment)==FALSE){equation=paste(equation,"~\"",comment,"\"")}
   predesp=predict(corr_model)
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))
@@ -134,13 +148,13 @@ quadratic.plateau=function(trat,resp,
   if(point=="mean"){
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
-                                                 width=0.5)}
+                                                 width=width.bar)}
     graph=graph+
-      geom_point(aes(color="black"),size=4.5,shape=21,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   if(point=="all"){
     graph=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     graph=graph+
-      geom_point(aes(color="black"),size=4.5,shape=21,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   xp=seq(min(trat),max(trat),length=1000)
   yp=predict(corr_model,newdata=data.frame(trat=xp))
   preditos=data.frame(x=xp,y=yp)
@@ -151,11 +165,11 @@ quadratic.plateau=function(trat,resp,
   graph=graph+theme+
     geom_line(data=preditos,aes(x=x,
                                 y=y,
-                                color="black"),size=0.8)+
+                                color="black"),size=linesize)+
     scale_color_manual(name="",values="black",label=parse(text = equation))+
-    theme(axis.text = element_text(size=12,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black"),
           legend.position = legend.position,
-          legend.text = element_text(size=12),
+          legend.text = element_text(size=textsize),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+

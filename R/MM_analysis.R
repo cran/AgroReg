@@ -10,9 +10,15 @@
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
 #' @param r2 coefficient of determination of the mean or all values (\emph{default} is all)
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
+#' @param width.bar	Bar width
+#' @param textsize Font size
+#' @param pointsize	shape size
+#' @param linesize	line size
+#' @param pointshape format point (default is 21)
+#' @param comment Add text after equation
 #' @details
 #' The Michaelis-Menten model is defined by:
-#' \deqn{f(x, (VM,k)) = c + \frac{Vm*x}{k+x}}
+#' \deqn{f(x, (VM,k)) = \frac{Vm \times x}{k + x}}
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @export
 #' @author Gabriel Danilo Shimizu
@@ -31,10 +37,17 @@ MM=function(trat,
             theme=theme_classic(),
             legend.position="top",
             point="all",
-            r2="all"){
+            width.bar=NA,
+            r2="all",
+            textsize = 12,
+            pointsize = 4.5,
+            linesize = 0.8,
+            pointshape = 21,
+            comment=NA){
   requireNamespace("ggplot2")
   requireNamespace("drc")
   requireNamespace("crayon")
+  if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   ymean=tapply(resp,trat,mean)
   if(error=="SE"){ysd=tapply(resp,trat,sd)/sqrt(tapply(resp,trat,length))}
   if(error=="SD"){ysd=tapply(resp,trat,sd)}
@@ -57,26 +70,27 @@ MM=function(trat,
                       y=predict(mod,newdata = data.frame(trat=xp)))
   x=preditos$x
   y=preditos$y
+  if(is.na(comment)==FALSE){equation=paste(equation,"~\"",comment,"\"")}
   s=equation
   data=data.frame(xmean,ymean)
   data1=data.frame(trat=xmean,resp=ymean)
   if(point=="mean"){
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
-                                                 width=0.5)}
+                                                 width=width.bar)}
     graph=graph+
-      geom_point(aes(color="black"),size=4.5,shape=21,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   if(point=="all"){
     graph=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     graph=graph+
-      geom_point(aes(color="black"),size=4.5,shape=21,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
 
   graph=graph+theme+
     geom_line(data=preditos,aes(x=x,y=y,color="black"))+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
-    theme(axis.text = element_text(size=12,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black"),
           legend.position = legend.position,
-          legend.text = element_text(size=12),
+          legend.text = element_text(size=textsize),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+

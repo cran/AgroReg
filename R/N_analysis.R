@@ -7,10 +7,14 @@
 #' @param ylab Dependent variable name (Accepts the \emph{expression}() function)
 #' @param xlab Independent variable name (Accepts the \emph{expression}() function)
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
+#' @param width.bar	Bar width
 #' @param theme ggplot2 theme (\emph{default} is theme_classic())
 #' @param legend.position legend position (\emph{default} is "top")
 #' @param legend.text legend text
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
+#' @param textsize Font size
+#' @param pointsize	shape size
+#' @param pointshape format point (default is 21)
 #' @return The function returns an exploratory graph of segments
 #' @keywords non-significant
 #' @export
@@ -28,7 +32,12 @@ Nreg=function(trat,
               theme=theme_classic(),
               legend.position="top",
               legend.text="not~significant",
-              point="all"){
+              width.bar=NA,
+              point="all",
+              textsize = 12,
+              pointsize = 4.5,
+              pointshape = 21){
+  if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   requireNamespace("ggplot2")
   dados=data.frame(trat,resp)
   medias=c()
@@ -48,21 +57,21 @@ Nreg=function(trat,
     grafico=ggplot(data1,aes(x=media,y=desvio))
     if(error!="FALSE"){grafico=grafico+
       geom_errorbar(aes(ymin=media-desvio,ymax=media+desvio),
-                                                 width=0.5)}
+                                                 width=width.bar)}
     grafico=grafico+
-      geom_point(aes(color="black"),size=4.5,shape=21,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   if(point=="all"){
     grafico=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     grafico=grafico+
-      geom_point(aes(color="black"),size=4.5,shape=21,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
 
   grafico=grafico+theme+ylab(ylab)+xlab(xlab)+
     scale_color_manual(values="black",label=c(parse(text=s)),name="")+
-    theme(text = element_text(size=12,color="black"),
-          axis.text = element_text(size=12,color="black"),
-          axis.title = element_text(size=12,color="black"),
+    theme(text = element_text(size=textsize,color="black"),
+          axis.text = element_text(size=textsize,color="black"),
+          axis.title = element_text(size=textsize,color="black"),
           legend.position = legend.position,
-          legend.text=element_text(size=12),
+          legend.text=element_text(size=textsize),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)

@@ -13,14 +13,20 @@
 #' @param theme ggplot2 theme (\emph{default} is theme_classic())
 #' @param legend.position legend position (\emph{default} is "top")
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
+#' @param width.bar	Bar width
+#' @param textsize Font size
+#' @param pointsize	shape size
+#' @param linesize	line size
+#' @param pointshape format point (default is 21)
+#' @param comment Add text after equation
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); breakpoint and the graph using ggplot2 with the equation automatically.
 #' @details
 #' The linear-linear model is defined by:
 #' First curve:
-#' \deqn{f(x) = b0+b1*x (x<breakpoint)}
+#' \deqn{f(x) = \beta_0 + \beta_1 \times x (x < breakpoint)}
 #'
 #' Second curve:
-#' \deqn{f(x) = b0+b1*breakpoint+w*x (x>breakpoint)}
+#' \deqn{f(x) = \beta_0 + \beta_1 \times breakpoint + w \times x (x > breakpoint)}
 #'
 #' @export
 #' @author Model imported from the SiZer package
@@ -46,9 +52,16 @@ linear.linear=function (trat,
                           xlab="Independent",
                           theme=theme_classic(),
                     point="all",
-                          legend.position="top"){
+                    width.bar=NA,
+                          legend.position="top",
+                    textsize = 12,
+                    pointsize = 4.5,
+                    linesize = 0.8,
+                    pointshape = 21,
+                    comment=NA){
   requireNamespace("ggplot2")
   requireNamespace("crayon")
+  if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   piecewise.linear.simple <- function(x, y, middle=1){
     piecewise.linear.likelihood <- function(alpha, x, y){
       N <- length(x);
@@ -130,6 +143,7 @@ linear.linear=function (trat,
                    abs(b11),
                    breaks,
                    r2)
+  if(is.na(comment)==FALSE){equation=paste(equation,"~\"",comment,"\"")}
   s=equation
   temp1=mod$x
   result=mod$y
@@ -140,19 +154,19 @@ linear.linear=function (trat,
   if(point=="mean"){
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
-                                                 width=0.5)}
+                                                 width=width.bar)}
     graph=graph+
-      geom_point(aes(color="black"),size=4.5,shape=21,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   if(point=="all"){
     graph=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     graph=graph+
-      geom_point(aes(color="black"),size=4.5,shape=21,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   graph=graph+theme+
-    geom_line(data=preditos1,aes(x=x,y=y,color="black"),size=0.8)+
+    geom_line(data=preditos1,aes(x=x,y=y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
-    theme(axis.text = element_text(size=12,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black"),
           legend.position = legend.position,
-          legend.text = element_text(size=12),
+          legend.text = element_text(size=textsize),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+

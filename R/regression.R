@@ -35,6 +35,8 @@
 #' * **biexponential:** Biexponential regression.
 #' * **log:** Logarithmic regression.
 #' * **GP:** Gompertz regression.
+#' * **mitscherlich:** Mitscherlich regression.
+#' * **asymptotic:** Asymptotic regression
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @md
 #' @examples
@@ -74,5 +76,7 @@ regression=function(trat,
   if(model=="biexponential"){a=biexponential(trat, resp, ylab, xlab, theme, legend.position,point = point)}
   if(model=="log"){a=LOG(trat, resp, ylab, xlab, theme, legend.position,point = point)}
   if(model=="GP"){a=GP(trat, resp, ylab, xlab, theme, legend.position,point = point)}
+  if(model=="mitscherlich"){a=mitscherlich(trat, resp, ylab, xlab, theme, legend.position,point = point)}
+  if(model=="asymptotic"){a=asymptotic(trat, resp, ylab, xlab, theme, legend.position,point = point)}
   a
 }

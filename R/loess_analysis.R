@@ -10,6 +10,11 @@
 #' @param legend.position legend position (\emph{default} is c(0.3,0.8))
 #' @param scale Sets x scale (\emph{default} is none, can be "log")
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
+#' @param width.bar	Bar width
+#' @param textsize Font size
+#' @param pointsize	shape size
+#' @param linesize	line size
+#' @param pointshape format point (default is 21)
 #' @return The function returns a list containing the loess regression and graph using ggplot2.
 #' @seealso \link{loess}
 #' @export
@@ -29,10 +34,16 @@ loessreg=function(trat,
                   legend.position="top",
                   error="SE",
                   point="all",
-                  scale="none"){
+                  width.bar=NA,
+                  scale="none",
+                  textsize = 12,
+                  pointsize = 4.5,
+                  linesize = 0.8,
+                  pointshape = 21){
   requireNamespace("ggplot2")
   requireNamespace("crayon")
   ymean=tapply(resp,trat,mean)
+  if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   if(error=="SE"){ysd=tapply(resp,trat,sd)/sqrt(tapply(resp,trat,length))}
   if(error=="SD"){ysd=tapply(resp,trat,sd)}
   if(error=="FALSE"){ysd=0}
@@ -50,20 +61,20 @@ loessreg=function(trat,
   if(point=="mean"){
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
-                                                 width=0.5)}
+                                                 width=width.bar)}
     graph=graph+
-      geom_point(aes(color="black"),size=4.5,shape=21,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   if(point=="all"){
     graph=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     graph=graph+
-      geom_point(aes(color="black"),size=4.5,shape=21,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   graph=graph+theme+
     geom_line(data=preditos,aes(x=preditos$x,
-                                y=preditos$y,color="black"),size=0.8)+
+                                y=preditos$y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label="Loess regression")+
-    theme(axis.text = element_text(size=12,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black"),
           legend.position = legend.position,
-          legend.text = element_text(size=12),
+          legend.text = element_text(size=textsize),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+

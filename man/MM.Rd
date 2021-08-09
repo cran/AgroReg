@@ -13,7 +13,13 @@ MM(
   theme = theme_classic(),
   legend.position = "top",
   point = "all",
-  r2 = "all"
+  width.bar = NA,
+  r2 = "all",
+  textsize = 12,
+  pointsize = 4.5,
+  linesize = 0.8,
+  pointshape = 21,
+  comment = NA
 )
 }
 \arguments{
@@ -33,7 +39,19 @@ MM(
 
 \item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
 
+\item{width.bar}{Bar width}
+
 \item{r2}{coefficient of determination of the mean or all values (\emph{default} is all)}
+
+\item{textsize}{Font size}
+
+\item{pointsize}{shape size}
+
+\item{linesize}{line size}
+
+\item{pointshape}{format point (default is 21)}
+
+\item{comment}{Add text after equation}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
@@ -43,7 +61,7 @@ This function performs regression analysis using the Michaelis-Menten model.
 }
 \details{
 The Michaelis-Menten model is defined by:
-\deqn{f(x, (VM,k)) = c + \frac{Vm*x}{k+x}}
+\deqn{f(x, (VM,k)) = \frac{Vm \times x}{k + x}}
 }
 \examples{
 data("granada")

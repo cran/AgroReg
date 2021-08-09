@@ -12,6 +12,25 @@
 #' @param legend.position legend position (\emph{default} is "top")
 #' @param scale Sets x scale (\emph{default} is none, can be "log")
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
+#' @param width.bar	Bar width
+#' @param textsize Font size
+#' @param pointsize	shape size
+#' @param linesize	line size
+#' @param pointshape format point (default is 21)
+#' @param comment Add text after equation
+#'
+#' @details
+#' The linear model is defined by:
+#' \deqn{y = \beta_0 + \beta_1\cdot x}
+#' The quadratic model is defined by:
+#' \deqn{y = \beta_0 + \beta_1\cdot x + \beta_2\cdot x^2}
+#' The quadratic inverse model is defined by:
+#' \deqn{y = \beta_0 + \beta_1\cdot x + \beta_2\cdot x^{0.5}}
+#' The cubic model is defined by:
+#' \deqn{y = \beta_0 + \beta_1\cdot x + \beta_2\cdot x^2 + \beta_3\cdot x^3}
+#' The quartic model is defined by:
+#' \deqn{y = \beta_0 + \beta_1\cdot x + \beta_2\cdot x^2 + \beta_3\cdot x^3+ \beta_4\cdot x^4}
+#'
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @keywords regression linear
 #' @export
@@ -30,9 +49,16 @@ LM=function(trat,
             theme=theme_classic(),
             legend.position="top",
             point="all",
-            scale="none"){
+            width.bar=NA,
+            scale="none",
+            textsize = 12,
+            pointsize = 4.5,
+            linesize = 0.8,
+            pointshape = 21,
+            comment=NA){
   requireNamespace("ggplot2")
   requireNamespace("crayon")
+  if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   if(is.na(grau)==TRUE){grau=1}
   dados=data.frame(trat,resp)
   medias=c()
@@ -89,14 +115,16 @@ LM=function(trat,
                                 coef(moda)[1],
                                 ifelse(coef(moda)[2] >= 0, "+", "-"),
                                 abs(coef(moda)[2]),
-                                as.numeric(as.character(r2)))}
+                                as.numeric(as.character(r2)))
+  if(is.na(comment)==FALSE){s1=paste(s1,"~\"",comment,"\"")}}
   if(grau=="2"){s2=s <- sprintf("~~~y == %e %s %e * x %s %e * x^2 ~~~~~ italic(R^2) ==  %0.2f",
                                 coef(mod1a)[1],
                                 ifelse(coef(mod1a)[2] >= 0, "+", "-"),
                                 abs(coef(mod1a)[2]),
                                 ifelse(coef(mod1a)[3] >= 0, "+", "-"),
                                 abs(coef(mod1a)[3]),
-                                as.numeric(as.character(r2)))}
+                                as.numeric(as.character(r2)))
+  if(is.na(comment)==FALSE){s2=paste(s2,"~\"",comment,"\"")}}
   if(grau=="3"){s3=s <- sprintf("~~~y == %e %s %e * x %s %e * x^2 %s %0.e * x^3 ~~~~~ italic(R^2) == %0.2f",
                                 coef(mod2a)[1],
                                 ifelse(coef(mod2a)[2] >= 0, "+", "-"),
@@ -105,7 +133,8 @@ LM=function(trat,
                                 abs(coef(mod2a)[3]),
                                 ifelse(coef(mod2a)[4] >= 0, "+", "-"),
                                 abs(coef(mod2a)[4]),
-                                as.numeric(as.character(r2)))}
+                                as.numeric(as.character(r2)))
+  if(is.na(comment)==FALSE){s3=paste(s3,"~\"",comment,"\"")}}
   if(grau=="4"){s4=s <- sprintf("~~~y == %e %s %e * x %s %e * x^2 %s %0.e * x^3 %s %0.e * x^4 ~~~~~ italic(R^2) == %0.2f",
                                 coef(mod3a)[1],
                                 ifelse(coef(mod3a)[2] >= 0, "+", "-"),
@@ -116,14 +145,16 @@ LM=function(trat,
                                 abs(coef(mod3a)[4]),
                                 ifelse(coef(mod3a)[5] >= 0, "+", "-"),
                                 abs(coef(mod3a)[5]),
-                                as.numeric(as.character(r2)))}
+                                as.numeric(as.character(r2)))
+  if(is.na(comment)==FALSE){s4=paste(s4,"~\"",comment,"\"")}}
   if(grau=="0.5"){s05=s <- sprintf("~~~y == %e %s %e * x %s %e * x^0.5 ~~~~~ italic(R^2) ==  %0.2f",
                                 coef(mod05a)[1],
                                 ifelse(coef(mod05a)[2] >= 0, "+", "-"),
                                 abs(coef(mod05a)[2]),
                                 ifelse(coef(mod05a)[3] >= 0, "+", "-"),
                                 abs(coef(mod05a)[3]),
-                                as.numeric(as.character(r2)))}
+                                as.numeric(as.character(r2)))
+  if(is.na(comment)==FALSE){s05=paste(s05,"~\"",comment,"\"")}}
   data1=data.frame(trat,resp)
   data1=data.frame(trat=as.numeric(as.character(names(media))),
                    resp=media,
@@ -131,21 +162,21 @@ LM=function(trat,
   if(point=="mean"){
     grafico=ggplot(data1,aes(x=trat,y=resp))+
       geom_point(aes(fill=as.factor(rep(1,length(resp)))),na.rm=TRUE,
-                 size=4.5,color="black",shape=21)
+                 size=pointsize,color="black",shape=pointshape)
     if(error!="FALSE"){grafico=grafico+
-      geom_errorbar(aes(ymin=resp-desvio, ymax=resp+desvio),width=0.5)}}
+      geom_errorbar(aes(ymin=resp-desvio, ymax=resp+desvio),width=width.bar)}}
   if(point=="all"){
     grafico=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))+
-      geom_point(aes(fill=as.factor(rep(1,length(resp)))),size=4.5,
-                 shape=21,color="black")}
+      geom_point(aes(fill=as.factor(rep(1,length(resp)))),size=pointsize,
+                 shape=pointshape,color="black")}
 
   grafico=grafico+
     theme+ylab(ylab)+xlab(xlab)
-  if(grau=="1"){grafico=grafico+geom_smooth(method = "lm",se=F, na.rm=T, formula = y~x,size=0.8,color="black")}
-  if(grau=="2"){grafico=grafico+geom_smooth(method = "lm",se=F, na.rm=T, formula = y~x+I(x^2),size=0.8,color="black")}
-  if(grau=="3"){grafico=grafico+geom_smooth(method = "lm",se=F, na.rm=T, formula = y~x+I(x^2)+I(x^3),size=0.8,color="black")}
-  if(grau=="4"){grafico=grafico+geom_smooth(method = "lm",se=F, na.rm=T, formula = y~x+I(x^2)+I(x^3)+I(x^4),size=0.8,color="black")}
-  if(grau=="0.5"){grafico=grafico+geom_smooth(method = "lm",se=F, na.rm=T, formula = y~x+I(x^0.5),size=0.8,color="black")}
+  if(grau=="1"){grafico=grafico+geom_smooth(method = "lm",se=FALSE, na.rm=TRUE, formula = y~x,size=linesize,color="black")}
+  if(grau=="2"){grafico=grafico+geom_smooth(method = "lm",se=FALSE, na.rm=TRUE, formula = y~x+I(x^2),size=linesize,color="black")}
+  if(grau=="3"){grafico=grafico+geom_smooth(method = "lm",se=FALSE, na.rm=TRUE, formula = y~x+I(x^2)+I(x^3),size=linesize,color="black")}
+  if(grau=="4"){grafico=grafico+geom_smooth(method = "lm",se=FALSE, na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)+I(x^4),size=linesize,color="black")}
+  if(grau=="0.5"){grafico=grafico+geom_smooth(method = "lm",se=FALSE, na.rm=TRUE, formula = y~x+I(x^0.5),size=linesize,color="black")}
   if(grau=="1"){grafico=grafico+
     scale_fill_manual(values="gray",label=c(parse(text=s1)),name="")}
   if(grau=="2"){grafico=grafico+
@@ -158,11 +189,11 @@ LM=function(trat,
     scale_fill_manual(values="gray",label=c(parse(text=s05)),name="")}
 
   grafico=grafico+
-    theme(text = element_text(size=12,color="black"),
-          axis.text = element_text(size=12,color="black"),
-          axis.title = element_text(size=12,color="black"),
+    theme(text = element_text(size=textsize,color="black"),
+          axis.text = element_text(size=textsize,color="black"),
+          axis.title = element_text(size=textsize,color="black"),
           legend.position = legend.position,
-          legend.text=element_text(size=12),
+          legend.text=element_text(size=textsize),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)
