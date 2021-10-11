@@ -14,6 +14,9 @@
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
 #' @param textsize Font size
 #' @param pointsize	shape size
+#' @param add.line Add line
+#' @param add.line.mean Add line mean
+#' @param linesize	line size
 #' @param pointshape format point (default is 21)
 #' @return The function returns an exploratory graph of segments
 #' @keywords non-significant
@@ -35,33 +38,42 @@ Nreg=function(trat,
               width.bar=NA,
               point="all",
               textsize = 12,
+              add.line=FALSE,
+              add.line.mean=FALSE,
+              linesize=0.8,
               pointsize = 4.5,
               pointshape = 21){
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   requireNamespace("ggplot2")
   dados=data.frame(trat,resp)
-  medias=c()
   dose=tapply(trat, trat, mean)
   media=tapply(resp, trat, mean)
   if(error=="SE"){desvio=tapply(resp,trat,sd)/sqrt(tapply(resp,trat,length))}
   if(error=="SD"){desvio=tapply(resp,trat,sd)}
   if(error=="FALSE"){desvio=0}
   data1=data.frame(trat,resp)
-  data1=data.frame(trat=as.numeric(as.character(names(media))),
+  data1=data.frame(trat=dose,
                    resp=media,
                    desvio)
   temp1=dose
   result=media
   s=legend.text
   if(point=="mean"){
-    grafico=ggplot(data1,aes(x=media,y=desvio))
+    grafico=ggplot(data1,aes(x=trat,y=resp))
+    if(add.line==TRUE){grafico=grafico+geom_line(size=linesize)}
+    if(add.line.mean==TRUE){grafico=grafico+geom_hline(yintercept = mean(resp,na.rm=TRUE),lty=2)}
     if(error!="FALSE"){grafico=grafico+
-      geom_errorbar(aes(ymin=media-desvio,ymax=media+desvio),
-                                                 width=width.bar)}
+      geom_errorbar(aes(ymin=resp-desvio,ymax=resp+desvio),
+                                                 width=width.bar,
+                    size=linesize)}
     grafico=grafico+
-      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")
+    }
   if(point=="all"){
     grafico=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
+    if(add.line==TRUE){grafico=grafico+stat_summary(geom="line",fun = "mean",
+                                                    size=linesize)}
+    if(add.line.mean==TRUE){grafico=grafico+geom_hline(yintercept = mean(resp,na.rm=TRUE),lty=2)}
     grafico=grafico+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
 

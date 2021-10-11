@@ -2,11 +2,12 @@
 % Please edit documentation in R/gaussian_analysis.R
 \name{gaussianreg}
 \alias{gaussianreg}
-\title{Analysis: Gaussian model}
+\title{Analysis: Analogous to the Gaussian model/Bragg}
 \usage{
 gaussianreg(
   trat,
   resp,
+  npar = "g3",
   ylab = "Dependent",
   xlab = "Independent",
   theme = theme_classic(),
@@ -20,6 +21,9 @@ gaussianreg(
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  xname.formula = "x",
+  yname.formula = "y",
   comment = NA
 )
 }
@@ -27,6 +31,8 @@ gaussianreg(
 \item{trat}{Numeric vector with dependent variable.}
 
 \item{resp}{Numeric vector with independent variable.}
+
+\item{npar}{number of parameters (g3 or g4)}
 
 \item{ylab}{Variable response name (Accepts the \emph{expression}() function)}
 
@@ -54,17 +60,25 @@ gaussianreg(
 
 \item{pointshape}{format point (default is 21)}
 
+\item{round}{round equation}
+
+\item{xname.formula}{Name of x in the equation}
+
+\item{yname.formula}{Name of y in the equation}
+
 \item{comment}{Add text after equation}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 }
 \description{
-Analysis: Gaussian model
+Analysis: Analogous to the Gaussian model/Bragg
 }
 \details{
-The model function for the normal model is:
-\deqn{f(x) = a \times e^{-\frac{(x-b)^2)}{c^2}}}
+The model analogous to the three-parameter Gaussian is:
+\deqn{y = d \times e^{-b((x-e)^2)}}
+The model analogous to the three-parameter Gaussian is:
+\deqn{y = d \times c+(d-c)*e^{-b((x-e)^2)}}
 }
 \examples{
 library(AgroReg)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/quadraticplateau_analysis.R
 \name{quadratic.plateau}
 \alias{quadratic.plateau}
-\title{Analysis: Quadratic-plateau Regression}
+\title{Analysis: Quadratic-plateau}
 \usage{
 quadratic.plateau(
   trat,
@@ -20,6 +20,9 @@ quadratic.plateau(
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  yname.formula = "y",
+  xname.formula = "x",
   comment = NA
 )
 }
@@ -54,6 +57,12 @@ quadratic.plateau(
 
 \item{pointshape}{format point (default is 21)}
 
+\item{round}{round equation}
+
+\item{yname.formula}{Name of y in the equation}
+
+\item{xname.formula}{Name of x in the equation}
+
 \item{comment}{Add text after equation}
 }
 \value{
@@ -63,13 +72,13 @@ The function returns a list containing the coefficients and their respective val
 This function performs the quadratic-plateau regression analysis.
 }
 \details{
-The linear-linear model is defined by:
+The quadratic-plateau model is defined by:
 
 First curve:
-\deqn{f(x) = \beta_0 + \beta_1 \cdot x + \beta_2 \cdot x^2 (x < breakpoint)}
+\deqn{y = \beta_0 + \beta_1 \cdot x + \beta_2 \cdot x^2 (x < breakpoint)}
 
 Second curve:
-\deqn{f(x) = \beta_0 + \beta_1 \cdot breakpoint + \beta_2 \cdot breakpoint^2 (x > breakpoint)}
+\deqn{y = \beta_0 + \beta_1 \cdot breakpoint + \beta_2 \cdot breakpoint^2 (x > breakpoint)}
 }
 \examples{
 library(AgroReg)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/linearlinear_analysis.R
 \name{linear.linear}
 \alias{linear.linear}
-\title{Analysis: Linear-Linear regression}
+\title{Analysis: Linear-Linear}
 \usage{
 linear.linear(
   trat,
@@ -22,6 +22,9 @@ linear.linear(
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  xname.formula = "x",
+  yname.formula = "y",
   comment = NA
 )
 }
@@ -60,6 +63,12 @@ linear.linear(
 
 \item{pointshape}{format point (default is 21)}
 
+\item{round}{round equation}
+
+\item{xname.formula}{Name of x in the equation}
+
+\item{yname.formula}{Name of y in the equation}
+
 \item{comment}{Add text after equation}
 }
 \value{
@@ -71,10 +80,10 @@ This function performs linear linear regression analysis.
 \details{
 The linear-linear model is defined by:
 First curve:
-\deqn{f(x) = \beta_0 + \beta_1 \times x (x < breakpoint)}
+\deqn{y = \beta_0 + \beta_1 \times x (x < breakpoint)}
 
 Second curve:
-\deqn{f(x) = \beta_0 + \beta_1 \times breakpoint + w \times x (x > breakpoint)}
+\deqn{y = \beta_0 + \beta_1 \times breakpoint + w \times x (x > breakpoint)}
 }
 \examples{
 library(AgroReg)

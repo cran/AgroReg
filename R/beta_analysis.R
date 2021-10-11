@@ -1,4 +1,4 @@
-#' Analysis: Beta regression
+#' Analysis: Beta
 #'
 #' This function performs beta regression analysis.
 #' @param trat Numeric vector with dependent variable.
@@ -16,6 +16,9 @@
 #' @param pointsize	Shape size
 #' @param linesize	Line size
 #' @param pointshape Format point (default is 21)
+#' @param round round equation
+#' @param xname.formula Name of x in the equation
+#' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @details
@@ -26,28 +29,31 @@
 #' @author Leandro Simoes Azeredo Goncalves
 #' @references Onofri, A., 2020. The broken bridge between biologists and statisticians: a blog and R package. Statforbiology. http://www.statforbiology.com/tags/aomisc/
 #' @export
-#' @seealso \link{exponential}, \link{exponential_neg}
 #' @examples
 #' library(AgroReg)
-#' data("granada")
-#' attach(granada)
-#' biexponential(time,WL)
+#' X <- c(1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50)
+#' Y <- c(0, 0, 0, 7.7, 12.3, 19.7, 22.4, 20.3, 6.6, 0, 0)
+#' beta_reg(X,Y)
+
 
 beta_reg=function(trat,
-                       resp,
-                       ylab="Dependent",
-                       xlab="Independent",
-                       theme=theme_classic(),
-                       legend.position="top",
-                       error="SE",
-                       r2="all",
-                       point="all",
-                       width.bar=NA,
-                       scale="none",
+                  resp,
+                  ylab = "Dependent",
+                  xlab = "Independent",
+                  theme = theme_classic(),
+                  legend.position = "top",
+                  error = "SE",
+                  r2 = "all",
+                  point = "all",
+                  width.bar = NA,
+                  scale = "none",
                   textsize = 12,
                   pointsize = 4.5,
                   linesize = 0.8,
                   pointshape = 21,
+                  round=NA,
+                  xname.formula="x",
+                  yname.formula="y",
                   comment=NA){
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   beta.fun <- function(X, b, d, Xb, Xo, Xc){
@@ -86,11 +92,21 @@ beta_reg=function(trat,
   xmean=tapply(trat,trat,mean)
   model <- drm(resp~trat,fct=DRC.beta())
   coef=summary(model)
+
+  if(is.na(round)==TRUE){
   b=coef$coefficients[,1][1]
   d=coef$coefficients[,1][2]
   Xb=coef$coefficients[,1][3]
   Xo=coef$coefficients[,1][4]
-  Xc=coef$coefficients[,1][5]
+  Xc=coef$coefficients[,1][5]}
+
+  if(is.na(round)==FALSE){
+    b=round(coef$coefficients[,1][1],round)
+    d=round(coef$coefficients[,1][2],round)
+    Xb=round(coef$coefficients[,1][3],round)
+    Xo=round(coef$coefficients[,1][4],round)
+    Xc=round(coef$coefficients[,1][5],round)}
+
   if(r2=="all"){r2=cor(resp, fitted(model))^2}
   if(r2=="mean"){r2=cor(ymean, predict(model,
                                        newdata=data.frame(trat=unique(trat))))^2}
@@ -99,12 +115,15 @@ beta_reg=function(trat,
   xoxb=Xo-Xb
   xcxo=Xc-Xo
   xcxoxoxb=(Xc-Xo)/(Xo-Xb)
-  equation=sprintf("~~~y==%0.3e*bgroup(\"{\",group(\"(\",frac(x %s %0.3e, %0.3e),\")\")*group(\"(\",frac(%0.3e-x, %0.3e),\")\")^%0.3e,\"}\")^%0.3e ~~~~~ italic(R^2) == %0.2f",
+  equation=sprintf("~~~%s==%0.3e*bgroup(\"{\",group(\"(\",frac(%s %s %0.3e, %0.3e),\")\")*group(\"(\",frac(%0.3e-%s, %0.3e),\")\")^%0.3e,\"}\")^%0.3e ~~~~~ italic(R^2) == %0.2f",
+                   yname.formula,
                    d,
+                   xname.formula,
                    ifelse(Xb >= 0, "+", "-"),
                    abs(Xb),
                    xoxb,
                    Xc,
+                   xname.formula,
                    xcxo,
                    xcxoxoxb,
                    b,
@@ -124,7 +143,8 @@ beta_reg=function(trat,
   if(point=="mean"){
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
-                                                 width=width.bar)}
+                                                 width=width.bar,
+                                                 size=linesize)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   if(point=="all"){
@@ -136,6 +156,7 @@ beta_reg=function(trat,
                                                 y=y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black"),
+          axis.title = element_text(size=textsize,color="black"),
           legend.position = legend.position,
           legend.text = element_text(size=textsize),
           legend.direction = "vertical",

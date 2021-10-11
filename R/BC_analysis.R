@@ -1,4 +1,4 @@
-#' Analysis: Logistic regression Brain-Cousens hormesis models
+#' Analysis: Brain-Cousens
 #'
 #' The 'BC.4' and 'BC.5' logistical models provide Brain-Cousens' modified logistical models to describe u-shaped hormesis. This model was extracted from the 'drc' package.
 #' @param trat Numeric vector with dependent variable.
@@ -10,6 +10,9 @@
 #' @param theme ggplot2 theme (\emph{default} is theme_bw())
 #' @param legend.position Legend position (\emph{default} is "top")
 #' @param r2 Coefficient of determination of the mean or all values (\emph{default} is all)
+#' @param ic Add interval of confidence
+#' @param fill.ic Color interval of confidence
+#' @param alpha.ic confidence interval transparency level
 #' @param scale Sets x scale (\emph{default} is none, can be "log")
 #' @param point Defines whether you want to plot all points ("all") or only the mean ("mean")
 #' @param width.bar	Bar width
@@ -17,13 +20,16 @@
 #' @param pointsize	Shape size
 #' @param linesize	Line size
 #' @param pointshape Format point (default is 21)
+#' @param round round equation
+#' @param xname.formula Name of x in the equation
+#' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @details The model function for the Brain-Cousens model (Brain and Cousens, 1989) is
-#' \deqn{ f(x, b,c,d,e,f) = c + \frac{d-c+fx}{1+\exp(b(\log(x)-\log(e)))}}
+#' \deqn{y = c + \frac{d-c+fx}{1+\exp(b(\log(x)-\log(e)))}}
 #' and it is a five-parameter model, obtained by extending the four-parameter log-logistic model (LL.4 to take into account inverse u-shaped hormesis effects.
 #' Fixing the lower limit at 0 yields the four-parameter model
-#' \deqn{f(x) = 0 + \frac{d-0+fx}{1+\exp(b(\log(x)-\log(e)))}}
+#' \deqn{y = 0 + \frac{d-0+fx}{1+\exp(b(\log(x)-\log(e)))}}
 #' used by van Ewijk and Hoekstra (1993).
 #' @export
 #' @import ggplot2
@@ -41,11 +47,12 @@
 #' @importFrom stats glm
 #' @importFrom stats loess
 #' @importFrom stats nls
+#' @importFrom stats deviance
 #' @author Model imported from the drc package (Ritz et al., 2016)
 #' @author Gabriel Danilo Shimizu
 #' @author Leandro Simoes Azeredo Goncalves
-#' @references Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley \& Sons (p. 330).
-#' @references Ritz, C.; STREBIG, J.C. and RITZ, M.C. Package ‘drc’. Creative Commons: Mountain View, CA, USA, 2016.
+#' @references Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley & Sons (p. 330).
+#' @references Ritz, C.; Strebig, J.C. and Ritz, M.C. Package ‘drc’. Creative Commons: Mountain View, CA, USA, 2016.
 #' @seealso \link{LL}, \link{CD},\link{GP}
 #' @examples
 #' library(AgroReg)
@@ -61,6 +68,9 @@ BC=function(trat,
             theme=theme_classic(),
             legend.position="top",
             r2="all",
+            ic=FALSE,
+            fill.ic="gray70",
+            alpha.ic=0.5,
             error="SE",
             point="all",
             width.bar=NA,
@@ -69,6 +79,9 @@ BC=function(trat,
             pointsize = 4.5,
             linesize = 0.8,
             pointshape = 21,
+            round=NA,
+            xname.formula="x",
+            yname.formula="y",
             comment=NA){
   requireNamespace("ggplot2")
   requireNamespace("drc")
@@ -81,44 +94,77 @@ BC=function(trat,
   xmean=tapply(trat,trat,mean)
   desvio=ysd
   if(npar=="BC.4"){mod=drm(resp~trat,fct=BC.4())
+  model=mod
   coef=summary(mod)
+
+  if(is.na(round)==TRUE){
   b=coef$coefficients[,1][1]
   d=coef$coefficients[,1][2]
   e=coef$coefficients[,1][3]
   f=coef$coefficients[,1][4]
+  e=log(e)}
+
+  if(is.na(round)==FALSE){
+    b=round(coef$coefficients[,1][1],round)
+    d=round(coef$coefficients[,1][2],round)
+    e=round(coef$coefficients[,1][3],round)
+    f=round(coef$coefficients[,1][4],round)
+    e=log(e)}
+
   if(r2=="all"){r2=cor(resp, fitted(mod))^2}
   if(r2=="mean"){r2=cor(ymean, predict(mod,newdata=data.frame(trat=unique(trat))))^2}
+
   r2=floor(r2*100)/100
-  equation=sprintf("~~~y==frac(%0.3e %s %0.3e*x, 1+e^(%0.3e*(log(x)-log(%0.3e)))) ~~~~~ italic(R^2) == %0.2f",
+  equation=sprintf("~~~%s==frac(%0.3e %s %0.3e*%s, 1+e^{%0.3e*(log(%s) %s %0.3e)}) ~~~~~ italic(R^2) == %0.2f",
+                   yname.formula,
                    d,
                    ifelse(f >= 0, "+", "-"),
                    abs(f),
+                   xname.formula,
                    b,
-                   e,
+                   xname.formula,
+                   ifelse(e <= 0, "+", "-"),
+                   abs(e),
                    r2)
   xp=seq(min(trat),max(trat),length.out = 1000)
   preditos=data.frame(x=xp,
                       y=predict(mod,newdata = data.frame(trat=xp)))
   }
   if(npar=="BC.5"){mod=drm(resp~trat,fct=BC.5())
+  model=mod
   coef=summary(mod)
+
+  if(is.na(round)==TRUE){
   b=coef$coefficients[,1][1]
   c=coef$coefficients[,1][2]
   d=coef$coefficients[,1][3]
   e=coef$coefficients[,1][4]
   f=coef$coefficients[,1][5]
+  e=log(e)
+  dc=d-c}
+
+  if(is.na(round)==FALSE){
+    b=round(coef$coefficients[,1][1],round)
+    c=round(coef$coefficients[,1][2],round)
+    d=round(coef$coefficients[,1][3],round)
+    e=round(coef$coefficients[,1][4],round)
+    f=round(coef$coefficients[,1][5],round)
+    e=log(e)
+    dc=d-c}
   if(r2=="all"){r2=cor(resp, fitted(mod))^2}
   if(r2=="mean"){r2=cor(ymean, predict(mod,newdata=data.frame(trat=unique(trat))))^2}
   r2=floor(r2*100)/100
-  equation=sprintf("~~~y == %0.3e + frac(%0.3e %s %0.3e %s %0.3e*x, 1+e^(%0.3e*(log(x)-log(%0.3e)))) ~~~~~ italic(R^2) == %0.2f",
+  equation=sprintf("~~~%s == %0.3e + frac(%0.3e %s %0.3e*%s, 1+e^{%0.3e*(log(%s) %s %0.3e)}) ~~~~~ italic(R^2) == %0.2f",
+                   yname.formula,
                    c,
-                   d,
-                   ifelse(c >= 0, "+", "-"),
-                   abs(c),
+                   dc,
                    ifelse(f >= 0, "+", "-"),
                    abs(f),
+                   xname.formula,
                    b,
-                   e,
+                   xname.formula,
+                   ifelse(e <= 0, "+", "-"),
+                   abs(e),
                    r2)
   xp=seq(min(trat),max(trat),length.out = 1000)
   preditos=data.frame(x=xp,
@@ -134,7 +180,8 @@ BC=function(trat,
   data1=data.frame(trat=xmean,resp=ymean)
   if(point=="mean"){
     graph=ggplot(data,aes(x=xmean,y=ymean))
-    if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
+    if(error!="FALSE"){graph=graph+
+      geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),size=linesize,
                                                  width=width.bar)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
@@ -142,12 +189,21 @@ BC=function(trat,
     graph=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
+
+  if(ic==TRUE){
+  pred=data.frame(x=xp,
+                  y=predict(mod,interval = "confidence",newdata = data.frame(trat=xp)))
+  preditosic=data.frame(x=c(pred$x,pred$x[length(pred$x):1]),
+                        y=c(pred$y.Lower,pred$y.Upper[length(pred$x):1]))
+  graph=graph+geom_polygon(data=preditosic,aes(x=x,y),fill=fill.ic,alpha=alpha.ic)}
+
   graph=graph+theme+
     geom_line(data=preditos,aes(x=x,
                                 y=y,
                                 color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black"),
+          axis.title = element_text(size=textsize,color="black"),
           legend.position = legend.position,
           legend.text = element_text(size=textsize),
           legend.direction = "vertical",

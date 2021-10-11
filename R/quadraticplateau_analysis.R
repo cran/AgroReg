@@ -1,4 +1,4 @@
-#' Analysis: Quadratic-plateau Regression
+#' Analysis: Quadratic-plateau
 #'
 #' This function performs the quadratic-plateau regression analysis.
 #' @param trat Numeric vector with dependent variable.
@@ -16,16 +16,19 @@
 #' @param pointsize	shape size
 #' @param linesize	line size
 #' @param pointshape format point (default is 21)
+#' @param round round equation
+#' @param xname.formula Name of x in the equation
+#' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @details
-#' The linear-linear model is defined by:
+#' The quadratic-plateau model is defined by:
 #'
 #' First curve:
-#' \deqn{f(x) = \beta_0 + \beta_1 \cdot x + \beta_2 \cdot x^2 (x < breakpoint)}
+#' \deqn{y = \beta_0 + \beta_1 \cdot x + \beta_2 \cdot x^2 (x < breakpoint)}
 #'
 #' Second curve:
-#' \deqn{f(x) = \beta_0 + \beta_1 \cdot breakpoint + \beta_2 \cdot breakpoint^2 (x > breakpoint)}
+#' \deqn{y = \beta_0 + \beta_1 \cdot breakpoint + \beta_2 \cdot breakpoint^2 (x > breakpoint)}
 #' @export
 #' @author Gabriel Danilo Shimizu
 #' @author Leandro Simoes Azeredo Goncalves
@@ -56,6 +59,9 @@ quadratic.plateau=function(trat,resp,
                       pointsize = 4.5,
                       linesize = 0.8,
                       pointshape = 21,
+                      round=NA,
+                      yname.formula="y",
+                      xname.formula="x",
                       comment=NA){
   requireNamespace("minpack.lm")
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
@@ -129,18 +135,36 @@ quadratic.plateau=function(trat,resp,
   desvio=ysd
   xmean=tapply(trat,trat,mean)
   r2=floor(r2*100)/100
-  s <- sprintf("~~~y == %e %s %e * x %s %e * x^2~(x<%e) ~~~~~ italic(R^2) ==  %0.2f",
-                                coef(model1)[1],
-                                ifelse(coef(model1)[2] >= 0, "+", "-"),
-                                abs(coef(model1)[2]),
-                                ifelse(coef(model1)[3] >= 0, "+", "-"),
-                                abs(coef(model1)[3]),
-                                breakpoint,
-                                r2)
+
+  if(is.na(round)==TRUE){
+  coef1=coef(model1)[1]
+  coef2=coef(model1)[2]
+  coef3=coef(model1)[3]
+  coef4=breakpoint}
+
+  if(is.na(round)==FALSE){
+    coef1=round(coef(model1)[1],round)
+    coef2=round(coef(model1)[2],round)
+    coef3=round(coef(model1)[3],round)
+    coef4=round(breakpoint,round)}
+
+  s <- sprintf("~~~%s == %e %s %e * %s %s %e * %s^2~(%s<%e) ~~~~~ italic(R^2) ==  %0.2f",
+               yname.formula,
+               coef1,
+               ifelse(coef2 >= 0, "+", "-"),
+               abs(coef2),
+               xname.formula,
+               ifelse(coef3 >= 0, "+", "-"),
+               abs(coef3),
+               xname.formula,
+               xname.formula,
+               coef4,
+               r2)
   equation=s
   if(is.na(comment)==FALSE){equation=paste(equation,"~\"",comment,"\"")}
   predesp=predict(corr_model)
   predobs=resp
+  model=corr_model
   rmse=sqrt(mean((predesp-predobs)^2))
 
   data=data.frame(xmean,ymean)
@@ -148,7 +172,8 @@ quadratic.plateau=function(trat,resp,
   if(point=="mean"){
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
-                                                 width=width.bar)}
+                                                 width=width.bar,
+                                                 size=linesize)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   if(point=="all"){
@@ -168,6 +193,7 @@ quadratic.plateau=function(trat,resp,
                                 color="black"),size=linesize)+
     scale_color_manual(name="",values="black",label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black"),
+          axis.title = element_text(size=textsize,color="black"),
           legend.position = legend.position,
           legend.text = element_text(size=textsize),
           legend.direction = "vertical",

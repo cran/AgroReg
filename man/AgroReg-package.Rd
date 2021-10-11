@@ -6,7 +6,7 @@
 \alias{AgroReg-package}
 \title{AgroReg: Regression Analysis Linear and Nonlinear for Agriculture}
 \description{
-Linear and nonlinear regression analysis common in agricultural science papers (Archontoulis & Miguez (2015). <doi:10.2134/agronj2012.0506>). The package includes linear, quadratic, cubic, inverse quadratic, exponential, negative exponential, biexponential, Gaussian, three- or four-parameter logistic, four- or five-parameter Brain-Cousens logistic, four- or five-parameter Cedergreen-Ritz-Streibig logistic models. five parameters, Gompertz logistic, Michaelis-Menten, logarithmic, linear-linear segmented, linear-plate segmented, quadratic-plate segmented, nonparametric loess. The functions return the model coefficients and their respective p values, coefficient of determination, root mean square error, AIC, BIC, as well as graphs with the equations automatically.
+Linear and nonlinear regression analysis common in agricultural science articles (Archontoulis & Miguez (2015). <doi:10.2134/agronj2012.0506>). The package includes polynomial, exponential, gaussian, logistic, logarithmic, segmented, non-parametric models, among others. The functions return the model coefficients and their respective p values, coefficient of determination, root mean square error, AIC, BIC, as well as graphs with the equations automatically.
 }
 \author{
 \strong{Maintainer}: Gabriel Danilo Shimizu \email{shimizu@uel.br} (\href{https://orcid.org/0000-0001-8524-508X}{ORCID})

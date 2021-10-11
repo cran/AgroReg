@@ -1,4 +1,4 @@
-#' Analysis: Linear-Linear regression
+#' Analysis: Linear-Linear
 #'
 #' This function performs linear linear regression analysis.
 #' @param trat Numeric vector with dependent variable.
@@ -18,15 +18,18 @@
 #' @param pointsize	shape size
 #' @param linesize	line size
 #' @param pointshape format point (default is 21)
+#' @param round round equation
+#' @param xname.formula Name of x in the equation
+#' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); breakpoint and the graph using ggplot2 with the equation automatically.
 #' @details
 #' The linear-linear model is defined by:
 #' First curve:
-#' \deqn{f(x) = \beta_0 + \beta_1 \times x (x < breakpoint)}
+#' \deqn{y = \beta_0 + \beta_1 \times x (x < breakpoint)}
 #'
 #' Second curve:
-#' \deqn{f(x) = \beta_0 + \beta_1 \times breakpoint + w \times x (x > breakpoint)}
+#' \deqn{y = \beta_0 + \beta_1 \times breakpoint + w \times x (x > breakpoint)}
 #'
 #' @export
 #' @author Model imported from the SiZer package
@@ -42,22 +45,25 @@
 #' linear.linear(time,WL)
 
 linear.linear=function (trat,
-                          resp,
-                          middle = 1,
-                          CI = FALSE,
-                          bootstrap.samples = 1000,
-                          sig.level = 0.05,
-                          error="SE",
-                          ylab="Dependent",
-                          xlab="Independent",
-                          theme=theme_classic(),
-                    point="all",
-                    width.bar=NA,
-                          legend.position="top",
-                    textsize = 12,
-                    pointsize = 4.5,
-                    linesize = 0.8,
-                    pointshape = 21,
+                        resp,
+                        middle = 1,
+                        CI = FALSE,
+                        bootstrap.samples = 1000,
+                        sig.level = 0.05,
+                        error = "SE",
+                        ylab = "Dependent",
+                        xlab = "Independent",
+                        theme = theme_classic(),
+                        point = "all",
+                        width.bar = NA,
+                        legend.position = "top",
+                        textsize = 12,
+                        pointsize = 4.5,
+                        linesize = 0.8,
+                        pointshape = 21,
+                        round = NA,
+                        xname.formula="x",
+                        yname.formula="y",
                     comment=NA){
   requireNamespace("ggplot2")
   requireNamespace("crayon")
@@ -129,18 +135,30 @@ linear.linear=function (trat,
   xmean=tapply(x,x,mean)
   mod=out
   breaks=mod$change.point
+
+  if(is.na(round)==TRUE){
   b0=mod$model$coefficients[1]
   b1=mod$model$coefficients[2]
-  b11=mod$model$coefficients[3]
+  b11=mod$model$coefficients[3]}
+
+  if(is.na(round)==FALSE){
+    b0=round(mod$model$coefficients[1],round)
+    b1=round(mod$model$coefficients[2],round)
+    b11=round(mod$model$coefficients[3],round)}
   r2=round(summary(mod$model)$r.squared,2)
   r2=floor(r2*100)/100
-  equation=sprintf("~~~y==%0.3e %s %0.3e*x~(x<%0.3e)~%s %0.3e*x~(x>%0.3e)~~~R^2==%0.2e",
+  equation=sprintf("~~~%s==%0.3e %s %0.3e*%s~(%s<%0.3e)~%s %0.3e*%s~(%s>%0.3e)~~~R^2==%0.2e",
+                   yname.formula,
                    b0,
                    ifelse(b1 >= 0, "+", "-"),
                    abs(b1),
+                   xname.formula,
+                   xname.formula,
                    breaks,
                    ifelse(b11 >= 0, "+", "-"),
                    abs(b11),
+                   xname.formula,
+                   xname.formula,
                    breaks,
                    r2)
   if(is.na(comment)==FALSE){equation=paste(equation,"~\"",comment,"\"")}
@@ -151,10 +169,14 @@ linear.linear=function (trat,
                         y=result)
   data=data.frame(xmean,ymean)
   data1=data.frame(trat=xmean,resp=ymean)
+  model=mod$model
+  result1=predict(mod$model)
+  rmse=sqrt(mean((result1-resp)^2))
   if(point=="mean"){
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
-                                                 width=width.bar)}
+                                                 width=width.bar,
+                                                 size=linesize)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   if(point=="all"){
@@ -165,6 +187,7 @@ linear.linear=function (trat,
     geom_line(data=preditos1,aes(x=x,y=y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black"),
+          axis.title = element_text(size=textsize,color="black"),
           legend.position = legend.position,
           legend.text = element_text(size=textsize),
           legend.direction = "vertical",
@@ -177,11 +200,13 @@ linear.linear=function (trat,
   graphs=data.frame("Parameter"=c("Breakpoint",
                                   "AIC",
                                   "BIC",
-                                  "r-squared"),
+                                  "r-squared",
+                                  "RMSE"),
                     "values"=c(maximo,
                                aic,
                                bic,
-                               r2))
+                               r2,
+                               rmse))
   graficos=list("Coefficients"=summary(mod$model),
                 "values"=graphs,
                 graph)

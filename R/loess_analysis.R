@@ -1,8 +1,9 @@
-#' Analysis: loess regression
+#' Analysis: loess regression (degree 0, 1 or 2)
 #'
 #' Fit a polynomial surface determined by one or more numerical predictors, using local fitting.
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
+#' @param degree Degree polynomial (0,1 or 2)
 #' @param ylab Variable response name (Accepts the \emph{expression}() function)
 #' @param xlab treatments name (Accepts the \emph{expression}() function)
 #' @param theme ggplot2 theme (\emph{default} is theme_bw())
@@ -28,6 +29,7 @@
 
 loessreg=function(trat,
                   resp,
+                  degree=2,
                   ylab="Dependent",
                   xlab="Independent",
                   theme=theme_classic(),
@@ -49,7 +51,7 @@ loessreg=function(trat,
   if(error=="FALSE"){ysd=0}
   desvio=ysd
   xmean=tapply(trat,trat,mean)
-  mod=loess(resp~trat)
+  mod=loess(resp~trat,degree = degree)
   xp=seq(min(trat),max(trat),length.out = 1000)
   preditos=data.frame(x=xp,
                       y=predict(mod,newdata = data.frame(trat=xp)))
@@ -61,7 +63,8 @@ loessreg=function(trat,
   if(point=="mean"){
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
-                                                 width=width.bar)}
+                                                 width=width.bar,
+                                                 size=linesize)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   if(point=="all"){
@@ -73,6 +76,7 @@ loessreg=function(trat,
                                 y=preditos$y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label="Loess regression")+
     theme(axis.text = element_text(size=textsize,color="black"),
+          axis.title = element_text(size=textsize,color="black"),
           legend.position = legend.position,
           legend.text = element_text(size=textsize),
           legend.direction = "vertical",

@@ -1,4 +1,4 @@
-#' Analysis: Logarithmic  Regression
+#' Analysis: Logarithmic
 #'
 #' This function performs logarithmic regression analysis.
 #' @param trat Numeric vector with dependent variable.
@@ -16,14 +16,17 @@
 #' @param pointsize	shape size
 #' @param linesize	line size
 #' @param pointshape format point (default is 21)
+#' @param round round equation
+#' @param xname.formula Name of x in the equation
+#' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @details
 #' The logarithmic model is defined by:
-#' \deqn{f(x) = \beta_0 + log(\beta_1 \cdot x)}
+#' \deqn{y = \beta_0 + \beta_1 ln(\cdot x)}
 #' @author Gabriel Danilo Shimizu
 #' @author Leandro Simoes Azeredo Goncalves
-#' @references Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley \& Sons (p. 330).
+#' @references Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley & Sons (p. 330).
 #' @export
 #'
 #' @examples
@@ -48,6 +51,9 @@ LOG=function(trat,
              pointsize = 4.5,
              linesize = 0.8,
              pointshape = 21,
+             round=NA,
+             xname.formula="x",
+             yname.formula="y",
              comment=NA){
   requireNamespace("drc")
   requireNamespace("crayon")
@@ -62,15 +68,26 @@ LOG=function(trat,
   model <- lm(resp ~ log(trat))
   model1<- lm(ymean ~ log(xmean))
   coef=summary(model)
+
+  if(is.na(round)==TRUE){
   b=coef$coefficients[,1][1]
-  d=coef$coefficients[,1][2]
+  d=coef$coefficients[,1][2]}
+
+  if(is.na(round)==FALSE){
+    b=round(coef$coefficients[,1][1],round)
+    d=round(coef$coefficients[,1][2],round)}
   if(r2=="all"){r2=coef$r.squared}
   if(r2=="mean"){
     coef1=summary(model1)
     r2=coef1$r.squared}
   r2=floor(r2*100)/100
-  equation=sprintf("~~~y==%0.3e+log(%0.3e*x) ~~~~~ italic(R^2) == %0.2f",
-                   d,b,r2)
+  equation=sprintf("~~~%s==%0.3e %s %0.3e*ln(%s) ~~~~~ italic(R^2) == %0.2f",
+                   yname.formula,
+                   d,
+                   ifelse(b<0,"-","+"),
+                   abs(b),
+                   xname.formula,
+                   r2)
   xp=seq(min(trat),max(trat),length.out = 1000)
   preditos=data.frame(x=xp,
                       y=predict(model,newdata = data.frame(trat=xp)))
@@ -86,7 +103,8 @@ LOG=function(trat,
   if(point=="mean"){
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
-                                                 width=width.bar)}
+                                                 width=width.bar,
+                                                 size=linesize)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   if(point=="all"){
@@ -98,6 +116,7 @@ LOG=function(trat,
                                                 y=y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black"),
+          axis.title = element_text(size=textsize,color="black"),
           legend.position = legend.position,
           legend.text = element_text(size=textsize),
           legend.direction = "vertical",

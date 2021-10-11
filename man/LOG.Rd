@@ -2,7 +2,7 @@
 % Please edit documentation in R/LOG_analysis.R
 \name{LOG}
 \alias{LOG}
-\title{Analysis: Logarithmic  Regression}
+\title{Analysis: Logarithmic}
 \usage{
 LOG(
   trat,
@@ -20,6 +20,9 @@ LOG(
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  xname.formula = "x",
+  yname.formula = "y",
   comment = NA
 )
 }
@@ -54,6 +57,12 @@ LOG(
 
 \item{pointshape}{format point (default is 21)}
 
+\item{round}{round equation}
+
+\item{xname.formula}{Name of x in the equation}
+
+\item{yname.formula}{Name of y in the equation}
+
 \item{comment}{Add text after equation}
 }
 \value{
@@ -64,7 +73,7 @@ This function performs logarithmic regression analysis.
 }
 \details{
 The logarithmic model is defined by:
-\deqn{f(x) = \beta_0 + log(\beta_1 \cdot x)}
+\deqn{y = \beta_0 + \beta_1 ln(\cdot x)}
 }
 \examples{
 library(AgroReg)
@@ -73,7 +82,7 @@ trat=seq(1,9,1)
 LOG(trat,resp)
 }
 \references{
-Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley \& Sons (p. 330).
+Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley & Sons (p. 330).
 }
 \author{
 Gabriel Danilo Shimizu

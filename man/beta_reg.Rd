@@ -2,7 +2,7 @@
 % Please edit documentation in R/beta_analysis.R
 \name{beta_reg}
 \alias{beta_reg}
-\title{Analysis: Beta regression}
+\title{Analysis: Beta}
 \usage{
 beta_reg(
   trat,
@@ -20,6 +20,9 @@ beta_reg(
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  xname.formula = "x",
+  yname.formula = "y",
   comment = NA
 )
 }
@@ -54,6 +57,12 @@ beta_reg(
 
 \item{pointshape}{Format point (default is 21)}
 
+\item{round}{round equation}
+
+\item{xname.formula}{Name of x in the equation}
+
+\item{yname.formula}{Name of y in the equation}
+
 \item{comment}{Add text after equation}
 }
 \value{
@@ -68,15 +77,12 @@ The beta model is defined by:
 }
 \examples{
 library(AgroReg)
-data("granada")
-attach(granada)
-biexponential(time,WL)
+X <- c(1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50)
+Y <- c(0, 0, 0, 7.7, 12.3, 19.7, 22.4, 20.3, 6.6, 0, 0)
+beta_reg(X,Y)
 }
 \references{
 Onofri, A., 2020. The broken bridge between biologists and statisticians: a blog and R package. Statforbiology. http://www.statforbiology.com/tags/aomisc/
-}
-\seealso{
-\link{exponential}, \link{exponential_neg}
 }
 \author{
 Model imported from the aomisc package (Andrea Onofri)

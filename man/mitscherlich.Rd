@@ -2,14 +2,12 @@
 % Please edit documentation in R/mitscherlich_analysis.R
 \name{mitscherlich}
 \alias{mitscherlich}
-\title{Analysis: Mitscherlich Regression}
+\title{Analysis: Mitscherlich}
 \usage{
 mitscherlich(
   trat,
   resp,
-  A = NA,
-  b = NA,
-  e = NA,
+  initial = NA,
   ylab = "Dependent",
   xlab = "Independent",
   theme = theme_classic(),
@@ -23,6 +21,9 @@ mitscherlich(
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  yname.formula = "y",
+  xname.formula = "x",
   comment = NA
 )
 }
@@ -31,11 +32,7 @@ mitscherlich(
 
 \item{resp}{Numeric vector with independent variable.}
 
-\item{A}{Set an initial value for "A"}
-
-\item{b}{Set an initial value for "b"}
-
-\item{e}{Set an initial value for "e"}
+\item{initial}{Initial parameters (A, b, e)}
 
 \item{ylab}{Variable response name (Accepts the \emph{expression}() function)}
 
@@ -63,6 +60,12 @@ mitscherlich(
 
 \item{pointshape}{format point (default is 21)}
 
+\item{round}{round equation}
+
+\item{yname.formula}{Name of y in the equation}
+
+\item{xname.formula}{Name of x in the equation}
+
 \item{comment}{Add text after equation}
 }
 \value{
@@ -73,7 +76,7 @@ This function performs Mitscherlich regression analysis.
 }
 \details{
 The Mitscherlich model is defined by:
-\deqn{y = A \times (1-e^{-eb-ex})}
+\deqn{y = A \times (1-10^{-eb-ex})}
 
 where "y" is the yield obtained when "b" units of a nutrient are in the soil and
 "x" units of it are added as fertilizer, "A" is the maximum yield, and "e" is the

@@ -1,4 +1,4 @@
-#' Analysis: Biexponential Regression
+#' Analysis: Biexponential
 #'
 #' This function performs biexponential regression analysis.
 #' @param trat Numeric vector with dependent variable.
@@ -16,16 +16,19 @@
 #' @param pointsize	Shape size
 #' @param linesize	Line size
 #' @param pointshape Format point (default is 21)
+#' @param round round equation
+#' @param xname.formula Name of x in the equation
+#' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @details
 #' The biexponential model is defined by:
-#' \deqn{f(x, (A1,lrc1,A2,lrc2)) = A1 \times e^{-e^{lrc1 \cdot x}} + A2 \times e^{-e^{lrc2 \cdot x}}}
+#' \deqn{y = A1 \times e^{-e^{lrc1 \cdot x}} + A2 \times e^{-e^{lrc2 \cdot x}}}
 #' @author Gabriel Danilo Shimizu
 #' @author Leandro Simoes Azeredo Goncalves
-#' @references Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley \& Sons (p. 330).
+#' @references Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley & Sons (p. 330).
 #' @export
-#' @seealso \link{exponential}, \link{exponential_neg}
+#' @seealso \link{asymptotic_neg}
 #' @examples
 #' library(AgroReg)
 #' data("granada")
@@ -47,6 +50,9 @@ biexponential=function(trat,
                      pointsize = 4.5,
                      linesize = 0.8,
                      pointshape = 21,
+                     round=NA,
+                     xname.formula="x",
+                     yname.formula="y",
                      comment=NA){
   requireNamespace("crayon")
   requireNamespace("ggplot2")
@@ -59,20 +65,35 @@ biexponential=function(trat,
   xmean=tapply(trat,trat,mean)
   model <- nls(resp~SSbiexp(trat,A1,lrc1,A2,lrc2))
   coef=summary(model)
+
+  if(is.na(round)==TRUE){
   b=coef$coefficients[,1][1]
-  c=coef$coefficients[,1][2]
+  c=exp(coef$coefficients[,1][2])
   d=coef$coefficients[,1][3]
-  e=coef$coefficients[,1][4]
-  if(r2=="all"){r2=cor(resp, fitted(model))^2}
-  if(r2=="mean"){r2=cor(ymean, predict(model,
-                                       newdata=data.frame(trat=unique(trat))))^2}
+  e=exp(coef$coefficients[,1][4])}
+
+  if(is.na(round)==FALSE){
+    b=round(coef$coefficients[,1][1],round)
+    c=round(exp(coef$coefficients[,1][2]),round)
+    d=round(coef$coefficients[,1][3],round)
+    e=round(exp(coef$coefficients[,1][4]),round)}
+  # if(r2=="all"){r2=cor(resp, fitted(model))^2}
+  # if(r2=="mean"){r2=cor(ymean, predict(model,
+  #                                      newdata=data.frame(trat=unique(trat))))^2}
+  if(r2=="all"){r2=1-deviance(model)/deviance(lm(resp~1))}
+  if(r2=="mean"){
+    model1 <- nls(ymean ~ SSbiexp(xmean,A1,lrc1,A2,lrc2))
+    r2=1-deviance(model1)/deviance(lm(ymean~1))}
   r2=floor(r2*100)/100
-  equation=sprintf("~~~y==%0.3e*e^(-e^%0.3e*x) %s %0.3e*e^(-e^%0.3e*x) ~~~~~ italic(R^2) == %0.2f",
+  equation=sprintf("~~~%s==%0.3e*e^{%0.3e*%s} %s %0.3e*e^{%0.3e*%s} ~~~~~ italic(R^2) == %0.2f",
+                   yname.formula,
                    b,
                    c,
+                   xname.formula,
                    ifelse(d >= 0, "+", "-"),
                    abs(d),
                    e,
+                   xname.formula,
                    r2)
   if(is.na(comment)==FALSE){equation=paste(equation,"~\"",comment,"\"")}
   xp=seq(min(trat),max(trat),length.out = 1000)
@@ -89,7 +110,8 @@ biexponential=function(trat,
   if(point=="mean"){
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
-                                                 width=width.bar)}
+                                                 width=width.bar,
+                                                 size=linesize)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
   if(point=="all"){
@@ -101,6 +123,7 @@ biexponential=function(trat,
                                                 y=y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black"),
+          axis.title = element_text(size=textsize,color="black"),
           legend.position = legend.position,
           legend.text = element_text(size=textsize),
           legend.direction = "vertical",

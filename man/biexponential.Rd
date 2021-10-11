@@ -2,7 +2,7 @@
 % Please edit documentation in R/BIEXP_analysis.R
 \name{biexponential}
 \alias{biexponential}
-\title{Analysis: Biexponential Regression}
+\title{Analysis: Biexponential}
 \usage{
 biexponential(
   trat,
@@ -20,6 +20,9 @@ biexponential(
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  xname.formula = "x",
+  yname.formula = "y",
   comment = NA
 )
 }
@@ -54,6 +57,12 @@ biexponential(
 
 \item{pointshape}{Format point (default is 21)}
 
+\item{round}{round equation}
+
+\item{xname.formula}{Name of x in the equation}
+
+\item{yname.formula}{Name of y in the equation}
+
 \item{comment}{Add text after equation}
 }
 \value{
@@ -64,7 +73,7 @@ This function performs biexponential regression analysis.
 }
 \details{
 The biexponential model is defined by:
-\deqn{f(x, (A1,lrc1,A2,lrc2)) = A1 \times e^{-e^{lrc1 \cdot x}} + A2 \times e^{-e^{lrc2 \cdot x}}}
+\deqn{y = A1 \times e^{-e^{lrc1 \cdot x}} + A2 \times e^{-e^{lrc2 \cdot x}}}
 }
 \examples{
 library(AgroReg)
@@ -73,10 +82,10 @@ attach(granada)
 biexponential(time,WL)
 }
 \references{
-Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley \& Sons (p. 330).
+Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley & Sons (p. 330).
 }
 \seealso{
-\link{exponential}, \link{exponential_neg}
+\link{asymptotic_neg}
 }
 \author{
 Gabriel Danilo Shimizu

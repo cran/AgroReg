@@ -2,7 +2,7 @@
 % Please edit documentation in R/BC_analysis.R
 \name{BC}
 \alias{BC}
-\title{Analysis: Logistic regression Brain-Cousens hormesis models}
+\title{Analysis: Brain-Cousens}
 \usage{
 BC(
   trat,
@@ -13,6 +13,9 @@ BC(
   theme = theme_classic(),
   legend.position = "top",
   r2 = "all",
+  ic = FALSE,
+  fill.ic = "gray70",
+  alpha.ic = 0.5,
   error = "SE",
   point = "all",
   width.bar = NA,
@@ -21,6 +24,9 @@ BC(
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  xname.formula = "x",
+  yname.formula = "y",
   comment = NA
 )
 }
@@ -41,6 +47,12 @@ BC(
 
 \item{r2}{Coefficient of determination of the mean or all values (\emph{default} is all)}
 
+\item{ic}{Add interval of confidence}
+
+\item{fill.ic}{Color interval of confidence}
+
+\item{alpha.ic}{confidence interval transparency level}
+
 \item{error}{Error bar (It can be SE - \emph{default}, SD or FALSE)}
 
 \item{point}{Defines whether you want to plot all points ("all") or only the mean ("mean")}
@@ -57,6 +69,12 @@ BC(
 
 \item{pointshape}{Format point (default is 21)}
 
+\item{round}{round equation}
+
+\item{xname.formula}{Name of x in the equation}
+
+\item{yname.formula}{Name of y in the equation}
+
 \item{comment}{Add text after equation}
 }
 \value{
@@ -67,10 +85,10 @@ The 'BC.4' and 'BC.5' logistical models provide Brain-Cousens' modified logistic
 }
 \details{
 The model function for the Brain-Cousens model (Brain and Cousens, 1989) is
-\deqn{ f(x, b,c,d,e,f) = c + \frac{d-c+fx}{1+\exp(b(\log(x)-\log(e)))}}
+\deqn{y = c + \frac{d-c+fx}{1+\exp(b(\log(x)-\log(e)))}}
 and it is a five-parameter model, obtained by extending the four-parameter log-logistic model (LL.4 to take into account inverse u-shaped hormesis effects.
 Fixing the lower limit at 0 yields the four-parameter model
-\deqn{f(x) = 0 + \frac{d-0+fx}{1+\exp(b(\log(x)-\log(e)))}}
+\deqn{y = 0 + \frac{d-0+fx}{1+\exp(b(\log(x)-\log(e)))}}
 used by van Ewijk and Hoekstra (1993).
 }
 \examples{
@@ -80,9 +98,9 @@ attach(aristolochia)
 BC(trat,resp)
 }
 \references{
-Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley \& Sons (p. 330).
+Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley & Sons (p. 330).
 
-Ritz, C.; STREBIG, J.C. and RITZ, M.C. Package ‘drc’. Creative Commons: Mountain View, CA, USA, 2016.
+Ritz, C.; Strebig, J.C. and Ritz, M.C. Package ‘drc’. Creative Commons: Mountain View, CA, USA, 2016.
 }
 \seealso{
 \link{LL}, \link{CD},\link{GP}

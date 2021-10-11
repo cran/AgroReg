@@ -2,24 +2,30 @@
 % Please edit documentation in R/LM_analysis.R
 \name{LM}
 \alias{LM}
-\title{Analysis: Linear, quadratic, quadratic inverse, cubic and quartic regression}
+\title{Analysis: Linear, quadratic, quadratic inverse, cubic and quartic}
 \usage{
 LM(
   trat,
   resp,
-  ylab = "Dependent",
-  error = "SE",
-  xlab = "Independent",
   grau = NA,
+  ylab = "Dependent",
+  xlab = "Independent",
+  error = "SE",
+  ic = FALSE,
+  fill.ic = "gray70",
+  alpha.ic = 0.5,
+  point = "all",
   theme = theme_classic(),
   legend.position = "top",
-  point = "all",
   width.bar = NA,
   scale = "none",
   textsize = 12,
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  xname.formula = "x",
+  yname.formula = "y",
   comment = NA
 )
 }
@@ -28,19 +34,25 @@ LM(
 
 \item{resp}{Numeric vector with independent variable.}
 
-\item{ylab}{Dependent variable name (Accepts the \emph{expression}() function)}
+\item{grau}{degree of the polynomial (0.5, 1, 2, 3 or 4)}
 
-\item{error}{Error bar (It can be SE - \emph{default}, SD or FALSE)}
+\item{ylab}{Dependent variable name (Accepts the \emph{expression}() function)}
 
 \item{xlab}{Independent variable name (Accepts the \emph{expression}() function)}
 
-\item{grau}{degree of the polynomial (0.5, 1, 2, 3 or 4)}
+\item{error}{Error bar (It can be SE - \emph{default}, SD or FALSE)}
+
+\item{ic}{Add interval of confidence}
+
+\item{fill.ic}{Color interval of confidence}
+
+\item{alpha.ic}{confidence interval transparency level}
+
+\item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
 
 \item{theme}{ggplot2 theme (\emph{default} is theme_classic())}
 
 \item{legend.position}{legend position (\emph{default} is "top")}
-
-\item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
 
 \item{width.bar}{Bar width}
 
@@ -53,6 +65,12 @@ LM(
 \item{linesize}{line size}
 
 \item{pointshape}{format point (default is 21)}
+
+\item{round}{round equation}
+
+\item{xname.formula}{Name of x in the equation}
+
+\item{yname.formula}{Name of y in the equation}
 
 \item{comment}{Add text after equation}
 }

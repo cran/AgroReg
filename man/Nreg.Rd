@@ -16,6 +16,9 @@ Nreg(
   width.bar = NA,
   point = "all",
   textsize = 12,
+  add.line = FALSE,
+  add.line.mean = FALSE,
+  linesize = 0.8,
   pointsize = 4.5,
   pointshape = 21
 )
@@ -42,6 +45,12 @@ Nreg(
 \item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
 
 \item{textsize}{Font size}
+
+\item{add.line}{Add line}
+
+\item{add.line.mean}{Add line mean}
+
+\item{linesize}{line size}
 
 \item{pointsize}{shape size}
 

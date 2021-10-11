@@ -2,7 +2,7 @@
 % Please edit documentation in R/LL_analysis.R
 \name{LL}
 \alias{LL}
-\title{Analysis: Logistic regression}
+\title{Analysis: Log-logistic}
 \usage{
 LL(
   trat,
@@ -14,6 +14,9 @@ LL(
   legend.position = "top",
   error = "SE",
   r2 = "all",
+  ic = FALSE,
+  fill.ic = "gray70",
+  alpha.ic = 0.5,
   point = "all",
   width.bar = NA,
   scale = "none",
@@ -21,6 +24,9 @@ LL(
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  xname.formula = "x",
+  yname.formula = "y",
   comment = NA
 )
 }
@@ -43,6 +49,12 @@ LL(
 
 \item{r2}{coefficient of determination of the mean or all values (\emph{default} is all)}
 
+\item{ic}{Add interval of confidence}
+
+\item{fill.ic}{Color interval of confidence}
+
+\item{alpha.ic}{confidence interval transparency level}
+
 \item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
 
 \item{width.bar}{Bar width}
@@ -57,19 +69,25 @@ LL(
 
 \item{pointshape}{format point (default is 21)}
 
+\item{round}{round equation}
+
+\item{xname.formula}{Name of x in the equation}
+
+\item{yname.formula}{Name of y in the equation}
+
 \item{comment}{Add text after equation}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 }
 \description{
-Logistic models with three (LL.3) or four (LL.4) continuous data parameters. This model was extracted from the drc package.
+Logistic models with three (LL.3), four (LL.4) or five (LL.5) continuous data parameters. This model was extracted from the drc package.
 }
 \details{
 The three-parameter log-logistic function with lower limit 0 is
-\deqn{f(x) = 0 + \frac{d}{1+\exp(b(\log(x)-\log(e)))}}
+\deqn{y = 0 + \frac{d}{1+\exp(b(\log(x)-\log(e)))}}
 The four-parameter log-logistic function is given by the expression
-\deqn{f(x) = c + \frac{d-c}{1+\exp(b(\log(x)-\log(e)))}}
+\deqn{y = c + \frac{d-c}{1+\exp(b(\log(x)-\log(e)))}}
 The function is symmetric about the inflection point (e).
 }
 \examples{
@@ -79,7 +97,7 @@ attach(aristolochia)
 LL(trat,resp)
 }
 \references{
-Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley \& Sons (p. 330).
+Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley & Sons (p. 330).
 
 Ritz, C.; Strebig, J.C.; Ritz, M.C. Package ‘drc’. Creative Commons: Mountain View, CA, USA, 2016.
 }

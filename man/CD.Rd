@@ -2,7 +2,7 @@
 % Please edit documentation in R/CD_analysis.R
 \name{CD}
 \alias{CD}
-\title{Analysis: Logistic regression Cedergreen-Ritz-Streibig model}
+\title{Analysis: Cedergreen-Ritz-Streibig}
 \usage{
 CD(
   trat,
@@ -14,6 +14,9 @@ CD(
   legend.position = "top",
   error = "SE",
   r2 = "all",
+  ic = FALSE,
+  fill.ic = "gray70",
+  alpha.ic = 0.5,
   point = "all",
   width.bar = NA,
   scale = "none",
@@ -21,6 +24,9 @@ CD(
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  xname.formula = "x",
+  yname.formula = "y",
   comment = NA
 )
 }
@@ -43,6 +49,12 @@ CD(
 
 \item{r2}{coefficient of determination of the mean or all values (\emph{default} is all)}
 
+\item{ic}{Add interval of confidence}
+
+\item{fill.ic}{Color interval of confidence}
+
+\item{alpha.ic}{confidence interval transparency level}
+
 \item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
 
 \item{width.bar}{Bar width}
@@ -57,6 +69,12 @@ CD(
 
 \item{pointshape}{format point (default is 21)}
 
+\item{round}{round equation}
+
+\item{xname.formula}{Name of x in the equation}
+
+\item{yname.formula}{Name of y in the equation}
+
 \item{comment}{Add text after equation}
 }
 \value{
@@ -68,11 +86,11 @@ The 'CRS.4' and 'CRS.5' logistical models provide Brain-Cousens modified logisti
 \details{
 The four-parameter model is given by the expression:
 
-\deqn{f(x) = 0 + \frac{d-0+f \exp(-1/x)}{1+\exp(b(\log(x)-\log(e)))}}
+\deqn{y = 0 + \frac{d-0+f \exp(-1/x)}{1+\exp(b(\log(x)-\log(e)))}}
 
 while the five-parameter is:
 
-\deqn{f(x) = c + \frac{d-c+f \exp(-1/x)}{1+\exp(b(\log(x)-\log(e)))}}
+\deqn{y = c + \frac{d-c+f \exp(-1/x)}{1+\exp(b(\log(x)-\log(e)))}}
 }
 \examples{
 library(AgroReg)
@@ -81,7 +99,7 @@ attach(aristolochia)
 CD(trat,resp)
 }
 \references{
-Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley \& Sons (p. 330).
+Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley & Sons (p. 330).
 
 Ritz, C.; Strebig, J.C.; Ritz, M.C. Package 'drc'. Creative Commons: Mountain View, CA, USA, 2016.
 }

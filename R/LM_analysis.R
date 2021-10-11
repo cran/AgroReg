@@ -1,4 +1,4 @@
-#' Analysis: Linear, quadratic, quadratic inverse, cubic and quartic regression
+#' Analysis: Linear, quadratic, quadratic inverse, cubic and quartic
 #' @author Gabriel Danilo Shimizu
 #' @author Leandro Simoes Azeredo Goncalves
 #' @description Linear, quadratic, quadratic inverse, cubic and quartic regression.
@@ -9,6 +9,9 @@
 #' @param grau degree of the polynomial (0.5, 1, 2, 3 or 4)
 #' @param theme ggplot2 theme (\emph{default} is theme_classic())
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
+#' @param ic Add interval of confidence
+#' @param fill.ic Color interval of confidence
+#' @param alpha.ic confidence interval transparency level
 #' @param legend.position legend position (\emph{default} is "top")
 #' @param scale Sets x scale (\emph{default} is none, can be "log")
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
@@ -17,6 +20,9 @@
 #' @param pointsize	shape size
 #' @param linesize	line size
 #' @param pointshape format point (default is 21)
+#' @param round round equation
+#' @param xname.formula Name of x in the equation
+#' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #'
 #' @details
@@ -42,19 +48,25 @@
 
 LM=function(trat,
             resp,
-            ylab="Dependent",
-            error="SE",
-            xlab="Independent",
             grau=NA,
+            ylab="Dependent",
+            xlab="Independent",
+            error="SE",
+            ic=FALSE,
+            fill.ic="gray70",
+            alpha.ic=0.5,
+            point="all",
             theme=theme_classic(),
             legend.position="top",
-            point="all",
             width.bar=NA,
             scale="none",
             textsize = 12,
             pointsize = 4.5,
             linesize = 0.8,
             pointshape = 21,
+            round=NA,
+            xname.formula="x",
+            yname.formula="y",
             comment=NA){
   requireNamespace("ggplot2")
   requireNamespace("crayon")
@@ -111,52 +123,118 @@ LM=function(trat,
   if(grau=="3"){r2=round(summary(mod2m)$r.squared,2)}
   if(grau=="4"){r2=round(summary(mod3m)$r.squared,2)}
   if(grau=="0.5"){r2=round(summary(mod05m)$r.squared,2)}
-  if(grau=="1"){s1=s <- sprintf("~~~y == %e %s %e*x ~~~~~ italic(R^2) == %0.2f",
-                                coef(moda)[1],
-                                ifelse(coef(moda)[2] >= 0, "+", "-"),
-                                abs(coef(moda)[2]),
-                                as.numeric(as.character(r2)))
+  if(grau=="1"){
+    if(is.na(round)==TRUE){
+    coef1=coef(moda)[1]
+    coef2=coef(moda)[2]}
+    if(is.na(round)==FALSE){
+      coef1=round(coef(moda)[1],round)
+      coef2=round(coef(moda)[2],round)}
+    s1=s <- sprintf("~~~%s == %e %s %e* %s ~~~~~ italic(R^2) == %0.2f",
+                    yname.formula,
+                    coef1,
+                    ifelse(coef2 >= 0, "+", "-"),
+                    abs(coef2),
+                    xname.formula,
+                    r2)
   if(is.na(comment)==FALSE){s1=paste(s1,"~\"",comment,"\"")}}
-  if(grau=="2"){s2=s <- sprintf("~~~y == %e %s %e * x %s %e * x^2 ~~~~~ italic(R^2) ==  %0.2f",
-                                coef(mod1a)[1],
-                                ifelse(coef(mod1a)[2] >= 0, "+", "-"),
-                                abs(coef(mod1a)[2]),
-                                ifelse(coef(mod1a)[3] >= 0, "+", "-"),
-                                abs(coef(mod1a)[3]),
-                                as.numeric(as.character(r2)))
+  if(grau=="2"){
+    if(is.na(round)==TRUE){
+      coef1=coef(mod1a)[1]
+      coef2=coef(mod1a)[2]
+      coef3=coef(mod1a)[3]}
+    if(is.na(round)==FALSE){
+      coef1=round(coef(mod1a)[1],round)
+      coef2=round(coef(mod1a)[2],round)
+      coef3=round(coef(mod1a)[3],round)}
+    s2=s <- sprintf("~~~%s == %e %s %e * %s %s %e * %s^2 ~~~~~ italic(R^2) ==  %0.2f",
+                    yname.formula,
+                    coef1,
+                    ifelse(coef2 >= 0, "+", "-"),
+                    abs(coef2),
+                    xname.formula,
+                    ifelse(coef3 >= 0, "+", "-"),
+                    abs(coef3),
+                    xname.formula,
+                    r2)
   if(is.na(comment)==FALSE){s2=paste(s2,"~\"",comment,"\"")}}
-  if(grau=="3"){s3=s <- sprintf("~~~y == %e %s %e * x %s %e * x^2 %s %0.e * x^3 ~~~~~ italic(R^2) == %0.2f",
-                                coef(mod2a)[1],
-                                ifelse(coef(mod2a)[2] >= 0, "+", "-"),
-                                abs(coef(mod2a)[2]),
-                                ifelse(coef(mod2a)[3] >= 0, "+", "-"),
-                                abs(coef(mod2a)[3]),
-                                ifelse(coef(mod2a)[4] >= 0, "+", "-"),
-                                abs(coef(mod2a)[4]),
-                                as.numeric(as.character(r2)))
+  if(grau=="3"){
+    if(is.na(round)==TRUE){
+      coef1=coef(mod2a)[1]
+      coef2=coef(mod2a)[2]
+      coef3=coef(mod2a)[3]
+      coef4=coef(mod2a)[4]}
+    if(is.na(round)==FALSE){
+      coef1=round(coef(mod2a)[1],round)
+      coef2=round(coef(mod2a)[2],round)
+      coef3=round(coef(mod2a)[3],round)
+      coef4=round(coef(mod2a)[4],round)}
+    s3=s <- sprintf("~~~%s == %e %s %e * %s %s %e * %s^2 %s %0.e * %s^3 ~~~~~ italic(R^2) == %0.2f",
+                    yname.formula,
+                    coef1,
+                    ifelse(coef2 >= 0, "+", "-"),
+                    abs(coef2),
+                    xname.formula,
+                    ifelse(coef3 >= 0, "+", "-"),
+                    abs(coef3),
+                    xname.formula,
+                    ifelse(coef4 >= 0, "+", "-"),
+                    abs(coef4),
+                    xname.formula,
+                    r2)
   if(is.na(comment)==FALSE){s3=paste(s3,"~\"",comment,"\"")}}
-  if(grau=="4"){s4=s <- sprintf("~~~y == %e %s %e * x %s %e * x^2 %s %0.e * x^3 %s %0.e * x^4 ~~~~~ italic(R^2) == %0.2f",
-                                coef(mod3a)[1],
-                                ifelse(coef(mod3a)[2] >= 0, "+", "-"),
-                                abs(coef(mod3a)[2]),
-                                ifelse(coef(mod3a)[3] >= 0, "+", "-"),
-                                abs(coef(mod3a)[3]),
-                                ifelse(coef(mod3a)[4] >= 0, "+", "-"),
-                                abs(coef(mod3a)[4]),
-                                ifelse(coef(mod3a)[5] >= 0, "+", "-"),
-                                abs(coef(mod3a)[5]),
-                                as.numeric(as.character(r2)))
+  if(grau=="4"){
+    if(is.na(round)==TRUE){
+      coef1=coef(mod3a)[1]
+      coef2=coef(mod3a)[2]
+      coef3=coef(mod3a)[3]
+      coef4=coef(mod3a)[4]
+      coef5=coef(mod3a)[5]}
+    if(is.na(round)==FALSE){
+      coef1=round(coef(mod3a)[1],round)
+      coef2=round(coef(mod3a)[2],round)
+      coef3=round(coef(mod3a)[3],round)
+      coef4=round(coef(mod3a)[4],round)
+      coef5=round(coef(mod3a)[5],round)}
+    s4=s <- sprintf("~~~%s == %e %s %e * %s %s %e * %s^2 %s %0.e * %s^3 %s %0.e * %s^4 ~~~~~ italic(R^2) == %0.2f",
+                    yname.formula,
+                    coef1,
+                    ifelse(coef2 >= 0, "+", "-"),
+                    abs(coef2),
+                    xname.formula,
+                    ifelse(coef3 >= 0, "+", "-"),
+                    abs(coef3),
+                    xname.formula,
+                    ifelse(coef4 >= 0, "+", "-"),
+                    abs(coef4),
+                    xname.formula,
+                    ifelse(coef5 >= 0, "+", "-"),
+                    abs(coef5),
+                    xname.formula,
+                    r2)
   if(is.na(comment)==FALSE){s4=paste(s4,"~\"",comment,"\"")}}
-  if(grau=="0.5"){s05=s <- sprintf("~~~y == %e %s %e * x %s %e * x^0.5 ~~~~~ italic(R^2) ==  %0.2f",
-                                coef(mod05a)[1],
-                                ifelse(coef(mod05a)[2] >= 0, "+", "-"),
-                                abs(coef(mod05a)[2]),
-                                ifelse(coef(mod05a)[3] >= 0, "+", "-"),
-                                abs(coef(mod05a)[3]),
-                                as.numeric(as.character(r2)))
+  if(grau=="0.5"){
+    if(is.na(round)==TRUE){
+      coef1=coef(mod05a)[1]
+      coef2=coef(mod05a)[2]
+      coef3=coef(mod05a)[3]}
+    if(is.na(round)==FALSE){
+      coef1=round(coef(mod05a)[1],round)
+      coef2=round(coef(mod05a)[2],round)
+      coef3=round(coef(mod05a)[3],round)}
+    s05=s <- sprintf("~~~%s == %e %s %e * %s %s %e * %s^0.5 ~~~~~ italic(R^2) ==  %0.2f",
+                     yname.formula,
+                     coef1,
+                     ifelse(coef2 >= 0, "+", "-"),
+                     abs(coef2),
+                     xname.formula,
+                     ifelse(coef3 >= 0, "+", "-"),
+                     abs(coef3),
+                     xname.formula,
+                     r2)
   if(is.na(comment)==FALSE){s05=paste(s05,"~\"",comment,"\"")}}
   data1=data.frame(trat,resp)
-  data1=data.frame(trat=as.numeric(as.character(names(media))),
+  data1=data.frame(trat=unique(trat),
                    resp=media,
                    desvio)
   if(point=="mean"){
@@ -164,7 +242,9 @@ LM=function(trat,
       geom_point(aes(fill=as.factor(rep(1,length(resp)))),na.rm=TRUE,
                  size=pointsize,color="black",shape=pointshape)
     if(error!="FALSE"){grafico=grafico+
-      geom_errorbar(aes(ymin=resp-desvio, ymax=resp+desvio),width=width.bar)}}
+      geom_errorbar(aes(ymin=resp-desvio, ymax=resp+desvio),
+                    width=width.bar,
+                    size=linesize)}}
   if(point=="all"){
     grafico=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))+
       geom_point(aes(fill=as.factor(rep(1,length(resp)))),size=pointsize,
@@ -172,11 +252,11 @@ LM=function(trat,
 
   grafico=grafico+
     theme+ylab(ylab)+xlab(xlab)
-  if(grau=="1"){grafico=grafico+geom_smooth(method = "lm",se=FALSE, na.rm=TRUE, formula = y~x,size=linesize,color="black")}
-  if(grau=="2"){grafico=grafico+geom_smooth(method = "lm",se=FALSE, na.rm=TRUE, formula = y~x+I(x^2),size=linesize,color="black")}
-  if(grau=="3"){grafico=grafico+geom_smooth(method = "lm",se=FALSE, na.rm=TRUE, formula = y~x+I(x^2)+I(x^3),size=linesize,color="black")}
-  if(grau=="4"){grafico=grafico+geom_smooth(method = "lm",se=FALSE, na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)+I(x^4),size=linesize,color="black")}
-  if(grau=="0.5"){grafico=grafico+geom_smooth(method = "lm",se=FALSE, na.rm=TRUE, formula = y~x+I(x^0.5),size=linesize,color="black")}
+  if(grau=="1"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x,size=linesize,color="black")}
+  if(grau=="2"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2),size=linesize,color="black")}
+  if(grau=="3"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3),size=linesize,color="black")}
+  if(grau=="4"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)+I(x^4),size=linesize,color="black")}
+  if(grau=="0.5"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^0.5),size=linesize,color="black")}
   if(grau=="1"){grafico=grafico+
     scale_fill_manual(values="gray",label=c(parse(text=s1)),name="")}
   if(grau=="2"){grafico=grafico+
@@ -198,6 +278,7 @@ LM=function(trat,
           legend.text.align = 0,
           legend.justification = 0)
   if(scale=="log"){grafico=grafico+scale_x_log10()}
+
   moda=lm(resp~trat)
   mod1a=lm(resp~trat+I(trat^2))
   mod2a=lm(resp~trat+I(trat^2)+I(trat^3))
@@ -206,6 +287,7 @@ LM=function(trat,
 
   if(grau=="1"){
   models=mods
+  model=moda
   r2=summary(modm)$r.squared
   aic=AIC(moda)
   bic=BIC(moda)
@@ -214,7 +296,7 @@ LM=function(trat,
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))
 
-  temp1=seq(min(trat),max(trat),length.out=10000)
+  temp1=seq(min(trat),max(trat),length.out=5000)
   result=predict(moda,newdata = data.frame(trat=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]
@@ -224,6 +306,7 @@ LM=function(trat,
 
   if(grau=="2"){
   models=mod1s
+  model=mod1a
   r2=summary(mod1m)$r.squared
   aic=AIC(mod1a)
   bic=BIC(mod1a)
@@ -232,7 +315,7 @@ LM=function(trat,
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))
 
-  temp1=seq(min(trat),max(trat),length.out=10000)
+  temp1=seq(min(trat),max(trat),length.out=5000)
   result=predict(mod1a,newdata = data.frame(trat=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]
@@ -243,6 +326,7 @@ LM=function(trat,
 
   if(grau=="3"){
   models=mod2s
+  model=mod2a
   r2=summary(mod2m)$r.squared
   aic=AIC(mod2a)
   bic=BIC(mod2a)
@@ -251,7 +335,7 @@ LM=function(trat,
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))
 
-  temp1=seq(min(trat),max(trat),length.out=10000)
+  temp1=seq(min(trat),max(trat),length.out=5000)
   result=predict(mod2a,newdata = data.frame(trat=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]
@@ -260,6 +344,7 @@ LM=function(trat,
 
   if(grau=="4"){
     models=mod3s
+    model=mod3a
     r2=summary(mod3m)$r.squared
     aic=AIC(mod3a)
     bic=BIC(mod3a)
@@ -267,7 +352,7 @@ LM=function(trat,
     predesp=predict(mod3a)
     predobs=resp
     rmse=sqrt(mean((predesp-predobs)^2))
-    temp1=seq(min(trat),max(trat),length.out=10000)
+    temp1=seq(min(trat),max(trat),length.out=5000)
     result=predict(mod3a,newdata = data.frame(trat=temp1),type="response")
     maximo=temp1[which.max(result)]
     respmax=result[which.max(result)]
@@ -276,6 +361,7 @@ LM=function(trat,
 
   if(grau=="0.5"){
     models=mod05s
+    model=mod05a
     r2=summary(mod05m)$r.squared
     aic=AIC(mod05a)
     bic=BIC(mod05a)
@@ -283,7 +369,7 @@ LM=function(trat,
     predesp=predict(mod05a)
     predobs=resp
     rmse=sqrt(mean((predesp-predobs)^2))
-    temp1=seq(min(trat),max(trat),length.out=10000)
+    temp1=seq(min(trat),max(trat),length.out=5000)
     result=predict(mod05a,newdata = data.frame(trat=temp1),type="response")
     maximo=temp1[which.max(result)]
     respmax=result[which.max(result)]
@@ -308,7 +394,7 @@ LM=function(trat,
                                r2,
                                rmse))
   graficos=list("Coefficients"=models,
-                "test"=graphs,
+                "values"=graphs,
                 "VIF"=vif,
                 grafico)
   print(graficos)

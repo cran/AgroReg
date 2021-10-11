@@ -2,7 +2,7 @@
 % Please edit documentation in R/regression.R
 \name{regression}
 \alias{regression}
-\title{Analysis: Regression linear or nolinear}
+\title{Analysis: Regression linear or nonlinear}
 \usage{
 regression(
   trat,
@@ -40,32 +40,74 @@ This function is a simplification of all the analysis functions present in the p
 }
 \details{
 To change the regression model, change the "model" argument to:
-\itemize{
+\enumerate{
 \item \strong{N:} Graph for not significant trend.
-\item \strong{LM0.5:} Quadratic inverse regression.
+\item \strong{loess0:} Loess non-parametric degree 0
+\item \strong{loess1:} Loess non-parametric degree 1
+\item \strong{loess2:} Loess non-parametric degree 2
+\item \strong{LM0.5:} Quadratic inverse
 \item \strong{LM1:} Linear regression.
-\item \strong{LM2:} Quadratic regression.
-\item \strong{LM3:} Cubic regression.
-\item \strong{LM4:} Quartic regression.
-\item \strong{LL3:} Three-parameter logistics.
-\item \strong{LL4:} Four-parameter logistics.
-\item \strong{BC4:} Logistic regression Brain-Cousens with four parameter.
-\item \strong{BC5:} Logistic regression Brain-Cousens with five parameter.
-\item \strong{CD4:} Logistic regression Cedergreen-Ritz-Streibig with four parameter.
-\item \strong{CD5:} Logistic regression Cedergreen-Ritz-Streibig with fice parameter.
-\item \strong{loess:} Loess non-parametric regression.
-\item \strong{gaussian:} Gaussian model.
-\item \strong{MM:} Michaelis-Menten.
-\item \strong{linear.linear:} Linear-Linear regression.
-\item \strong{linear.plateau:} Linear-plateau regression.
-\item \strong{quadratic.plateau:} Quadratic-plateau regression.
-\item \strong{exponential:} Exponential regression.
-\item \strong{exponential_neg:} Exponential negative regression.
-\item \strong{biexponential:} Biexponential regression.
-\item \strong{log:} Logarithmic regression.
-\item \strong{GP:} Gompertz regression.
-\item \strong{mitscherlich:} Mitscherlich regression.
-\item \strong{asymptotic:} Asymptotic regression
+\item \strong{LM2:} Quadratic
+\item \strong{LM3:} Cubic
+\item \strong{LM4:} Quartic
+\item \strong{LM0.5_i:} Quadratic inverse without intercept.
+\item \strong{LM1_i:} Linear without intercept.
+\item \strong{LM2_i:} Quadratic regression without intercept.
+\item \strong{LM3_i:} Cubic without intercept.
+\item \strong{LM4_i:} Quartic without intercept.
+\item \strong{LM13:} Cubic without beta2
+\item \strong{LM13i:} Cubic inverse without beta2
+\item \strong{LM23:} Cubic without beta1
+\item \strong{LM23i:} Cubic inverse without beta2
+\item \strong{LM2i3:} Cubic without beta1, with inverse beta3
+\item \strong{valcam:} Valcam
+\item \strong{L3:} Three-parameter logistics.
+\item \strong{L4:} Four-parameter logistics.
+\item \strong{L5:} Five-parameter logistics.
+\item \strong{LL3:} Three-parameter log-logistics.
+\item \strong{LL4:} Four-parameter log-logistics.
+\item \strong{LL5:} Five-parameter log-logistics.
+\item \strong{BC4:} Brain-Cousens with four parameter.
+\item \strong{BC5:} Brain-Cousens with five parameter.
+\item \strong{CD4:} Cedergreen-Ritz-Streibig with four parameter.
+\item \strong{CD5:} Cedergreen-Ritz-Streibig with five parameter.
+\item \strong{weibull3:} Weibull with three parameter.
+\item \strong{weibull4:} Weibull with four parameter.
+\item \strong{GP2:} Gompertz with two parameter.
+\item \strong{GP3:} Gompertz with three parameter.
+\item \strong{GP4:} Gompertz with four parameter.
+\item \strong{VB:} Von Bertalanffy
+\item \strong{lo3:} Lorentz with three parameter
+\item \strong{lo4:} Lorentz with four parameter
+\item \strong{beta:} Beta
+\item \strong{gaussian3:} Analogous to the Gaussian model/Bragg with three parameters.
+\item \strong{gaussian4:} Analogous to the Gaussian model/Bragg with four parameters.
+\item \strong{linear.linear:} Linear-linear
+\item \strong{linear.plateau:} Linear-plateau
+\item \strong{quadratic.plateau:} Quadratic-plateau
+\item \strong{plateau.linear:} Plateau-linear
+\item \strong{plateau.quadratic:} Plateau-Quadratic
+\item \strong{log:} Logarithmic
+\item \strong{log2:} Logarithmic quadratic
+\item \strong{thompson:} Thompson
+\item \strong{asymptotic:} Exponential
+\item \strong{asymptotic_neg:} Exponential negative
+\item \strong{asymptotic_i:} Exponential without intercept.
+\item \strong{asymptotic_ineg:} Exponential negative without intercept.
+\item \strong{biexponential:} Biexponential
+\item \strong{mitscherlich:} Mitscherlich
+\item \strong{yieldloss:} Yield-loss
+\item \strong{hill:} Hill
+\item \strong{MM2:} Michaelis-Menten with two parameter.
+\item \strong{MM3:} Michaelis-Menten with three parameter.
+\item \strong{SH:} Steinhart-Hart
+\item \strong{page:} Page
+\item \strong{newton:} Newton
+\item \strong{potential:} Potential
+\item \strong{midilli:} Midilli
+\item \strong{midillim:} Modified Midilli
+\item \strong{AM:} Avhad and Marchetti
+\item \strong{peleg:} Peleg
 }
 }
 \examples{

@@ -2,23 +2,30 @@
 % Please edit documentation in R/MM_analysis.R
 \name{MM}
 \alias{MM}
-\title{Analysis: Michaelis-Menten Model}
+\title{Analysis: Michaelis-Menten}
 \usage{
 MM(
   trat,
   resp,
+  npar = "mm2",
   error = "SE",
-  ylab = "ylab",
-  xlab = "xlab",
+  ylab = "Dependent",
+  xlab = "Independent",
   theme = theme_classic(),
   legend.position = "top",
   point = "all",
   width.bar = NA,
   r2 = "all",
+  ic = FALSE,
+  fill.ic = "gray70",
+  alpha.ic = 0.5,
   textsize = 12,
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  yname.formula = "y",
+  xname.formula = "x",
   comment = NA
 )
 }
@@ -26,6 +33,8 @@ MM(
 \item{trat}{Numeric vector with dependent variable.}
 
 \item{resp}{Numeric vector with independent variable.}
+
+\item{npar}{Number of parameters (mm2 or mm3)}
 
 \item{error}{Error bar (It can be SE - \emph{default}, SD or FALSE)}
 
@@ -43,6 +52,12 @@ MM(
 
 \item{r2}{coefficient of determination of the mean or all values (\emph{default} is all)}
 
+\item{ic}{Add interval of confidence}
+
+\item{fill.ic}{Color interval of confidence}
+
+\item{alpha.ic}{confidence interval transparency level}
+
 \item{textsize}{Font size}
 
 \item{pointsize}{shape size}
@@ -50,6 +65,12 @@ MM(
 \item{linesize}{line size}
 
 \item{pointshape}{format point (default is 21)}
+
+\item{round}{round equation}
+
+\item{yname.formula}{Name of y in the equation}
+
+\item{xname.formula}{Name of x in the equation}
 
 \item{comment}{Add text after equation}
 }
@@ -60,13 +81,16 @@ The function returns a list containing the coefficients and their respective val
 This function performs regression analysis using the Michaelis-Menten model.
 }
 \details{
-The Michaelis-Menten model is defined by:
-\deqn{f(x, (VM,k)) = \frac{Vm \times x}{k + x}}
+The two-parameter Michaelis-Menten model is defined by:
+\deqn{y = \frac{Vm \times x}{k + x}}
+The three-parameter Michaelis-Menten model is defined by:
+\deqn{y = c + \frac{Vm \times x}{k + x}}
 }
 \examples{
 data("granada")
 attach(granada)
 MM(time,WL)
+MM(time,WL,npar="mm3")
 }
 \references{
 Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley & Sons (p. 330).

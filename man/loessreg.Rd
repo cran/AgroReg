@@ -2,11 +2,12 @@
 % Please edit documentation in R/loess_analysis.R
 \name{loessreg}
 \alias{loessreg}
-\title{Analysis: loess regression}
+\title{Analysis: loess regression (degree 0, 1 or 2)}
 \usage{
 loessreg(
   trat,
   resp,
+  degree = 2,
   ylab = "Dependent",
   xlab = "Independent",
   theme = theme_classic(),
@@ -25,6 +26,8 @@ loessreg(
 \item{trat}{Numeric vector with dependent variable.}
 
 \item{resp}{Numeric vector with independent variable.}
+
+\item{degree}{Degree polynomial (0,1 or 2)}
 
 \item{ylab}{Variable response name (Accepts the \emph{expression}() function)}
 

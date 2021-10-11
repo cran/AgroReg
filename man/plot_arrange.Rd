@@ -6,6 +6,7 @@
 \usage{
 plot_arrange(
   plots,
+  point = "mean",
   theme = theme_classic(),
   legend.title = NULL,
   legend.position = "top",
@@ -13,13 +14,16 @@ plot_arrange(
   gray = FALSE,
   ylab = "Dependent",
   xlab = "Independent",
-  widthbar = 0.3,
+  widthbar = 0,
   pointsize = 4.5,
-  linesize = 0.8
+  linesize = 0.8,
+  textsize = 12
 )
 }
 \arguments{
-\item{plots}{list with objects of type LM_model, BC_model, CD_model, LL_model or normal_model}
+\item{plots}{list with objects of type analysis.}
+
+\item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
 
 \item{theme}{ggplot2 theme (\emph{default} is theme_classi())}
 
@@ -40,6 +44,8 @@ plot_arrange(
 \item{pointsize}{shape size}
 
 \item{linesize}{line size}
+
+\item{textsize}{Font size}
 }
 \value{
 The function returns a graph joining the outputs of the functions LM_model, LL_model, BC_model, CD_model, loess_model, normal_model, piecewise_model and N_model

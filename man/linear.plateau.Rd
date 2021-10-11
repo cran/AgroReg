@@ -2,7 +2,7 @@
 % Please edit documentation in R/LNplt_analysis.R
 \name{linear.plateau}
 \alias{linear.plateau}
-\title{Analysis: Linear-Plateau Regression}
+\title{Analysis: Linear-Plateau}
 \usage{
 linear.plateau(
   trat,
@@ -20,6 +20,9 @@ linear.plateau(
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  round = NA,
+  xname.formula = "x",
+  yname.formula = "y",
   comment = NA
 )
 }
@@ -54,21 +57,27 @@ linear.plateau(
 
 \item{pointshape}{format point (default is 21)}
 
+\item{round}{round equation}
+
+\item{xname.formula}{Name of x in the equation}
+
+\item{yname.formula}{Name of y in the equation}
+
 \item{comment}{Add text after equation}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); breakpoint and the graph using ggplot2 with the equation automatically.
 }
 \description{
-This function performs the quadratic-plateau regression analysis.
+This function performs the linear-plateau regression analysis.
 }
 \details{
 The linear-plateau model is defined by:
 First curve:
-\deqn{f(x) = \beta_0 + \beta_1 \times x (x < breakpoint)}
+\deqn{y = \beta_0 + \beta_1 \times x (x < breakpoint)}
 
 Second curve:
-\deqn{f(x) = \beta_0 + \beta_1 \times breakpoint (x > breakpoint)}
+\deqn{y = \beta_0 + \beta_1 \times breakpoint (x > breakpoint)}
 }
 \examples{
 library(AgroReg)
