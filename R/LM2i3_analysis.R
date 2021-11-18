@@ -10,6 +10,7 @@
 #' @param theme ggplot2 theme (\emph{default} is theme_classic())
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
 #' @param legend.position legend position (\emph{default} is "top")
+#' @param r2 coefficient of determination of the mean or all values (\emph{default} is all)
 #' @param scale Sets x scale (\emph{default} is none, can be "log")
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
 #' @param width.bar	Bar width
@@ -21,6 +22,7 @@
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
+#' @param fontfamily Font family
 #'
 #' @details
 #' Inverse degree 3 polynomial model without the beta 2 coefficient  is defined by:
@@ -41,6 +43,7 @@ LM2i3=function(trat,
                xlab="Independent",
                theme=theme_classic(),
                legend.position="top",
+               r2="all",
                point="all",
                width.bar=NA,
                scale="none",
@@ -51,9 +54,9 @@ LM2i3=function(trat,
                round=NA,
                xname.formula="x",
                yname.formula="y",
-               comment=NA){
+               comment=NA,
+               fontfamily="sans"){
   requireNamespace("ggplot2")
-  requireNamespace("crayon")
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   dados=data.frame(trat,resp)
   medias=c()
@@ -66,7 +69,10 @@ LM2i3=function(trat,
   moda=lm(resp~I(trat^2)+I(trat^(1/3)))
   mods=summary(moda)$coefficients
   modm=lm(media~I(dose^2)+I(dose^(1/3)))
-  r2=round(summary(modm)$r.squared,2)
+  if(r2=="mean"){r2=round(summary(modm)$r.squared,2)}
+  if(r2=="all"){r2=round(summary(moda)$r.squared,2)}
+
+
   coef1=coef(moda)[1]
   coef2=coef(moda)[2]
   coef3=coef(moda)[3]
@@ -83,6 +89,7 @@ LM2i3=function(trat,
   if(is.na(comment)==FALSE){s1=paste(s1,"~\"",comment,"\"")}
   data1=data.frame(trat=unique(trat),
                    media=media,
+                   resp=media,
                    desvio)
   xp=seq(min(trat),max(trat),length.out = 1000)
   preditos=data.frame(x=xp,
@@ -107,10 +114,10 @@ LM2i3=function(trat,
     geom_line(data=preditos,aes(x=x,
                                 y=y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = s1))+
-    theme(axis.text = element_text(size=textsize,color="black"),
-          axis.title = element_text(size=textsize,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+          axis.title = element_text(size=textsize,color="black",family = fontfamily),
           legend.position = legend.position,
-          legend.text = element_text(size=textsize),
+          legend.text = element_text(size=textsize,family = fontfamily),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+

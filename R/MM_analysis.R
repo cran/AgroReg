@@ -23,6 +23,8 @@
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
+#' @param fontfamily Font family
+#'
 #' @details
 #' The two-parameter Michaelis-Menten model is defined by:
 #' \deqn{y = \frac{Vm \times x}{k + x}}
@@ -60,10 +62,10 @@ MM=function(trat,
             round=NA,
             yname.formula="y",
             xname.formula="x",
-            comment=NA){
+            comment=NA,
+            fontfamily="sans"){
   requireNamespace("ggplot2")
   requireNamespace("drc")
-  requireNamespace("crayon")
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   ymean=tapply(resp,trat,mean)
   if(error=="SE"){ysd=tapply(resp,trat,sd)/sqrt(tapply(resp,trat,length))}
@@ -164,31 +166,43 @@ MM=function(trat,
   graph=graph+theme+
     geom_line(data=preditos,aes(x=x,y=y,color="black"), size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
-    theme(axis.text = element_text(size=textsize,color="black"),
-          axis.title = element_text(size=textsize,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+          axis.title = element_text(size=textsize,color="black",family = fontfamily),
           legend.position = legend.position,
-          legend.text = element_text(size=textsize),
+          legend.text = element_text(size=textsize,family = fontfamily),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+
     ylab(ylab)+xlab(xlab)
   temp1=seq(min(trat),max(trat),length.out=10000)
   result=predict(mod,newdata = data.frame(trat=temp1),type="response")
+  maximo=temp1[which.max(result)]
+  respmax=result[which.max(result)]
+  minimo=temp1[which.min(result)]
+  respmin=result[which.min(result)]
   aic=AIC(mod)
   bic=BIC(mod)
-  print(coef)
   predesp=predict(mod)
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))
-  cat("\n===================================\n")
-  graphs=data.frame("Parameter"=c("AIC",
+  graphs=data.frame("Parameter"=c("X Maximum",
+                                  "Y Maximum",
+                                  "X Minimum",
+                                  "Y Minimum",
+                                  "AIC",
                                   "BIC",
                                   "r-squared",
                                   "RMSE"),
-                    "values"=c(aic,
+                    "values"=c(maximo,
+                               respmax,
+                               minimo,
+                               respmin,
+                               aic,
                                bic,
                                r2,
                                rmse))
-  graficos=list("teste"=graphs,graph)
+  graficos=list("Coefficients"=coef,
+                "values"=graphs,
+                graph)
   print(graficos)
 }

@@ -20,6 +20,8 @@
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
+#' @param fontfamily Font family
+#'
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); breakpoint and the graph using ggplot2 with the equation automatically.
 #' @export
 #' @author Gabriel Danilo Shimizu
@@ -58,7 +60,8 @@ linear.plateau=function(trat,resp,
                       round=NA,
                       xname.formula="x",
                       yname.formula="y",
-                      comment=NA){
+                      comment=NA,
+                      fontfamily="sans"){
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   lp <- function(x, a, b, c) {
     if_else(condition = x < c,
@@ -90,7 +93,6 @@ linear.plateau=function(trat,resp,
               nls.control(maxiter = 1000))
   r2 <- nagelkerke(lp_model, null)$Pseudo.R.squared.for.model.vs.null[2]
   requireNamespace("drc")
-  requireNamespace("crayon")
   requireNamespace("ggplot2")
   ymean=tapply(resp,trat,mean)
   if(error=="SE"){ysd=tapply(resp,trat,sd)/sqrt(tapply(resp,trat,length))}
@@ -152,10 +154,10 @@ linear.plateau=function(trat,resp,
                                 y=y,
                                 color="black"),size=linesize)+
     scale_color_manual(name="",values="black",label=parse(text = equation))+
-    theme(axis.text = element_text(size=textsize,color="black"),
-          axis.title = element_text(size=textsize,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+          axis.title = element_text(size=textsize,color="black",family = fontfamily),
           legend.position = legend.position,
-          legend.text = element_text(size=textsize),
+          legend.text = element_text(size=textsize,family = fontfamily),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+
@@ -163,14 +165,20 @@ linear.plateau=function(trat,resp,
   if(scale=="log"){graph=graph+scale_x_log10()}
   aic=AIC(lp_model)
   bic=BIC(lp_model)
+  minimo=NA
+  respmin=NA
   graphs=data.frame("Parameter"=c("Breakpoint",
-                                  "Response",
+                                  "Breakpoint response",
+                                  "X Minimum",
+                                  "Y Minimum",
                                   "AIC",
                                   "BIC",
                                   "r-squared",
                                   "RMSE"),
                     "values"=c(breakpoint,
                                ybreakpoint,
+                               minimo,
+                               respmin,
                                aic,
                                bic,
                                r2,

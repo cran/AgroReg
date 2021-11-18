@@ -1,3 +1,15 @@
+# AgroReg 1.2.1
+
+* Bug fix of LM23i, LM2i3, LM13, LM23, LM13i functions when object is grouped by plot_arrange function
+
+* Change argument name from LM and LM_i and from "grau" to degree
+
+* Nreg now accepts average line when grouped in plot_arrange
+
+* Fixed the plot_arrange function curve grouping bug when gray=TRUE and point="mean" 
+
+* `correlation` function was added
+
 # AgroReg 1.2.0
 
 * The Michaelis-Menten function now has a choice of two (mm2) or three parameters (mm3) 

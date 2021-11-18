@@ -12,6 +12,7 @@ LM23(
   xlab = "Independent",
   theme = theme_classic(),
   legend.position = "top",
+  r2 = "all",
   point = "all",
   width.bar = NA,
   scale = "none",
@@ -22,7 +23,8 @@ LM23(
   round = NA,
   xname.formula = "x",
   yname.formula = "y",
-  comment = NA
+  comment = NA,
+  fontfamily = "sans"
 )
 }
 \arguments{
@@ -39,6 +41,8 @@ LM23(
 \item{theme}{ggplot2 theme (\emph{default} is theme_classic())}
 
 \item{legend.position}{legend position (\emph{default} is "top")}
+
+\item{r2}{coefficient of determination of the mean or all values (\emph{default} is all)}
 
 \item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
 
@@ -61,6 +65,8 @@ LM23(
 \item{yname.formula}{Name of y in the equation}
 
 \item{comment}{Add text after equation}
+
+\item{fontfamily}{Font family}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.

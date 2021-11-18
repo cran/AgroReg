@@ -23,7 +23,8 @@ newton(
   round = NA,
   yname.formula = "y",
   xname.formula = "x",
-  comment = NA
+  comment = NA,
+  fontfamily = "sans"
 )
 }
 \arguments{
@@ -64,6 +65,8 @@ newton(
 \item{xname.formula}{Name of x in the equation}
 
 \item{comment}{Add text after equation}
+
+\item{fontfamily}{Font family}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
@@ -84,7 +87,7 @@ newton(trat,resp+0.001)
 \references{
 Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley & Sons (p. 330).
 
-#' @references Siqueira, V. C., Resende, O., and Chaves, T. H. (2013). Mathematical modelling of the drying of jatropha fruit: an empirical comparison. Revista Ciencia Agronomica, 44, 278-285.
+Siqueira, V. C., Resende, O., and Chaves, T. H. (2013). Mathematical modelling of the drying of jatropha fruit: an empirical comparison. Revista Ciencia Agronomica, 44, 278-285.
 }
 \author{
 Gabriel Danilo Shimizu

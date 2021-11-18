@@ -12,6 +12,7 @@
 #' @param pointsize shape size
 #' @param linesize line size
 #' @param textsize Font size
+#' @param fontfamily font family
 #' @return The function returns a graph joining the outputs of the functions LM_model, LL_model, BC_model, CD_model, loess_model, normal_model, piecewise_model and N_model
 #' @author Gabriel Danilo Shimizu
 #' @export
@@ -37,7 +38,8 @@ plot_arrange=function(plots,
                       widthbar = 0,
                       pointsize = 4.5,
                       linesize = 0.8,
-                      textsize = 12) {
+                      textsize = 12,
+                      fontfamily="sans") {
   requireNamespace("ggplot2")
   equation=1:length(plots)
   grafico=ggplot()
@@ -75,7 +77,8 @@ plot_arrange=function(plots,
   grafico=grafico+
     scale_color_discrete(label=texto)+
     theme+labs(color=legend.title)+
-    theme(axis.text = element_text(size=12,color="black"),
+    theme(axis.text = element_text(size=12,color="black",family = fontfamily),
+          legend.text = element_text(family = fontfamily),
           legend.position = legend.position,
           legend.justification='left',
           legend.direction = "vertical",
@@ -111,10 +114,10 @@ plot_arrange=function(plots,
       scale_linetype_discrete(label=texto)+
       scale_shape_discrete(label=texto)+
       theme+labs(lty=legend.title,shape=legend.title)+
-      theme(axis.text = element_text(size=textsize,color="black"),
-            axis.title = element_text(size=textsize,color="black"),
+      theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+            axis.title = element_text(size=textsize,color="black",family = fontfamily),
             legend.position = legend.position,
-            legend.text=element_text(size=textsize),
+            legend.text=element_text(size=textsize,family = fontfamily),
             legend.justification='left',
             legend.direction = "vertical",
             legend.text.align = 0)+ylab(ylab)+xlab(xlab)}
@@ -142,12 +145,14 @@ plot_arrange=function(plots,
     grafico=grafico+
       scale_color_discrete(label=texto)+
       theme+labs(color=legend.title)+
-      theme(axis.text = element_text(size=12,color="black"),
+      theme(axis.text = element_text(size=12,color="black",family = fontfamily),
+            axis.title = element_text(family = fontfamily),
+            legend.text = element_text(family = fontfamily),
             legend.position = legend.position,
             legend.justification='left',
             legend.direction = "vertical",
             legend.text.align = 0)+ylab(ylab)+xlab(xlab)}
-  if(gray==TRUE){
+  if(gray==TRUE  & point=="all"){
     for(i in 1:length(plots)){
       equation[[i]]=plots[[i]][[]]$plot$s
       x=plots[[i]][[]]$plot$temp1
@@ -174,10 +179,10 @@ plot_arrange=function(plots,
       scale_linetype_discrete(label=texto)+
       scale_shape_discrete(label=texto)+
       theme+labs(lty=legend.title,shape=legend.title)+
-      theme(axis.text = element_text(size=textsize,color="black"),
-            axis.title = element_text(size=textsize,color="black"),
+      theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+            axis.title = element_text(size=textsize,color="black",family = fontfamily),
             legend.position = legend.position,
-            legend.text=element_text(size=textsize),
+            legend.text=element_text(size=textsize,family = fontfamily),
             legend.justification='left',
             legend.direction = "vertical",
             legend.text.align = 0)+ylab(ylab)+xlab(xlab)}

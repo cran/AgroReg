@@ -9,6 +9,7 @@
 #' @param legend.position legend position (\emph{default} is "top")
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
 #' @param r2 coefficient of determination of the mean or all values (\emph{default} is all)
+#' @param scale Sets x scale (\emph{default} is none, can be "log")
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
 #' @param width.bar	Bar width
 #' @param textsize Font size
@@ -19,6 +20,7 @@
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
+#' @param fontfamily Font family
 #' @details
 #' The Yield Loss model is defined by:
 #' \deqn{y = \frac{i \times x}{1+\frac{i}{A} \times x}}
@@ -51,10 +53,11 @@ yieldloss=function(trat,
             round=NA,
             yname.formula="y",
             xname.formula="x",
-            comment=NA){
+            comment=NA,
+            scale="none",
+            fontfamily="sans"){
   requireNamespace("ggplot2")
   requireNamespace("drc")
-  requireNamespace("crayon")
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   ymean=tapply(resp,trat,mean)
   if(error=="SE"){ysd=tapply(resp,trat,sd)/sqrt(tapply(resp,trat,length))}
@@ -139,14 +142,15 @@ yieldloss=function(trat,
   graph=graph+theme+
     geom_line(data=preditos,aes(x=x,y=y,color="black"))+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
-    theme(axis.text = element_text(size=textsize,color="black"),
-          axis.title = element_text(size=textsize,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+          axis.title = element_text(size=textsize,color="black",family = fontfamily),
           legend.position = legend.position,
-          legend.text = element_text(size=textsize),
+          legend.text = element_text(size=textsize,family = fontfamily),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+
     ylab(ylab)+xlab(xlab)
+  if(scale=="log"){graph=graph+scale_x_log10()}
   temp1=seq(min(trat),max(trat),length.out=10000)
   result=predict(mod,newdata = data.frame(trat=temp1),type="response")
   aic=AIC(mod)
@@ -155,7 +159,6 @@ yieldloss=function(trat,
   predesp=predict(mod)
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))
-  cat("\n===================================\n")
   graphs=data.frame("Parameter"=c("AIC",
                                   "BIC",
                                   "r-squared",

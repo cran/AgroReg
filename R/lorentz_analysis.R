@@ -20,6 +20,8 @@
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
+#' @param fontfamily Font family
+#'
 #' @importFrom stats var
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @details The model to the three-parameter Lorentz is:
@@ -57,10 +59,10 @@ lorentz=function(trat,
                  round = NA,
                  xname.formula = "x",
                  yname.formula = "y",
-                 comment = NA){
+                 comment = NA,
+                 fontfamily = "sans"){
   requireNamespace("ggplot2")
   requireNamespace("drc")
-  requireNamespace("crayon")
   ymean=tapply(resp,trat,mean)
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   if(error=="SE"){ysd=tapply(resp,trat,sd)/sqrt(tapply(resp,trat,length))}
@@ -225,10 +227,10 @@ lorentz=function(trat,
     geom_line(data=preditos,aes(x=x,
                                 y=y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
-    theme(axis.text = element_text(size=textsize,color="black"),
-          axis.title = element_text(size=textsize,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+          axis.title = element_text(size=textsize,color="black",family = fontfamily),
           legend.position = legend.position,
-          legend.text = element_text(size=textsize),
+          legend.text = element_text(size=textsize,family = fontfamily),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+

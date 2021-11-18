@@ -10,6 +10,7 @@
 #' @param theme ggplot2 theme (\emph{default} is theme_classic())
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
 #' @param legend.position legend position (\emph{default} is "top")
+#' @param r2 coefficient of determination of the mean or all values (\emph{default} is all)
 #' @param scale Sets x scale (\emph{default} is none, can be "log")
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
 #' @param width.bar	Bar width
@@ -21,6 +22,7 @@
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
+#' @param fontfamily Font family
 #'
 #' @details
 #' Degree 3 polynomial model without the beta 2 coefficient  is defined by:
@@ -41,6 +43,7 @@ LM23=function(trat,
              xlab="Independent",
              theme=theme_classic(),
              legend.position="top",
+             r2="all",
              point="all",
              width.bar=NA,
              scale="none",
@@ -51,9 +54,9 @@ LM23=function(trat,
              round=NA,
              xname.formula="x",
              yname.formula="y",
-             comment=NA){
+             comment=NA,
+             fontfamily="sans"){
   requireNamespace("ggplot2")
-  requireNamespace("crayon")
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   dados=data.frame(trat,resp)
   medias=c()
@@ -66,7 +69,8 @@ LM23=function(trat,
   moda=lm(resp~I(trat^2)+I(trat^3))
   mods=summary(moda)$coefficients
   modm=lm(media~I(dose^2)+I(dose^3))
-  r2=round(summary(modm)$r.squared,2)
+  if(r2=="mean"){r2=round(summary(modm)$r.squared,2)}
+  if(r2=="all"){r2=round(summary(moda)$r.squared,2)}
   coef1=coef(moda)[1]
   coef2=coef(moda)[2]
   coef3=coef(moda)[3]
@@ -82,6 +86,7 @@ LM23=function(trat,
                r2)
   if(is.na(comment)==FALSE){s1=paste(s1,"~\"",comment,"\"")}
   data1=data.frame(trat=unique(trat),
+                   resp=media,
                    media=media,
                    desvio)
   xp=seq(min(trat),max(trat),length.out = 1000)
@@ -107,10 +112,10 @@ LM23=function(trat,
     geom_line(data=preditos,aes(x=x,
                                 y=y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = s1))+
-    theme(axis.text = element_text(size=textsize,color="black"),
-          axis.title = element_text(size=textsize,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+          axis.title = element_text(size=textsize,color="black",family = fontfamily),
           legend.position = legend.position,
-          legend.text = element_text(size=textsize),
+          legend.text = element_text(size=textsize,family = fontfamily),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+
@@ -121,7 +126,34 @@ LM23=function(trat,
   r2=summary(modm)$r.squared
   aic=AIC(moda)
   bic=BIC(moda)
-  vif=NA
+  vif.test=function (mod){
+    if (any(is.na(coef(mod))))
+      stop("there are aliased coefficients in the model")
+    v <- vcov(mod)
+    assign <- attr(model.matrix(mod), "assign")
+    if (names(coefficients(mod)[1]) == "(Intercept)") {
+      v <- v[-1, -1]
+      assign <- assign[-1]}
+    else warning("No intercept: vifs may not be sensible.")
+    terms <- labels(terms(mod))
+    n.terms <- length(terms)
+    if (n.terms < 2)
+      stop("model contains fewer than 2 terms")
+    R <- cov2cor(v)
+    detR <- det(R)
+    result <- matrix(0, n.terms, 3)
+    rownames(result) <- terms
+    colnames(result) <- c("GVIF", "Df", "GVIF^(1/(2*Df))")
+    for (term in 1:n.terms) {
+      subs <- which(assign == term)
+      result[term, 1] <- det(as.matrix(R[subs, subs])) * det(as.matrix(R[-subs,
+                                                                         -subs]))/detR
+      result[term, 2] <- length(subs)}
+    if (all(result[, 2] == 1))
+      result <- result[, 1]
+    else result[, 3] <- result[, 1]^(1/(2 * result[, 2]))
+    result}
+  vif=vif.test(moda)
   predesp=predict(moda)
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))

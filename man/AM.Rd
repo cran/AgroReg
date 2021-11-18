@@ -24,7 +24,8 @@ AM(
   round = NA,
   xname.formula = "x",
   yname.formula = "y",
-  comment = NA
+  comment = NA,
+  fontfamily = "sans"
 )
 }
 \arguments{
@@ -67,6 +68,8 @@ AM(
 \item{yname.formula}{Name of y in the equation}
 
 \item{comment}{Add text after equation}
+
+\item{fontfamily}{Font family}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
@@ -86,6 +89,8 @@ AM(time,100-WL,initial=list(alpha = 610.9129, k=-1.1810, n=0.1289 ))
 }
 \references{
 Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley & Sons (p. 330).
+
+Avhad, M. R., & Marchetti, J. M. (2016). Mathematical modelling of the drying kinetics of Hass avocado seeds. Industrial Crops and Products, 91, 76-87.
 }
 \author{
 Gabriel Danilo Shimizu

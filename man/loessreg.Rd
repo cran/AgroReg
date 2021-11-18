@@ -19,7 +19,8 @@ loessreg(
   textsize = 12,
   pointsize = 4.5,
   linesize = 0.8,
-  pointshape = 21
+  pointshape = 21,
+  fontfamily = "sans"
 )
 }
 \arguments{
@@ -52,6 +53,8 @@ loessreg(
 \item{linesize}{line size}
 
 \item{pointshape}{format point (default is 21)}
+
+\item{fontfamily}{Font family}
 }
 \value{
 The function returns a list containing the loess regression and graph using ggplot2.

@@ -22,6 +22,7 @@
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
+#' @param fontfamily Font family
 #' @details
 #' The Mitscherlich model is defined by:
 #' \deqn{y = A \times (1-10^{-eb-ex})}
@@ -59,8 +60,8 @@ mitscherlich=function(trat,
                      round=NA,
                      yname.formula="y",
                      xname.formula="x",
-                     comment=NA){
-  requireNamespace("crayon")
+                     comment=NA,
+                     fontfamily="sans"){
   requireNamespace("ggplot2")
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   ymean=tapply(resp,trat,mean)
@@ -131,10 +132,10 @@ mitscherlich=function(trat,
   graph=graph+theme+geom_line(data=preditos,aes(x=x,
                                                 y=y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
-    theme(axis.text = element_text(size=textsize,color="black"),
-          axis.title = element_text(size=textsize,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+          axis.title = element_text(size=textsize,color="black",family = fontfamily),
           legend.position = legend.position,
-          legend.text = element_text(size=textsize),
+          legend.text = element_text(size=textsize,family = fontfamily),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+

@@ -22,6 +22,7 @@
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
+#' @param fontfamily Font family
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); breakpoint and the graph using ggplot2 with the equation automatically.
 #' @details
 #' The linear-linear model is defined by:
@@ -64,9 +65,9 @@ linear.linear=function (trat,
                         round = NA,
                         xname.formula="x",
                         yname.formula="y",
-                    comment=NA){
+                    comment=NA,
+                    fontfamily="sans"){
   requireNamespace("ggplot2")
-  requireNamespace("crayon")
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   piecewise.linear.simple <- function(x, y, middle=1){
     piecewise.linear.likelihood <- function(alpha, x, y){
@@ -90,7 +91,6 @@ linear.linear=function (trat,
     return(temp$maximum);
   }
   requireNamespace("ggplot2")
-  requireNamespace("crayon")
   x=trat
   y=resp
   alpha <- piecewise.linear.simple(x, y, middle)
@@ -186,23 +186,32 @@ linear.linear=function (trat,
   graph=graph+theme+
     geom_line(data=preditos1,aes(x=x,y=y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
-    theme(axis.text = element_text(size=textsize,color="black"),
-          axis.title = element_text(size=textsize,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+          axis.title = element_text(size=textsize,color="black",family = fontfamily),
           legend.position = legend.position,
-          legend.text = element_text(size=textsize),
+          legend.text = element_text(size=textsize,family = fontfamily),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+
     ylab(ylab)+xlab(xlab)
   maximo=breaks
+  respmax=predict(mod$model,newdata=data.frame(x=maximo,w=1))
+  minimo=NA
+  respmin=NA
   aic=AIC(mod$model)
   bic=BIC(mod$model)
   graphs=data.frame("Parameter"=c("Breakpoint",
+                                  "Breakpoint Response",
+                                  "X Minimum",
+                                  "Y Minimum",
                                   "AIC",
                                   "BIC",
                                   "r-squared",
                                   "RMSE"),
                     "values"=c(maximo,
+                               respmax,
+                               minimo,
+                               respmin,
                                aic,
                                bic,
                                r2,

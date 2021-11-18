@@ -108,6 +108,7 @@ To change the regression model, change the "model" argument to:
 \item \strong{midillim:} Modified Midilli
 \item \strong{AM:} Avhad and Marchetti
 \item \strong{peleg:} Peleg
+\item \strong{VG:} Vega-Galvez
 }
 }
 \examples{

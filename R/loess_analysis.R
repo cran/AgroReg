@@ -16,6 +16,7 @@
 #' @param pointsize	shape size
 #' @param linesize	line size
 #' @param pointshape format point (default is 21)
+#' @param fontfamily Font family
 #' @return The function returns a list containing the loess regression and graph using ggplot2.
 #' @seealso \link{loess}
 #' @export
@@ -41,9 +42,9 @@ loessreg=function(trat,
                   textsize = 12,
                   pointsize = 4.5,
                   linesize = 0.8,
-                  pointshape = 21){
+                  pointshape = 21,
+                  fontfamily="sans"){
   requireNamespace("ggplot2")
-  requireNamespace("crayon")
   ymean=tapply(resp,trat,mean)
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   if(error=="SE"){ysd=tapply(resp,trat,sd)/sqrt(tapply(resp,trat,length))}
@@ -75,10 +76,10 @@ loessreg=function(trat,
     geom_line(data=preditos,aes(x=preditos$x,
                                 y=preditos$y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label="Loess regression")+
-    theme(axis.text = element_text(size=textsize,color="black"),
-          axis.title = element_text(size=textsize,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+          axis.title = element_text(size=textsize,color="black",family = fontfamily),
           legend.position = legend.position,
-          legend.text = element_text(size=textsize),
+          legend.text = element_text(size=textsize,family = fontfamily),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+

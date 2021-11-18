@@ -21,6 +21,7 @@
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @param r2 coefficient of determination of the mean or all values (\emph{default} is all)
+#' @param fontfamily Font family
 #'
 #' @details
 #' The Vega-Galvez model is defined by:
@@ -52,9 +53,9 @@ VG=function(trat,
             round = NA,
             yname.formula="y",
             xname.formula="x",
-            comment = NA) {
+            comment = NA,
+            fontfamily="sans") {
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
-  requireNamespace("crayon")
   requireNamespace("ggplot2")
   ymean=tapply(resp,trat,mean)
   if(error=="SE"){ysd=tapply(resp,trat,sd)/sqrt(tapply(resp,trat,length))}
@@ -110,10 +111,10 @@ VG=function(trat,
   graph=graph+theme+geom_line(data=preditos,aes(x=x,
                                                 y=y,color="black"),size=linesize)+
     scale_color_manual(name="",values=1,label=parse(text = equation))+
-    theme(axis.text = element_text(size=textsize,color="black"),
-          axis.title = element_text(size=textsize,color="black"),
+    theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+          axis.title = element_text(size=textsize,color="black",family = fontfamily),
           legend.position = legend.position,
-          legend.text = element_text(size=textsize),
+          legend.text = element_text(size=textsize,family = fontfamily),
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)+

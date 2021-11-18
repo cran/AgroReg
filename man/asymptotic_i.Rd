@@ -23,6 +23,7 @@ asymptotic_i(
   round = NA,
   xname.formula = "x",
   yname.formula = "y",
+  fontfamily = "sans",
   comment = NA
 )
 }
@@ -62,6 +63,8 @@ asymptotic_i(
 \item{xname.formula}{Name of x in the equation}
 
 \item{yname.formula}{Name of y in the equation}
+
+\item{fontfamily}{Font family}
 
 \item{comment}{Add text after equation}
 }

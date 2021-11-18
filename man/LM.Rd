@@ -7,7 +7,7 @@
 LM(
   trat,
   resp,
-  grau = NA,
+  degree = NA,
   ylab = "Dependent",
   xlab = "Independent",
   error = "SE",
@@ -15,6 +15,7 @@ LM(
   fill.ic = "gray70",
   alpha.ic = 0.5,
   point = "all",
+  r2 = "all",
   theme = theme_classic(),
   legend.position = "top",
   width.bar = NA,
@@ -26,7 +27,8 @@ LM(
   round = NA,
   xname.formula = "x",
   yname.formula = "y",
-  comment = NA
+  comment = NA,
+  fontfamily = "sans"
 )
 }
 \arguments{
@@ -34,7 +36,7 @@ LM(
 
 \item{resp}{Numeric vector with independent variable.}
 
-\item{grau}{degree of the polynomial (0.5, 1, 2, 3 or 4)}
+\item{degree}{degree of the polynomial (0.5, 1, 2, 3 or 4)}
 
 \item{ylab}{Dependent variable name (Accepts the \emph{expression}() function)}
 
@@ -49,6 +51,8 @@ LM(
 \item{alpha.ic}{confidence interval transparency level}
 
 \item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
+
+\item{r2}{coefficient of determination of the mean or all values (\emph{default} is all)}
 
 \item{theme}{ggplot2 theme (\emph{default} is theme_classic())}
 
@@ -73,6 +77,8 @@ LM(
 \item{yname.formula}{Name of y in the equation}
 
 \item{comment}{Add text after equation}
+
+\item{fontfamily}{Font family}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
@@ -96,7 +102,7 @@ The quartic model is defined by:
 library(AgroReg)
 data("aristolochia")
 attach(aristolochia)
-LM(trat,resp, grau = 3)
+LM(trat,resp, degree = 3)
 }
 \author{
 Gabriel Danilo Shimizu

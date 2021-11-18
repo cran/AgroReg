@@ -13,6 +13,8 @@ Nreg(
   theme = theme_classic(),
   legend.position = "top",
   legend.text = "not~significant",
+  legend.add.mean = TRUE,
+  legend.add.mean.name = "hat(y)",
   width.bar = NA,
   point = "all",
   textsize = 12,
@@ -20,7 +22,8 @@ Nreg(
   add.line.mean = FALSE,
   linesize = 0.8,
   pointsize = 4.5,
-  pointshape = 21
+  pointshape = 21,
+  fontfamily = "sans"
 )
 }
 \arguments{
@@ -40,6 +43,10 @@ Nreg(
 
 \item{legend.text}{legend text}
 
+\item{legend.add.mean}{Add average in legend}
+
+\item{legend.add.mean.name}{Add media name}
+
 \item{width.bar}{Bar width}
 
 \item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
@@ -55,6 +62,8 @@ Nreg(
 \item{pointsize}{shape size}
 
 \item{pointshape}{format point (default is 21)}
+
+\item{fontfamily}{Font family}
 }
 \value{
 The function returns an exploratory graph of segments

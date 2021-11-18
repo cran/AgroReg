@@ -79,6 +79,7 @@
 #' 65. **midillim:** Modified Midilli
 #' 66. **AM:** Avhad and Marchetti
 #' 67. **peleg:** Peleg
+#' 68. **VG:** Vega-Galvez
 
 #
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
@@ -99,17 +100,17 @@ regression=function(trat,
                     point="all"){
   if(model=="N"){a=Nreg(trat, resp, ylab, xlab, theme, legend.position,point = point)}
 
-  if(model=="LM0.5"){a=LM(trat, resp, grau=0.5, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
-  if(model=="LM1"){a=LM(trat, resp, grau=1, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
-  if(model=="LM2"){a=LM(trat, resp, grau=2, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
-  if(model=="LM3"){a=LM(trat, resp, grau=3, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
-  if(model=="LM4"){a=LM(trat, resp, grau=4, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
+  if(model=="LM0.5"){a=LM(trat, resp, degree=0.5, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
+  if(model=="LM1"){a=LM(trat, resp, degree=1, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
+  if(model=="LM2"){a=LM(trat, resp, degree=2, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
+  if(model=="LM3"){a=LM(trat, resp, degree=3, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
+  if(model=="LM4"){a=LM(trat, resp, degree=4, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
 
-  if(model=="LM0.5_i"){a=LM_i(trat, resp, grau=0.5, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
-  if(model=="LM1_i"){a=LM_i(trat, resp, grau=1, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
-  if(model=="LM2_i"){a=LM_i(trat, resp, grau=2, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
-  if(model=="LM3_i"){a=LM_i(trat, resp, grau=3, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
-  if(model=="LM4_i"){a=LM_i(trat, resp, grau=4, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
+  if(model=="LM0.5_i"){a=LM_i(trat, resp, degree=0.5, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
+  if(model=="LM1_i"){a=LM_i(trat, resp, degree=1, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
+  if(model=="LM2_i"){a=LM_i(trat, resp, degree=2, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
+  if(model=="LM3_i"){a=LM_i(trat, resp, degree=3, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
+  if(model=="LM4_i"){a=LM_i(trat, resp, degree=4, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
 
   if(model=="LM13"){a=LM13(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
   if(model=="LM13i"){a=LM13i(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
@@ -180,5 +181,6 @@ regression=function(trat,
   if(model=="yieldloss"){a=yieldloss(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
   if(model=="VB"){a=VB(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
   if(model=="peleg"){a=peleg(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="VG"){a=VG(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
   a
 }

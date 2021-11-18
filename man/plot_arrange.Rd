@@ -17,7 +17,8 @@ plot_arrange(
   widthbar = 0,
   pointsize = 4.5,
   linesize = 0.8,
-  textsize = 12
+  textsize = 12,
+  fontfamily = "sans"
 )
 }
 \arguments{
@@ -46,6 +47,8 @@ plot_arrange(
 \item{linesize}{line size}
 
 \item{textsize}{Font size}
+
+\item{fontfamily}{font family}
 }
 \value{
 The function returns a graph joining the outputs of the functions LM_model, LL_model, BC_model, CD_model, loess_model, normal_model, piecewise_model and N_model

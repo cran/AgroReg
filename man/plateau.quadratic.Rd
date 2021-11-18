@@ -24,7 +24,8 @@ plateau.quadratic(
   round = NA,
   yname.formula = "y",
   xname.formula = "x",
-  comment = NA
+  comment = NA,
+  fontfamily = "sans"
 )
 
 plquadratic(x, a, breakpoint, b, c)
@@ -67,6 +68,8 @@ plquadratic(x, a, breakpoint, b, c)
 \item{xname.formula}{Name of x in the equation}
 
 \item{comment}{Add text after equation}
+
+\item{fontfamily}{Font family}
 
 \item{x}{Numeric vector with dependent variable.}
 
