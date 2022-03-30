@@ -195,7 +195,7 @@ linear.linear=function (trat,
           legend.justification = 0)+
     ylab(ylab)+xlab(xlab)
   maximo=breaks
-  respmax=predict(mod$model,newdata=data.frame(x=maximo,w=1))
+  respmax=predict(mod$model,newdata=data.frame(x=maximo,w=0))
   minimo=NA
   respmin=NA
   aic=AIC(mod$model)

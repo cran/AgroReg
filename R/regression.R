@@ -10,6 +10,14 @@
 #' @param theme ggplot2 theme (\emph{default} is theme_classic())
 #' @param legend.position legend position (\emph{default} is c(0.3,0.8))
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
+#' @param width.bar	Bar width
+#' @param textsize Font size
+#' @param pointsize	shape size
+#' @param linesize	line size
+#' @param pointshape format point (default is 21)
+#' @param round round equation
+#' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
+#' @param fontfamily Font family
 #' @details To change the regression model, change the "model" argument to:
 #'
 #' 1. **N:** Graph for not significant trend.
@@ -97,90 +105,98 @@ regression=function(trat,
                     xlab="Independent",
                     theme=theme_classic(),
                     legend.position="top",
-                    point="all"){
-  if(model=="N"){a=Nreg(trat, resp, ylab, xlab, theme, legend.position,point = point)}
+                    point="all",
+                    textsize = 12,
+                    pointsize = 4.5,
+                    linesize = 0.8,
+                    pointshape = 21,
+                    round=NA,
+                    fontfamily="sans",
+                    error = "SE",
+                    width.bar=NA){
+  if(model=="N"){a=Nreg(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,fontfamily = fontfamily,error = error)}
 
-  if(model=="LM0.5"){a=LM(trat, resp, degree=0.5, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
-  if(model=="LM1"){a=LM(trat, resp, degree=1, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
-  if(model=="LM2"){a=LM(trat, resp, degree=2, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
-  if(model=="LM3"){a=LM(trat, resp, degree=3, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
-  if(model=="LM4"){a=LM(trat, resp, degree=4, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
+  if(model=="LM0.5"){a=LM(trat, resp, degree=0.5, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LM1"){a=LM(trat, resp, degree=1, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LM2"){a=LM(trat, resp, degree=2, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LM3"){a=LM(trat, resp, degree=3, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LM4"){a=LM(trat, resp, degree=4, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="LM0.5_i"){a=LM_i(trat, resp, degree=0.5, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
-  if(model=="LM1_i"){a=LM_i(trat, resp, degree=1, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
-  if(model=="LM2_i"){a=LM_i(trat, resp, degree=2, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point)}
-  if(model=="LM3_i"){a=LM_i(trat, resp, degree=3, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
-  if(model=="LM4_i"){a=LM_i(trat, resp, degree=4, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
+  if(model=="LM0.5_i"){a=LM_i(trat, resp, degree=0.5, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LM1_i"){a=LM_i(trat, resp, degree=1, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LM2_i"){a=LM_i(trat, resp, degree=2, ylab = ylab, xlab = xlab, theme = theme, legend.position = legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LM3_i"){a=LM_i(trat, resp, degree=3, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LM4_i"){a=LM_i(trat, resp, degree=4, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="LM13"){a=LM13(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
-  if(model=="LM13i"){a=LM13i(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
-  if(model=="LM23"){a=LM23(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
-  if(model=="LM23i"){a=LM23i(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
-  if(model=="LM2i3"){a=LM2i3(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point)}
+  if(model=="LM13"){a=LM13(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LM13i"){a=LM13i(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LM23"){a=LM23(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LM23i"){a=LM23i(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LM2i3"){a=LM2i3(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position =  legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="L3"){a=logistic(trat, resp, npar="L.3", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="L4"){a=logistic(trat, resp, npar="L.4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="L5"){a=logistic(trat, resp, npar="L.5", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="L3"){a=logistic(trat, resp, npar="L.3", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="L4"){a=logistic(trat, resp, npar="L.4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="L5"){a=logistic(trat, resp, npar="L.5", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="LL3"){a=LL(trat, resp, npar="LL.3", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="LL4"){a=LL(trat, resp, npar="LL.4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="LL5"){a=LL(trat, resp, npar="LL.5", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="LL3"){a=LL(trat, resp, npar="LL.3", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LL4"){a=LL(trat, resp, npar="LL.4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="LL5"){a=LL(trat, resp, npar="LL.5", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="BC4"){a=BC(trat, resp, npar="BC.4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="BC5"){a=BC(trat, resp, npar="BC.5", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="BC4"){a=BC(trat, resp, npar="BC.4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="BC5"){a=BC(trat, resp, npar="BC.5", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="CD4"){a=CD(trat, resp, npar="CD.4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="CD5"){a=CD(trat, resp, npar="CD.5", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="CD4"){a=CD(trat, resp, npar="CD.4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="CD5"){a=CD(trat, resp, npar="CD.5", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="weibull3"){a=weibull(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="weibull4"){a=weibull(trat, resp, npar="w4",ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="weibull3"){a=weibull(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="weibull4"){a=weibull(trat, resp, npar="w4",ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="GP2"){a=GP(trat, resp, npar = "g2", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="GP3"){a=GP(trat, resp, npar = "g3", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="GP4"){a=GP(trat, resp, npar = "g4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="GP2"){a=GP(trat, resp, npar = "g2", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="GP3"){a=GP(trat, resp, npar = "g3", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="GP4"){a=GP(trat, resp, npar = "g4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="lo3"){a=lorentz(trat, resp, npar = "lo3", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="lo4"){a=lorentz(trat, resp, npar = "lo4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="lo3"){a=lorentz(trat, resp, npar = "lo3", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="lo4"){a=lorentz(trat, resp, npar = "lo4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="beta"){a=beta_reg(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="gaussian3"){a=gaussianreg(trat, resp, npar="g3", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="gaussia4"){a=gaussianreg(trat, resp,npar = "g4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="beta"){a=beta_reg(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="gaussian3"){a=gaussianreg(trat, resp, npar="g3", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="gaussia4"){a=gaussianreg(trat, resp,npar = "g4", ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="linear.linear"){a=linear.linear(trat, resp, ylab = ylab, xlab = xlab, theme = theme,legend.position,point = point)}
-  if(model=="linear.plateau"){a=linear.plateau(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="quadratic.plateau"){a=quadratic.plateau(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="plateau.linear"){a=plateau.linear(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="plateau.quadratic"){a=plateau.quadratic(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="linear.linear"){a=linear.linear(trat, resp, ylab = ylab, xlab = xlab, theme = theme,legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="linear.plateau"){a=linear.plateau(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="quadratic.plateau"){a=quadratic.plateau(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="plateau.linear"){a=plateau.linear(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="plateau.quadratic"){a=plateau.quadratic(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="log"){a=LOG(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="log2"){a=LOG2(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="log"){a=LOG(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="log2"){a=LOG2(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="thompson"){a=thompson(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="thompson"){a=thompson(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="asymptotic"){a=asymptotic(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="asymptotic_neg"){a=asymptotic_neg(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="asymptotic_i"){a=asymptotic_i(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="asymptotic_ineg"){a=asymptotic_ineg(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="biexponential"){a=biexponential(trat, resp,ylab =  ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="asymptotic"){a=asymptotic(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="asymptotic_neg"){a=asymptotic_neg(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="asymptotic_i"){a=asymptotic_i(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="asymptotic_ineg"){a=asymptotic_ineg(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="biexponential"){a=biexponential(trat, resp,ylab =  ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
 
-  if(model=="mitscherlich"){a=mitscherlich(trat, resp, ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="MM2"){a=MM(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="MM3"){a=MM(trat, resp, npar="mm3",ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="loess0"){a=loessreg(trat, resp, degree = 0, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="loess1"){a=loessreg(trat, resp, degree = 1, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="loess2"){a=loessreg(trat, resp, degree = 2, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="SH"){a=SH(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="page"){a=PAGE(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="newton"){a=newton(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="valcam"){a=valcam(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="potential"){a=potential(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="midilli"){a=midilli(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="midillim"){a=midillim(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="hill"){a=hill(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="AM"){a=AM(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="yieldloss"){a=yieldloss(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="VB"){a=VB(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="peleg"){a=peleg(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
-  if(model=="VG"){a=VG(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point)}
+  if(model=="mitscherlich"){a=mitscherlich(trat, resp, ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="MM2"){a=MM(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="MM3"){a=MM(trat, resp, npar="mm3",ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="loess0"){a=loessreg(trat, resp, degree = 0, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,fontfamily = fontfamily,error = error)}
+  if(model=="loess1"){a=loessreg(trat, resp, degree = 1, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,fontfamily = fontfamily,error = error)}
+  if(model=="loess2"){a=loessreg(trat, resp, degree = 2, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,fontfamily = fontfamily,error = error)}
+  if(model=="SH"){a=SH(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="page"){a=PAGE(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="newton"){a=newton(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="valcam"){a=valcam(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="potential"){a=potential(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="midilli"){a=midilli(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="midillim"){a=midillim(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="hill"){a=hill(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="AM"){a=AM(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="yieldloss"){a=yieldloss(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="VB"){a=VB(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="peleg"){a=peleg(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
+  if(model=="VG"){a=VG(trat, resp, ylab = ylab, xlab = xlab, theme = theme, legend.position,point = point,width.bar = width.bar,textsize = textsize, pointsize = pointsize,linesize = linesize,pointshape = pointshape,round = round,fontfamily = fontfamily,error = error)}
   a
 }

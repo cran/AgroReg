@@ -1,6 +1,6 @@
-2ce5e3f40a153f8ae4920a396bbfd9e6 *DESCRIPTION
+3fc0eb97a9a873362607b3ad168151fd *DESCRIPTION
 4458805acb06bd3bdb8accc93dd38ebc *NAMESPACE
-7ee1d3384f4f534ec3dfca2faa2f6990 *NEWS.md
+be55af7e12627cee1a3718dd1a5c6f26 *NEWS.md
 5e8b0951f996f618116722d9ef116f2a *R/AM_analysis.R
 6a31eb5657ea738aa3f971051429f583 *R/BC_analysis.R
 3d0d7da1bf97cd540d83875a29532cc4 *R/BIEXP_analysis.R
@@ -12,7 +12,7 @@ c737aaed1c7621d1c3c21c4eae80a683 *R/LL_analysis.R
 e3a90c9339b5b10f10eb6d1d7df81677 *R/LM23_analysis.R
 3687a94e7f42f6c23d83738ad02d3225 *R/LM23i_analysis.R
 56e1d006457217741cba8ee82b81ebf6 *R/LM2i3_analysis.R
-dd1972c85abaa3b4cf7c02bacc455499 *R/LM_analysis.R
+006f51f63aafd1293e0d8921f95423e8 *R/LM_analysis.R
 926fd563c034a4146cdd6d696b8cb101 *R/LM_i_analysis.R
 8ea9e0b179668ac10c8171df71421b80 *R/LNplt_analysis.R
 6dc5e3ce55b7ae21885deadb328c906b *R/LOG2_analysis.R
@@ -31,12 +31,12 @@ c2ccbe41355d34c9c82fb88ff4edcb24 *R/asymptotic_sup_analysis.R
 817f94035f691184445018cc84a1370f *R/beta_analysis.R
 c33e042b2d2d0f9c175f87d9af48f666 *R/comparative_function.R
 9152ab18c3c3fa4055ef3a339b71bd95 *R/correlation_analysis.R
-ae1fc3c1a3ea6020b767e96ed28effca *R/extractmodel_analysis.R
+b2d5aecbf80c35c3b669becf5f5b70a8 *R/extractmodel_analysis.R
 c374a16fad2796ff07541c6ee334a21c *R/gaussian_analysis.R
 094f23e66c8d877dda70845807fe4c62 *R/gompertz_analysis.R
 76c16a3aa91a5c099eea96e895792761 *R/granada_dataset.R
 e106ff245b41d8a164f7e628c232bd53 *R/hill_analysis.R
-a4d84bedb107c707e11e889f619b3588 *R/linearlinear_analysis.R
+69a271e60f3bff6b77470fa5a21851f9 *R/linearlinear_analysis.R
 72a1c47bf76ad96bec83b9c15c25968b *R/loess_analysis.R
 654df9d6070368929b2d766cbcfc2c50 *R/logistic_analysis.R
 aff048ce75cfe56f6b5a8273bda7f4bb *R/lorentz_analysis.R
@@ -51,7 +51,7 @@ b75c6de583c4a69f565bda797cfb0721 *R/plot_arrange.R
 7c56278dfe47be216e24424ffca8929c *R/pltQD_analysis.R
 f06c473c6a7c64f48f174415d9fef139 *R/potential_analysis.R
 6b75e964f5f63a8b87b75d95ea84785f *R/quadraticplateau_analysis.R
-6d80ddec6406b6a29bb1ae05eb568489 *R/regression.R
+4dd127aa0fa501cd6302a7ec3a0b11e4 *R/regression.R
 4e80675029a34ad8ca350d09b609aa2b *R/stat_param.R
 ea7239c14f8367f17a06fe3a86148519 *R/thompson_analysis.R
 8adbd85b83ea94d83f40f4de3cc5462e *R/valcam_analysis.R
@@ -109,7 +109,7 @@ f5b5d1b949c8283907245893a6256ad5 *man/newton.Rd
 d75bb12da0cca7dc3e4e7acf8908f4ea *man/plot_arrange.Rd
 c3026db4afbd2eb1574a2967791114d4 *man/potential.Rd
 d0c4ff8d40641417b1a2d3779e2dd1c4 *man/quadratic.plateau.Rd
-bbc75cce681a0274913b50728ccb8f56 *man/regression.Rd
+4fcc3872432b38a15b65360744b24d4f *man/regression.Rd
 c07e33bb357d6070597419cfb48b07c9 *man/stat_param.Rd
 b7aa889e8a1581938ace9c8143c5e0a9 *man/thompson.Rd
 91c6c525baf1f866d6217deacaa55b98 *man/valcam.Rd

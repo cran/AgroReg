@@ -1,3 +1,9 @@
+# AgroReg 1.2.2
+
+* Fix breakpoint response bug in linear.linear function
+
+* Fix regression "N" model bug  
+
 # AgroReg 1.2.1
 
 * Bug fix of LM23i, LM2i3, LM13, LM23, LM13i functions when object is grouped by plot_arrange function

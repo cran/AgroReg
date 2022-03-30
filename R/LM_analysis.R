@@ -327,7 +327,7 @@ LM=function(trat,
   if(degree=="1"){
   models=mods
   model=moda
-  r2=summary(modm)$r.squared
+  # r2=summary(modm)$r.squared
   aic=AIC(moda)
   bic=BIC(moda)
   vif=NA
@@ -346,7 +346,7 @@ LM=function(trat,
   if(degree=="2"){
   models=mod1s
   model=mod1a
-  r2=summary(mod1m)$r.squared
+  # r2=summary(mod1m)$r.squared
   aic=AIC(mod1a)
   bic=BIC(mod1a)
   # vif=car::vif(mod1a)
@@ -367,7 +367,7 @@ LM=function(trat,
   if(degree=="3"){
   models=mod2s
   model=mod2a
-  r2=summary(mod2m)$r.squared
+  # r2=summary(mod2m)$r.squared
   aic=AIC(mod2a)
   bic=BIC(mod2a)
   # vif=car::vif(mod2a)
@@ -386,7 +386,7 @@ LM=function(trat,
   if(degree=="4"){
     models=mod3s
     model=mod3a
-    r2=summary(mod3m)$r.squared
+    # r2=summary(mod3m)$r.squared
     aic=AIC(mod3a)
     bic=BIC(mod3a)
     # vif=car::vif(mod3a)
@@ -404,7 +404,7 @@ LM=function(trat,
   if(degree=="0.5"){
     models=mod05s
     model=mod05a
-    r2=summary(mod05m)$r.squared
+    # r2=summary(mod05m)$r.squared
     aic=AIC(mod05a)
     bic=BIC(mod05a)
     # vif=car::vif(mod05a)

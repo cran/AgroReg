@@ -12,7 +12,15 @@ regression(
   xlab = "Independent",
   theme = theme_classic(),
   legend.position = "top",
-  point = "all"
+  point = "all",
+  textsize = 12,
+  pointsize = 4.5,
+  linesize = 0.8,
+  pointshape = 21,
+  round = NA,
+  fontfamily = "sans",
+  error = "SE",
+  width.bar = NA
 )
 }
 \arguments{
@@ -31,6 +39,22 @@ regression(
 \item{legend.position}{legend position (\emph{default} is c(0.3,0.8))}
 
 \item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
+
+\item{textsize}{Font size}
+
+\item{pointsize}{shape size}
+
+\item{linesize}{line size}
+
+\item{pointshape}{format point (default is 21)}
+
+\item{round}{round equation}
+
+\item{fontfamily}{Font family}
+
+\item{error}{Error bar (It can be SE - \emph{default}, SD or FALSE)}
+
+\item{width.bar}{Bar width}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.

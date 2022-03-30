@@ -18,7 +18,7 @@
 extract.model=function(model,type="model"){
   if(type=="model"){results=model[[]]$plot$model}
   if(type=="resid"){results=resid(model[[]]$plot$model)}
-  if(type=="residgraph"){
+  if(type=="residplot"){
     resids=resid(model[[]]$plot$model)
     data=data.frame(ID=1:length(resids),resids)
     requireNamespace("ggplot2")
@@ -28,9 +28,8 @@ extract.model=function(model,type="model"){
       geom_text(aes(label=ID),color="red")+
       theme_classic()+
       ylab("Residuals")+
-      # scale_x_continuous(breaks=seq(1,length(resids)))+
       theme(axis.text = element_text(size=12))}
-  if(type=="stdresidgraph"){
+  if(type=="stdresidplot"){
     resids=resid(model[[]]$plot$model)
     resids=resids/sd(resids)
     ID=1:length(resids)
