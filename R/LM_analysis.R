@@ -4,6 +4,7 @@
 #' @description Linear, quadratic, quadratic inverse, cubic and quartic regression.
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param ylab Dependent variable name (Accepts the \emph{expression}() function)
 #' @param xlab Independent variable name (Accepts the \emph{expression}() function)
 #' @param degree degree of the polynomial (0.5, 1, 2, 3 or 4)
@@ -51,6 +52,7 @@
 LM=function(trat,
             resp,
             degree=NA,
+            sample.curve=1000,
             ylab="Dependent",
             xlab="Independent",
             error="SE",
@@ -279,11 +281,15 @@ LM=function(trat,
   if(point=="mean"){
     grafico=ggplot(data1,aes(x=trat,y=resp))+
       geom_point(aes(fill=as.factor(rep(1,length(resp)))),na.rm=TRUE,
-                 size=pointsize,color="black",shape=pointshape)
-    if(error!="FALSE"){grafico=grafico+
+                 size=pointsize,color="black",shape=pointshape)}
+  if(point=="mean" & error!="FALSE"){
+    grafico=ggplot(data1,aes(x=trat,y=resp))+
       geom_errorbar(aes(ymin=resp-desvio, ymax=resp+desvio),
                     width=width.bar,
-                    size=linesize)}}
+                    size=linesize)+
+      geom_point(aes(fill=as.factor(rep(1,length(resp)))),na.rm=TRUE,
+                 size=pointsize,color="black",shape=pointshape)}
+
   if(point=="all"){
     grafico=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))+
       geom_point(aes(fill=as.factor(rep(1,length(resp)))),size=pointsize,
@@ -335,7 +341,7 @@ LM=function(trat,
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))
 
-  temp1=seq(min(trat),max(trat),length.out=5000)
+  temp1=seq(min(trat),max(trat),length.out=sample.curve)
   result=predict(moda,newdata = data.frame(trat=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]
@@ -355,7 +361,7 @@ LM=function(trat,
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))
 
-  temp1=seq(min(trat),max(trat),length.out=5000)
+  temp1=seq(min(trat),max(trat),length.out=sample.curve)
   result=predict(mod1a,newdata = data.frame(trat=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]
@@ -376,7 +382,7 @@ LM=function(trat,
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))
 
-  temp1=seq(min(trat),max(trat),length.out=5000)
+  temp1=seq(min(trat),max(trat),length.out=sample.curve)
   result=predict(mod2a,newdata = data.frame(trat=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]
@@ -394,7 +400,7 @@ LM=function(trat,
     predesp=predict(mod3a)
     predobs=resp
     rmse=sqrt(mean((predesp-predobs)^2))
-    temp1=seq(min(trat),max(trat),length.out=5000)
+    temp1=seq(min(trat),max(trat),length.out=sample.curve)
     result=predict(mod3a,newdata = data.frame(trat=temp1),type="response")
     maximo=temp1[which.max(result)]
     respmax=result[which.max(result)]
@@ -412,7 +418,7 @@ LM=function(trat,
     predesp=predict(mod05a)
     predobs=resp
     rmse=sqrt(mean((predesp-predobs)^2))
-    temp1=seq(min(trat),max(trat),length.out=5000)
+    temp1=seq(min(trat),max(trat),length.out=sample.curve)
     result=predict(mod05a,newdata = data.frame(trat=temp1),type="response")
     maximo=temp1[which.max(result)]
     respmax=result[which.max(result)]

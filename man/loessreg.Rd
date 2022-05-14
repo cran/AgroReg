@@ -8,6 +8,7 @@ loessreg(
   trat,
   resp,
   degree = 2,
+  sample.curve = 1000,
   ylab = "Dependent",
   xlab = "Independent",
   theme = theme_classic(),
@@ -29,6 +30,8 @@ loessreg(
 \item{resp}{Numeric vector with independent variable.}
 
 \item{degree}{Degree polynomial (0,1 or 2)}
+
+\item{sample.curve}{Provide the number of observations to simulate curvature (default is 1000)}
 
 \item{ylab}{Variable response name (Accepts the \emph{expression}() function)}
 

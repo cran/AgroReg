@@ -8,6 +8,7 @@ mitscherlich(
   trat,
   resp,
   initial = NA,
+  sample.curve = 1000,
   ylab = "Dependent",
   xlab = "Independent",
   theme = theme_classic(),
@@ -33,7 +34,9 @@ mitscherlich(
 
 \item{resp}{Numeric vector with independent variable.}
 
-\item{initial}{Initial parameters (A, b, e)}
+\item{initial}{List Initial parameters (A, b, e)}
+
+\item{sample.curve}{Provide the number of observations to simulate curvature (default is 1000)}
 
 \item{ylab}{Variable response name (Accepts the \emph{expression}() function)}
 

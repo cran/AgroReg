@@ -3,6 +3,7 @@
 #' This function performs regression analysis using the Hill model.
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param ylab Variable response name (Accepts the \emph{expression}() function)
 #' @param xlab treatments name (Accepts the \emph{expression}() function)
 #' @param theme ggplot2 theme (\emph{default} is theme_bw())
@@ -37,6 +38,7 @@
 
 hill=function(trat,
               resp,
+              sample.curve=1000,
               error = "SE",
               ylab = "Dependent",
               xlab = "Independent",
@@ -116,8 +118,6 @@ hill=function(trat,
                                c=coef(mod)[3]))
     r2=1-deviance(model1)/deviance(lm(ymean~1))}
 
-  # if(r2=="all"){r2=cor(resp, fitted(mod))^2}
-  # if(r2=="mean"){r2=cor(ymean, predict(mod,newdata=data.frame(trat=unique(trat))))^2}
   r2=floor(r2*100)/100
   equation=sprintf("~~~%s== frac(%0.3e * %s ^ %0.3e, %0.3e + %s ^%0.3e) ~~~~~ italic(R^2) == %0.2f",
                    yname.formula,
@@ -128,7 +128,7 @@ hill=function(trat,
                    xname.formula,
                    c,
                    r2)
-  xp=seq(min(trat),max(trat),length.out = 1000)
+  xp=seq(min(trat),max(trat),length.out = sample.curve)
   preditos=data.frame(x=xp,
                       y=predict(mod,newdata = data.frame(trat=xp)))
   x=preditos$x
@@ -163,7 +163,7 @@ hill=function(trat,
   predesp=predict(mod)
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))
-  temp1=seq(min(trat),max(trat),length.out=10000)
+  temp1=seq(min(trat),max(trat),length.out=sample.curve)
   result=predict(mod,newdata = data.frame(trat=temp1),
                  type="response")
   maximo=temp1[which.max(result)]

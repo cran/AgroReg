@@ -4,6 +4,7 @@
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
 #' @param initial Starting estimates
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
 #' @param ylab Variable response name (Accepts the \emph{expression}() function)
 #' @param xlab Treatments name (Accepts the \emph{expression}() function)
@@ -38,6 +39,7 @@
 VB=function(trat,
             resp,
             initial=NA,
+            sample.curve=1000,
             ylab="Dependent",
             xlab="Independent",
             theme=theme_classic(),
@@ -85,8 +87,6 @@ VB=function(trat,
     k=round(coef$coefficients[,1][2],round)
     t0=round(coef$coefficients[,1][3],round)}
 
-  # if(r2=="all"){r2=cor(resp, fitted(mod))^2}
-  # if(r2=="mean"){r2=cor(ymean, predict(mod,newdata=data.frame(trat=unique(trat))))^2}
   if(r2=="all"){r2=1-deviance(model)/deviance(lm(resp~1))}
   if(r2=="mean"){
     model1=nls(ymean~L*(1-exp(-k*(xmean-t0))),start = initial)
@@ -138,7 +138,7 @@ VB=function(trat,
           legend.justification = 0)+
     ylab(ylab)+xlab(xlab)
   if(scale=="log"){graph=graph+scale_x_log10()}
-  temp1=seq(min(trat),max(trat),length.out=10000)
+  temp1=seq(min(trat),max(trat),length.out=sample.curve)
   result=predict(mod,newdata = data.frame(trat=temp1),
                  type="response")
   maximo=temp1[which.max(result)]

@@ -7,6 +7,7 @@
 potential(
   trat,
   resp,
+  sample.curve = 1000,
   ylab = "Dependent",
   xlab = "Independent",
   theme = theme_classic(),
@@ -31,6 +32,8 @@ potential(
 \item{trat}{Numeric vector with dependent variable.}
 
 \item{resp}{Numeric vector with independent variable.}
+
+\item{sample.curve}{Provide the number of observations to simulate curvature (default is 1000)}
 
 \item{ylab}{Variable response name (Accepts the \emph{expression}() function)}
 

@@ -3,6 +3,7 @@
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
 #' @param npar number of parameters (g3 or g4)
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
 #' @param ylab Variable response name (Accepts the \emph{expression}() function)
 #' @param xlab treatments name (Accepts the \emph{expression}() function)
@@ -39,6 +40,7 @@
 gaussianreg=function(trat,
                     resp,
                     npar="g3",
+                    sample.curve=1000,
                     ylab="Dependent",
                     xlab="Independent",
                     theme=theme_classic(),
@@ -187,7 +189,7 @@ gaussianreg=function(trat,
     if(is.na(comment)==FALSE){equation=paste(equation,"~\"",comment,"\"")}}
 
 
-  xp=seq(min(trat),max(trat),length.out = 1000)
+  xp=seq(min(trat),max(trat),length.out = sample.curve)
   preditos=data.frame(x=xp,
                       y=predict(mod,newdata = data.frame(trat=xp)))
   predesp=predict(mod)
@@ -222,7 +224,7 @@ gaussianreg=function(trat,
           legend.justification = 0)+
     ylab(ylab)+xlab(xlab)
   if(scale=="log"){graph=graph+scale_x_log10()}
-  temp1=seq(min(trat),max(trat),length.out=5000)
+  temp1=seq(min(trat),max(trat),length.out=sample.curve)
   result=predict(mod,newdata = data.frame(trat=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]

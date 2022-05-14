@@ -1,6 +1,6 @@
 #' Merge multiple curves into a single graph
 #' @param plots list with objects of type analysis.
-#' @param theme ggplot2 theme (\emph{default} is theme_classi())
+#' @param theme ggplot2 theme (\emph{default} is theme_classic())
 #' @param legend.title caption title
 #' @param trat name of the curves
 #' @param ylab Variable response name (Accepts the \emph{expression}() function)
@@ -12,6 +12,8 @@
 #' @param pointsize shape size
 #' @param linesize line size
 #' @param textsize Font size
+#' @param legendsize Legend size text
+#' @param legendtitlesize Title legend size
 #' @param fontfamily font family
 #' @return The function returns a graph joining the outputs of the functions LM_model, LL_model, BC_model, CD_model, loess_model, normal_model, piecewise_model and N_model
 #' @author Gabriel Danilo Shimizu
@@ -39,6 +41,8 @@ plot_arrange=function(plots,
                       pointsize = 4.5,
                       linesize = 0.8,
                       textsize = 12,
+                      legendsize = 12,
+                      legendtitlesize = 12,
                       fontfamily="sans") {
   requireNamespace("ggplot2")
   equation=1:length(plots)
@@ -77,8 +81,9 @@ plot_arrange=function(plots,
   grafico=grafico+
     scale_color_discrete(label=texto)+
     theme+labs(color=legend.title)+
-    theme(axis.text = element_text(size=12,color="black",family = fontfamily),
-          legend.text = element_text(family = fontfamily),
+    theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+          axis.title = element_text(size=textsize,color="black",family = fontfamily),
+          legend.text = element_text(size=textsize,family = fontfamily),
           legend.position = legend.position,
           legend.justification='left',
           legend.direction = "vertical",
@@ -145,9 +150,10 @@ plot_arrange=function(plots,
     grafico=grafico+
       scale_color_discrete(label=texto)+
       theme+labs(color=legend.title)+
-      theme(axis.text = element_text(size=12,color="black",family = fontfamily),
-            axis.title = element_text(family = fontfamily),
-            legend.text = element_text(family = fontfamily),
+      theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
+            axis.title = element_text(size=textsize,color="black",family = fontfamily),
+            legend.text = element_text(size=legendsize,family = fontfamily),
+            legend.title = element_text(size=legendtitlesize,family = fontfamily),
             legend.position = legend.position,
             legend.justification='left',
             legend.direction = "vertical",
@@ -181,8 +187,9 @@ plot_arrange=function(plots,
       theme+labs(lty=legend.title,shape=legend.title)+
       theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
             axis.title = element_text(size=textsize,color="black",family = fontfamily),
+            legend.text = element_text(size=legendsize,family = fontfamily),
+            legend.title = element_text(size=legendtitlesize,family = fontfamily),
             legend.position = legend.position,
-            legend.text=element_text(size=textsize,family = fontfamily),
             legend.justification='left',
             legend.direction = "vertical",
             legend.text.align = 0)+ylab(ylab)+xlab(xlab)}

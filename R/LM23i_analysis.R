@@ -5,6 +5,7 @@
 #' @description Degree 3 polynomial inverse model without the beta 1 coefficient.
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param ylab Dependent variable name (Accepts the \emph{expression}() function)
 #' @param xlab Independent variable name (Accepts the \emph{expression}() function)
 #' @param theme ggplot2 theme (\emph{default} is theme_classic())
@@ -38,6 +39,7 @@
 
 LM23i=function(trat,
                resp,
+               sample.curve=1000,
                ylab="Dependent",
                error="SE",
                xlab="Independent",
@@ -89,7 +91,7 @@ LM23i=function(trat,
                    media=media,
                    resp=media,
                    desvio)
-  xp=seq(min(trat),max(trat),length.out = 1000)
+  xp=seq(min(trat),max(trat),length.out = sample.curve)
   preditos=data.frame(x=xp,
                       y=predict(moda,newdata = data.frame(trat=xp)))
   x=preditos$x
@@ -157,7 +159,7 @@ LM23i=function(trat,
   predesp=predict(moda)
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))
-  temp1=seq(min(trat),max(trat),length.out=5000)
+  temp1=seq(min(trat),max(trat),length.out=sample.curve)
   result=predict(moda,newdata = data.frame(trat=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]

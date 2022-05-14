@@ -8,6 +8,7 @@ MM(
   trat,
   resp,
   npar = "mm2",
+  sample.curve = 1000,
   error = "SE",
   ylab = "Dependent",
   xlab = "Independent",
@@ -36,6 +37,8 @@ MM(
 \item{resp}{Numeric vector with independent variable.}
 
 \item{npar}{Number of parameters (mm2 or mm3)}
+
+\item{sample.curve}{Provide the number of observations to simulate curvature (default is 1000)}
 
 \item{error}{Error bar (It can be SE - \emph{default}, SD or FALSE)}
 

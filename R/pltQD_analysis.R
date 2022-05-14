@@ -5,6 +5,7 @@
 #' @description This function performs the plateau-quadratic regression analysis.
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param ylab Variable response name (Accepts the \emph{expression}() function)
 #' @param xlab treatments name (Accepts the \emph{expression}() function)
 #' @param theme ggplot2 theme (\emph{default} is theme_bw())
@@ -61,11 +62,11 @@
 #' attach(granada)
 #' x=time[length(time):1]
 #' plateau.quadratic(x,WL)
-NULL
-
 #' @rdname plateau.quadratic
 #' @export
+
 plateau.quadratic=function(trat,resp,
+                           sample.curve=1000,
                            ylab="Dependent",
                            xlab="Independent",
                            theme=theme_classic(),
@@ -155,7 +156,7 @@ plateau.quadratic=function(trat,resp,
     graph=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
-  xp=seq(min(trat),max(trat),length=1000)
+  xp=seq(min(trat),max(trat),length=sample.curve)
   yp=predict(mod,newdata=data.frame(trat=xp))
   preditos=data.frame(x=xp,y=yp)
   temp1=xp
@@ -226,7 +227,7 @@ pquadInit <- function(mCall, LHS, data, ...){
                          lower = c(-Inf, min(xy[,"x"]), -Inf, -Inf)),
             silent = TRUE)
 
-  if(class(op) != "try-error"){
+  if(op[1] != "try-error"){
     a <- op$par[1]
     breakpoint <- op$par[2]
     b <- op$par[3]

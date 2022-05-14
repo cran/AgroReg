@@ -3,6 +3,7 @@
 #' This function performs logarithmic quadratic regression analysis.
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
 #' @param ylab Variable response name (Accepts the \emph{expression}() function)
 #' @param xlab treatments name (Accepts the \emph{expression}() function)
@@ -40,6 +41,7 @@
 
 LOG2=function(trat,
              resp,
+             sample.curve=1000,
              ylab="Dependent",
              xlab="Independent",
              theme=theme_classic(),
@@ -95,7 +97,7 @@ LOG2=function(trat,
                    abs(e),
                    xname.formula,
                    r2)
-  xp=seq(min(trat),max(trat),length.out = 1000)
+  xp=seq(min(trat),max(trat),length.out = sample.curve)
   preditos=data.frame(x=xp,
                       y=predict(model,newdata = data.frame(trat=xp)))
   predesp=predict(model)
@@ -131,7 +133,7 @@ LOG2=function(trat,
           legend.justification = 0)+
     ylab(ylab)+xlab(xlab)
   if(scale=="log"){graph=graph+scale_x_log10()}
-  temp1=seq(min(trat),max(trat),length.out=10000)
+  temp1=seq(min(trat),max(trat),length.out=sample.curve)
   result=predict(model,newdata = data.frame(trat=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]

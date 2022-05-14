@@ -4,6 +4,7 @@
 #' @description Linear, quadratic, quadratic inverse, cubic and quartic regression.
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param ylab Dependent variable name (Accepts the \emph{expression}() function)
 #' @param xlab Independent variable name (Accepts the \emph{expression}() function)
 #' @param degree degree of the polynomial (0.5, 1, 2, 3 or 4)
@@ -50,6 +51,7 @@
 
 LM_i=function(trat,
               resp,
+              sample.curve=1000,
               ylab = "Dependent",
               error = "SE",
               ic = FALSE,
@@ -310,7 +312,7 @@ LM_i=function(trat,
     predobs=resp
     rmse=sqrt(mean((predesp-predobs)^2))
 
-    temp1=seq(min(trat),max(trat),length.out=10000)
+    temp1=seq(min(trat),max(trat),length.out=sample.curve)
     result=predict(moda,newdata = data.frame(trat=temp1),type="response")
     maximo=temp1[which.max(result)]
     respmax=result[which.max(result)]
@@ -328,7 +330,7 @@ LM_i=function(trat,
     predobs=resp
     rmse=sqrt(mean((predesp-predobs)^2))
 
-    temp1=seq(min(trat),max(trat),length.out=10000)
+    temp1=seq(min(trat),max(trat),length.out=sample.curve)
     result=predict(mod1a,newdata = data.frame(trat=temp1),type="response")
     maximo=temp1[which.max(result)]
     respmax=result[which.max(result)]
@@ -347,7 +349,7 @@ LM_i=function(trat,
     predobs=resp
     rmse=sqrt(mean((predesp-predobs)^2))
 
-    temp1=seq(min(trat),max(trat),length.out=10000)
+    temp1=seq(min(trat),max(trat),length.out=sample.curve)
     result=predict(mod2a,newdata = data.frame(trat=temp1),type="response")
     maximo=temp1[which.max(result)]
     respmax=result[which.max(result)]
@@ -363,7 +365,7 @@ LM_i=function(trat,
     predesp=predict(mod3a)
     predobs=resp
     rmse=sqrt(mean((predesp-predobs)^2))
-    temp1=seq(min(trat),max(trat),length.out=10000)
+    temp1=seq(min(trat),max(trat),length.out=sample.curve)
     result=predict(mod3a,newdata = data.frame(trat=temp1),type="response")
     maximo=temp1[which.max(result)]
     respmax=result[which.max(result)]
@@ -379,7 +381,7 @@ LM_i=function(trat,
     predesp=predict(mod05a)
     predobs=resp
     rmse=sqrt(mean((predesp-predobs)^2))
-    temp1=seq(min(trat),max(trat),length.out=10000)
+    temp1=seq(min(trat),max(trat),length.out=sample.curve)
     result=predict(mod05a,newdata = data.frame(trat=temp1),type="response")
     maximo=temp1[which.max(result)]
     respmax=result[which.max(result)]

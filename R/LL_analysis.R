@@ -4,6 +4,7 @@
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
 #' @param npar Number of model parameters
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
 #' @param ylab Variable response name (Accepts the \emph{expression}() function)
 #' @param xlab treatments name (Accepts the \emph{expression}() function)
@@ -47,6 +48,7 @@
 LL=function(trat,
             resp,
             npar="LL.3",
+            sample.curve=1000,
             ylab="Dependent",
             xlab="Independent",
             theme=theme_classic(),
@@ -104,7 +106,7 @@ LL=function(trat,
                    ifelse(e <= 0, "+", "-"),
                    abs(e),
                    r2)
-  xp=seq(min(trat),max(trat),length.out = 1000)
+  xp=seq(min(trat),max(trat),length.out = sample.curve)
   preditos=data.frame(x=xp,
                       y=predict(mod,newdata = data.frame(trat=xp)))
   }
@@ -143,7 +145,7 @@ LL=function(trat,
                    abs(e),
                    f,
                    r2)
-  xp=seq(min(trat),max(trat),length.out = 1000)
+  xp=seq(min(trat),max(trat),length.out = sample.curve)
   preditos=data.frame(x=xp,
                       y=predict(mod,newdata = data.frame(trat=xp)))}
   if(is.na(comment)==FALSE){equation=paste(equation,"~\"",comment,"\"")}
@@ -178,7 +180,7 @@ LL=function(trat,
                    ifelse(e <= 0, "+", "-"),
                    abs(e),
                    r2)
-  xp=seq(min(trat),max(trat),length.out = 1000)
+  xp=seq(min(trat),max(trat),length.out = sample.curve)
   preditos=data.frame(x=xp,
                       y=predict(mod,newdata = data.frame(trat=xp)))}
   if(is.na(comment)==FALSE){equation=paste(equation,"~\"",comment,"\"")}
@@ -223,7 +225,7 @@ LL=function(trat,
           legend.justification = 0)+
     ylab(ylab)+xlab(xlab)
   if(scale=="log"){graph=graph+scale_x_log10()}
-  temp1=seq(min(trat),max(trat),length.out=5000)
+  temp1=seq(min(trat),max(trat),length.out=sample.curve)
   result=predict(mod,newdata = data.frame(temp=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]

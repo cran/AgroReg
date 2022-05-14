@@ -8,6 +8,7 @@ GP(
   trat,
   resp,
   npar = "g2",
+  sample.curve = 1000,
   ylab = "Dependent",
   xlab = "Independent",
   theme = theme_classic(),
@@ -37,6 +38,8 @@ GP(
 \item{resp}{Numeric vector with independent variable.}
 
 \item{npar}{Number os parameters (g2, g3 or g4)}
+
+\item{sample.curve}{Provide the number of observations to simulate curvature (default is 1000)}
 
 \item{ylab}{Variable response name (Accepts the \emph{expression}() function)}
 

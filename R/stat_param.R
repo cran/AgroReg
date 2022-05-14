@@ -42,9 +42,9 @@ stat_param<-function(models,
   mae[i]=1/length(resp)*sum(abs(predict(mod)-resp))
   rmae[i]=(1/length(resp)*sum(abs(predict(mod)-resp)))/mean(resp)*100
   se[i]=sum((predict(mod)-resp)^2)
-  mse[i]=se/length(resp)
-  rmse[i]=sqrt(mse)
-  rrmse[i]=rmse/mean(resp)*100
+  mse[i]=se[i]/length(resp)
+  rmse[i]=sqrt(mse[i])
+  rrmse[i]=rmse[i]/mean(resp)*100
   me[i]=1 - (sum((predict(mod)-resp)^2)/sum((resp - mean(resp))^2))
   sd[i]=sd(predict(mod)-resp)
   crm[i] <- (mean(resp - predict(mod), na.rm = T))/mean(resp)

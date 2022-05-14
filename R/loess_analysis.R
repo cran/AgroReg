@@ -4,6 +4,7 @@
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
 #' @param degree Degree polynomial (0,1 or 2)
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param ylab Variable response name (Accepts the \emph{expression}() function)
 #' @param xlab treatments name (Accepts the \emph{expression}() function)
 #' @param theme ggplot2 theme (\emph{default} is theme_bw())
@@ -31,6 +32,7 @@
 loessreg=function(trat,
                   resp,
                   degree=2,
+                  sample.curve=1000,
                   ylab="Dependent",
                   xlab="Independent",
                   theme=theme_classic(),
@@ -53,7 +55,7 @@ loessreg=function(trat,
   desvio=ysd
   xmean=tapply(trat,trat,mean)
   mod=loess(resp~trat,degree = degree)
-  xp=seq(min(trat),max(trat),length.out = 1000)
+  xp=seq(min(trat),max(trat),length.out = sample.curve)
   preditos=data.frame(x=xp,
                       y=predict(mod,newdata = data.frame(trat=xp)))
   x=preditos$x
@@ -85,7 +87,7 @@ loessreg=function(trat,
           legend.justification = 0)+
     ylab(ylab)+xlab(xlab)
   if(scale=="log"){graph=graph+scale_x_log10()}
-  temp1=seq(min(trat),max(trat),length.out=10000)
+  temp1=seq(min(trat),max(trat),length.out=sample.curve)
   result=predict(mod,newdata = data.frame(trat=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]

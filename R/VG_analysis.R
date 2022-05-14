@@ -4,6 +4,7 @@
 #' @description This function performs Vega-Galvez regression analysis.
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param ylab Dependent variable name (Accepts the \emph{expression}() function)
 #' @param xlab Independent variable name (Accepts the \emph{expression}() function)
 #' @param theme ggplot2 theme (\emph{default} is theme_classic())
@@ -37,6 +38,7 @@
 
 VG=function(trat,
             resp,
+            sample.curve=1000,
             error = "SE",
             ylab = "Dependent",
             xlab = "Independent",
@@ -85,7 +87,7 @@ VG=function(trat,
                    xname.formula,
                    r2)
   if(is.na(comment)==FALSE){equation=paste(equation,"~\"",comment,"\"")}
-  xp=seq(min(trat),max(trat),length.out = 1000)
+  xp=seq(min(trat),max(trat),length.out = sample.curve)
   preditos=data.frame(x=xp,
                       y=predict(model,newdata = data.frame(trat=xp)))
   predesp=predict(model)
@@ -120,7 +122,7 @@ VG=function(trat,
           legend.justification = 0)+
     ylab(ylab)+xlab(xlab)
   if(scale=="log"){graph=graph+scale_x_log10()}
-  temp1=seq(min(trat),max(trat),length.out=10000)
+  temp1=seq(min(trat),max(trat),length.out=sample.curve)
   result=predict(model,newdata = data.frame(trat=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]

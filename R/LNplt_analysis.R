@@ -3,6 +3,7 @@
 #' This function performs the linear-plateau regression analysis.
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param ylab Variable response name (Accepts the \emph{expression}() function)
 #' @param xlab treatments name (Accepts the \emph{expression}() function)
 #' @param theme ggplot2 theme (\emph{default} is theme_bw())
@@ -44,6 +45,7 @@
 #' linear.plateau(time,WL)
 
 linear.plateau=function(trat,resp,
+                        sample.curve=1000,
                       ylab="Dependent",
                       xlab="Independent",
                       theme=theme_classic(),
@@ -142,7 +144,7 @@ linear.plateau=function(trat,resp,
     graph=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
-  xp=seq(min(trat),max(trat),length=1000)
+  xp=seq(min(trat),max(trat),length=sample.curve)
   yp=predict(lp_model,newdata=data.frame(trat=xp))
   preditos=data.frame(x=xp,y=yp)
   temp1=xp

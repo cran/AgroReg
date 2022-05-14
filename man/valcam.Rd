@@ -7,6 +7,7 @@
 valcam(
   trat,
   resp,
+  sample.curve = 1000,
   error = "SE",
   ylab = "Dependent",
   xlab = "Independent",
@@ -31,6 +32,8 @@ valcam(
 \item{trat}{Numeric vector with dependent variable.}
 
 \item{resp}{Numeric vector with independent variable.}
+
+\item{sample.curve}{Provide the number of observations to simulate curvature (default is 1000)}
 
 \item{error}{Error bar (It can be SE - \emph{default}, SD or FALSE)}
 

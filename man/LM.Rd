@@ -8,6 +8,7 @@ LM(
   trat,
   resp,
   degree = NA,
+  sample.curve = 1000,
   ylab = "Dependent",
   xlab = "Independent",
   error = "SE",
@@ -37,6 +38,8 @@ LM(
 \item{resp}{Numeric vector with independent variable.}
 
 \item{degree}{degree of the polynomial (0.5, 1, 2, 3 or 4)}
+
+\item{sample.curve}{Provide the number of observations to simulate curvature (default is 1000)}
 
 \item{ylab}{Dependent variable name (Accepts the \emph{expression}() function)}
 

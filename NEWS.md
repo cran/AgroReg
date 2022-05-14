@@ -1,4 +1,12 @@
-# AgroReg 1.2.2
+# AgroReg 1.2.4
+
+* Fix `stat_param` bug in me, mse and rmse
+
+* The function `comparative_model` now returns a data.frame object
+
+* Fix `regression` bug  
+
+# AgroReg 1.2.3
 
 * Fix breakpoint response bug in linear.linear function
 

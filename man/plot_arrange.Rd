@@ -18,6 +18,8 @@ plot_arrange(
   pointsize = 4.5,
   linesize = 0.8,
   textsize = 12,
+  legendsize = 12,
+  legendtitlesize = 12,
   fontfamily = "sans"
 )
 }
@@ -26,7 +28,7 @@ plot_arrange(
 
 \item{point}{defines whether you want to plot all points ("all") or only the mean ("mean")}
 
-\item{theme}{ggplot2 theme (\emph{default} is theme_classi())}
+\item{theme}{ggplot2 theme (\emph{default} is theme_classic())}
 
 \item{legend.title}{caption title}
 
@@ -47,6 +49,10 @@ plot_arrange(
 \item{linesize}{line size}
 
 \item{textsize}{Font size}
+
+\item{legendsize}{Legend size text}
+
+\item{legendtitlesize}{Title legend size}
 
 \item{fontfamily}{font family}
 }

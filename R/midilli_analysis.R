@@ -3,7 +3,8 @@
 #' This function performs Midilli regression analysis.
 #' @param trat Numeric vector with dependent variable.
 #' @param resp Numeric vector with independent variable.
-#' @param initial Starting estimates
+#' @param initial List starting estimates
+#' @param sample.curve Provide the number of observations to simulate curvature (default is 1000)
 #' @param error Error bar (It can be SE - \emph{default}, SD or FALSE)
 #' @param ylab Variable response name (Accepts the \emph{expression}() function)
 #' @param xlab treatments name (Accepts the \emph{expression}() function)
@@ -40,6 +41,7 @@
 midilli=function(trat,
                  resp,
                  initial=NA,
+                 sample.curve=1000,
                  ylab="Dependent",
                  xlab = "Independent",
                  theme = theme_classic(),
@@ -88,8 +90,6 @@ midilli=function(trat,
     d=round(coef$coefficients[,1][2],round)
     e=round(coef$coefficients[,1][3],round)}
 
-  # if(r2=="all"){r2=cor(resp, fitted(model))^2}
-  # if(r2=="mean"){r2=cor(ymean, predict(model,newdata=data.frame(trat=unique(trat))))^2}
   if(r2=="all"){r2=1-deviance(model)/deviance(lm(resp~1))}
   if(r2=="mean"){
     model1 <- nls(ymean ~ alpha * exp(beta * xmean^n) + theta*xmean, start = initial)
@@ -105,7 +105,7 @@ midilli=function(trat,
                    abs(e),
                    r2)
   if(is.na(comment)==FALSE){equation=paste(equation,"~\"",comment,"\"")}
-  xp=seq(min(trat),max(trat),length.out = 1000)
+  xp=seq(min(trat),max(trat),length.out = sample.curve)
   preditos=data.frame(x=xp,
                       y=predict(model,newdata = data.frame(trat=xp)))
   predesp=predict(model)
@@ -140,7 +140,7 @@ midilli=function(trat,
           legend.justification = 0)+
     ylab(ylab)+xlab(xlab)
   if(scale=="log"){graph=graph+scale_x_log10()}
-  temp1=seq(min(trat),max(trat),length.out=10000)
+  temp1=seq(min(trat),max(trat),length.out=sample.curve)
   result=predict(model,newdata = data.frame(trat=temp1),type="response")
   maximo=temp1[which.max(result)]
   respmax=result[which.max(result)]

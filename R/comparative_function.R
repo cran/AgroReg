@@ -31,7 +31,6 @@ comparative_model=function(models,
     paste("Model",1:length(models))}else{
     rownames(tabela)=names_model}
   colnames(tabela)=c("AIC","BIC","R2","RMSE")
-  print(tabela)
   requireNamespace("ggplot2")
   if(plot==TRUE){
     modelo=rownames(tabela)
@@ -72,4 +71,5 @@ comparative_model=function(models,
             axis.title.y = element_blank(),
             axis.text.x = element_text(size=12,color="black"),
             axis.title.x = element_text(size=12))
-    egg::ggarrange(a,b,c,d,nrow=1)}}
+    egg::ggarrange(a,b,c,d,nrow=1)}
+  tabela}
