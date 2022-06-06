@@ -24,6 +24,8 @@ MM(
   pointsize = 4.5,
   linesize = 0.8,
   pointshape = 21,
+  fillshape = "gray",
+  colorline = "black",
   round = NA,
   yname.formula = "y",
   xname.formula = "x",
@@ -69,6 +71,10 @@ MM(
 \item{linesize}{line size}
 
 \item{pointshape}{format point (default is 21)}
+
+\item{fillshape}{Fill shape}
+
+\item{colorline}{Color lines}
 
 \item{round}{round equation}
 

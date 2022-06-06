@@ -23,6 +23,8 @@ Nreg(
   linesize = 0.8,
   pointsize = 4.5,
   pointshape = 21,
+  fillshape = "gray",
+  colorline = "black",
   fontfamily = "sans"
 )
 }
@@ -62,6 +64,10 @@ Nreg(
 \item{pointsize}{shape size}
 
 \item{pointshape}{format point (default is 21)}
+
+\item{fillshape}{Fill shape}
+
+\item{colorline}{Color lines}
 
 \item{fontfamily}{Font family}
 }

@@ -80,14 +80,15 @@ plot_arrange=function(plots,
   texto=parse(text=paste(trat,"~",unlist(equation)))
   grafico=grafico+
     scale_color_discrete(label=texto)+
-    theme+labs(color=legend.title)+
+    theme+labs(color=legend.title)+ylab(ylab)+xlab(xlab)+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),
+          legend.title = element_text(size=textsize,family = fontfamily),
           legend.text = element_text(size=textsize,family = fontfamily),
           legend.position = legend.position,
           legend.justification='left',
           legend.direction = "vertical",
-          legend.text.align = 0)+ylab(ylab)+xlab(xlab)}
+          legend.text.align = 0)}
   if(gray==TRUE & point=="mean"){
     for(i in 1:length(plots)){
       equation[[i]]=plots[[i]][[]]$plot$s
@@ -118,14 +119,15 @@ plot_arrange=function(plots,
     grafico=grafico+
       scale_linetype_discrete(label=texto)+
       scale_shape_discrete(label=texto)+
-      theme+labs(lty=legend.title,shape=legend.title)+
+      theme+labs(lty=legend.title,shape=legend.title)+ylab(ylab)+xlab(xlab)+
       theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
             axis.title = element_text(size=textsize,color="black",family = fontfamily),
             legend.position = legend.position,
+            legend.title = element_text(size=textsize,family = fontfamily),
             legend.text=element_text(size=textsize,family = fontfamily),
             legend.justification='left',
             legend.direction = "vertical",
-            legend.text.align = 0)+ylab(ylab)+xlab(xlab)}
+            legend.text.align = 0)}
   if(gray==FALSE & point=="all"){
     for(i in 1:length(plots)){
       equation[[i]]=plots[[i]][[]]$plot$s
@@ -149,7 +151,7 @@ plot_arrange=function(plots,
     texto=parse(text=paste(trat,"~",unlist(equation)))
     grafico=grafico+
       scale_color_discrete(label=texto)+
-      theme+labs(color=legend.title)+
+      theme+labs(color=legend.title)+ylab(ylab)+xlab(xlab)+
       theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
             axis.title = element_text(size=textsize,color="black",family = fontfamily),
             legend.text = element_text(size=legendsize,family = fontfamily),
@@ -157,7 +159,7 @@ plot_arrange=function(plots,
             legend.position = legend.position,
             legend.justification='left',
             legend.direction = "vertical",
-            legend.text.align = 0)+ylab(ylab)+xlab(xlab)}
+            legend.text.align = 0)}
   if(gray==TRUE  & point=="all"){
     for(i in 1:length(plots)){
       equation[[i]]=plots[[i]][[]]$plot$s
@@ -183,7 +185,7 @@ plot_arrange=function(plots,
     texto=parse(text=paste(trat,"~",unlist(equation)))
     grafico=grafico+
       scale_linetype_discrete(label=texto)+
-      scale_shape_discrete(label=texto)+
+      scale_shape_discrete(label=texto)+ylab(ylab)+xlab(xlab)+
       theme+labs(lty=legend.title,shape=legend.title)+
       theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
             axis.title = element_text(size=textsize,color="black",family = fontfamily),
@@ -192,6 +194,6 @@ plot_arrange=function(plots,
             legend.position = legend.position,
             legend.justification='left',
             legend.direction = "vertical",
-            legend.text.align = 0)+ylab(ylab)+xlab(xlab)}
+            legend.text.align = 0)}
   print(grafico)
 }

@@ -22,6 +22,8 @@
 #' @param pointsize	shape size
 #' @param linesize	line size
 #' @param pointshape format point (default is 21)
+#' @param colorline Color lines
+#' @param fillshape Fill shape
 #' @param round round equation
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
@@ -69,6 +71,8 @@ LM_i=function(trat,
               pointsize = 4.5,
               linesize = 0.8,
               pointshape = 21,
+              fillshape = "gray",
+              colorline = "black",
               round = NA,
               xname.formula="x",
               yname.formula="y",
@@ -244,21 +248,21 @@ LM_i=function(trat,
 
   grafico=grafico+
     theme+ylab(ylab)+xlab(xlab)
-  if(degree=="1"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x-1,size=linesize,color="black")}
-  if(degree=="2"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x+I(x^2)-1,size=linesize,color="black")}
-  if(degree=="3"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)-1,size=linesize,color="black")}
-  if(degree=="4"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)+I(x^4)-1,size=linesize,color="black")}
-  if(degree=="0.5"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x+I(x^0.5)-1,size=linesize,color="black")}
+  if(degree=="1"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x-1,size=linesize,color=colorline)}
+  if(degree=="2"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x+I(x^2)-1,size=linesize,color=colorline)}
+  if(degree=="3"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)-1,size=linesize,color=colorline)}
+  if(degree=="4"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)+I(x^4)-1,size=linesize,color=colorline)}
+  if(degree=="0.5"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x+I(x^0.5)-1,size=linesize,color=colorline)}
   if(degree=="1"){grafico=grafico+
-    scale_fill_manual(values="gray",label=c(parse(text=s1)),name="")}
+    scale_fill_manual(values=fillshape,label=c(parse(text=s1)),name="")}
   if(degree=="2"){grafico=grafico+
-    scale_fill_manual(values="gray",label=c(parse(text=s2)),name="")}
+    scale_fill_manual(values=fillshape,label=c(parse(text=s2)),name="")}
   if(degree=="3"){grafico=grafico+
-    scale_fill_manual(values="gray",label=c(parse(text=s3)),name="")}
+    scale_fill_manual(values=fillshape,label=c(parse(text=s3)),name="")}
   if(degree=="4"){grafico=grafico+
-    scale_fill_manual(values="gray",label=c(parse(text=s4)),name="")}
+    scale_fill_manual(values=fillshape,label=c(parse(text=s4)),name="")}
   if(degree=="0.5"){grafico=grafico+
-    scale_fill_manual(values="gray",label=c(parse(text=s05)),name="")}
+    scale_fill_manual(values=fillshape,label=c(parse(text=s05)),name="")}
 
   grafico=grafico+
     theme(text = element_text(size=textsize,color="black",family = fontfamily),

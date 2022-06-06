@@ -18,6 +18,8 @@
 #' @param pointsize	shape size
 #' @param linesize	line size
 #' @param pointshape format point (default is 21)
+#' @param colorline Color lines
+#' @param fillshape Fill shape
 #' @param round round equation
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
@@ -62,6 +64,8 @@ linear.linear=function (trat,
                         pointsize = 4.5,
                         linesize = 0.8,
                         pointshape = 21,
+                        fillshape = "gray",
+                        colorline = "black",
                         round = NA,
                         xname.formula="x",
                         yname.formula="y",
@@ -147,7 +151,7 @@ linear.linear=function (trat,
     b11=round(mod$model$coefficients[3],round)}
   r2=round(summary(mod$model)$r.squared,2)
   r2=floor(r2*100)/100
-  equation=sprintf("~~~%s==%0.3e %s %0.3e*%s~(%s<%0.3e)~%s %0.3e*%s~(%s>%0.3e)~~~R^2==%0.2e",
+  equation=sprintf("~~~%s==%0.3e %s %0.3e*%s~(%s~'<'~%0.3e)~%s %0.3e*%s~(%s>%0.3e)~~~R^2==%0.2e",
                    yname.formula,
                    b0,
                    ifelse(b1 >= 0, "+", "-"),
@@ -178,14 +182,14 @@ linear.linear=function (trat,
                                                  width=width.bar,
                                                  size=linesize)}
     graph=graph+
-      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   if(point=="all"){
     graph=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     graph=graph+
-      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   graph=graph+theme+
     geom_line(data=preditos1,aes(x=x,y=y,color="black"),size=linesize)+
-    scale_color_manual(name="",values=1,label=parse(text = equation))+
+    scale_color_manual(name="",values=colorline,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),
           legend.position = legend.position,

@@ -22,6 +22,8 @@
 #' @param pointsize	shape size
 #' @param linesize	line size
 #' @param pointshape format point (default is 21)
+#' @param colorline Color lines
+#' @param fillshape Fill shape
 #' @param round round equation
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
@@ -69,6 +71,8 @@ LM=function(trat,
             pointsize = 4.5,
             linesize = 0.8,
             pointshape = 21,
+            fillshape = "gray",
+            colorline = "black",
             round=NA,
             xname.formula="x",
             yname.formula="y",
@@ -132,23 +136,25 @@ LM=function(trat,
     else result[, 3] <- result[, 1]^(1/(2 * result[, 2]))
     result}
   dose=tapply(trat, trat, mean)
-  moda=lm(resp~trat)
-  mod1a=lm(resp~trat+I(trat^2))
-  mod2a=lm(resp~trat+I(trat^2)+I(trat^3))
-  mod3a=lm(resp~trat+I(trat^2)+I(trat^3)+I(trat^4))
-  mod05a=lm(resp~trat+I(trat^0.5))
 
-  mods=summary(moda)$coefficients
-  mod1s=summary(mod1a)$coefficients
-  mod2s=summary(mod2a)$coefficients
-  mod3s=summary(mod3a)$coefficients
-  mod05s=summary(mod05a)$coefficients
 
-  modm=lm(media~dose)
-  mod1m=lm(media~dose+I(dose^2))
-  mod2m=lm(media~dose+I(dose^2)+I(dose^3))
-  mod3m=lm(media~dose+I(dose^2)+I(dose^3)+I(dose^4))
-  mod05m=lm(media~dose+I(dose^0.5))
+  if(degree=="1"){moda=lm(resp~trat)}
+  if(degree=="2"){mod1a=lm(resp~trat+I(trat^2))}
+  if(degree=="3"){mod2a=lm(resp~trat+I(trat^2)+I(trat^3))}
+  if(degree=="4"){mod3a=lm(resp~trat+I(trat^2)+I(trat^3)+I(trat^4))}
+  if(degree=="0.5"){mod05a=lm(resp~trat+I(trat^0.5))}
+
+  if(degree=="1"){mods=summary(moda)$coefficients}
+  if(degree=="2"){mod1s=summary(mod1a)$coefficients}
+  if(degree=="3"){mod2s=summary(mod2a)$coefficients}
+  if(degree=="4"){mod3s=summary(mod3a)$coefficients}
+  if(degree=="0.5"){mod05s=summary(mod05a)$coefficients}
+
+  if(degree=="1"){modm=lm(media~dose)}
+  if(degree=="2"){mod1m=lm(media~dose+I(dose^2))}
+  if(degree=="3"){mod2m=lm(media~dose+I(dose^2)+I(dose^3))}
+  if(degree=="4"){mod3m=lm(media~dose+I(dose^2)+I(dose^3)+I(dose^4))}
+  if(degree=="0.5"){mod05m=lm(media~dose+I(dose^0.5))}
 
   if(r2=="mean"){
   if(degree=="1"){r2=round(summary(modm)$r.squared,2)}
@@ -274,8 +280,7 @@ LM=function(trat,
                      xname.formula,
                      r2)
   if(is.na(comment)==FALSE){s05=paste(s05,"~\"",comment,"\"")}}
-  data1=data.frame(trat,resp)
-  data1=data.frame(trat=unique(trat),
+  data1=data.frame(trat=as.numeric(names(media)),
                    resp=media,
                    desvio)
   if(point=="mean"){
@@ -297,21 +302,21 @@ LM=function(trat,
 
   grafico=grafico+
     theme+ylab(ylab)+xlab(xlab)
-  if(degree=="1"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x,size=linesize,color="black")}
-  if(degree=="2"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2),size=linesize,color="black")}
-  if(degree=="3"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3),size=linesize,color="black")}
-  if(degree=="4"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)+I(x^4),size=linesize,color="black")}
-  if(degree=="0.5"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^0.5),size=linesize,color="black")}
+  if(degree=="1"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x,size=linesize,color=colorline)}
+  if(degree=="2"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2),size=linesize,color=colorline)}
+  if(degree=="3"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3),size=linesize,color=colorline)}
+  if(degree=="4"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)+I(x^4),size=linesize,color=colorline)}
+  if(degree=="0.5"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^0.5),size=linesize,color=colorline)}
   if(degree=="1"){grafico=grafico+
-    scale_fill_manual(values="gray",label=c(parse(text=s1)),name="")}
+    scale_fill_manual(values=fillshape,label=c(parse(text=s1)),name="")}
   if(degree=="2"){grafico=grafico+
-      scale_fill_manual(values="gray",label=c(parse(text=s2)),name="")}
+      scale_fill_manual(values=fillshape,label=c(parse(text=s2)),name="")}
   if(degree=="3"){grafico=grafico+
-      scale_fill_manual(values="gray",label=c(parse(text=s3)),name="")}
+      scale_fill_manual(values=fillshape,label=c(parse(text=s3)),name="")}
   if(degree=="4"){grafico=grafico+
-    scale_fill_manual(values="gray",label=c(parse(text=s4)),name="")}
+    scale_fill_manual(values=fillshape,label=c(parse(text=s4)),name="")}
   if(degree=="0.5"){grafico=grafico+
-    scale_fill_manual(values="gray",label=c(parse(text=s05)),name="")}
+    scale_fill_manual(values=fillshape,label=c(parse(text=s05)),name="")}
 
   grafico=grafico+
     theme(text = element_text(size=textsize,color="black",family = fontfamily),
@@ -324,11 +329,11 @@ LM=function(trat,
           legend.justification = 0)
   if(scale=="log"){grafico=grafico+scale_x_log10()}
 
-  moda=lm(resp~trat)
-  mod1a=lm(resp~trat+I(trat^2))
-  mod2a=lm(resp~trat+I(trat^2)+I(trat^3))
-  mod3a=lm(resp~trat+I(trat^2)+I(trat^3)+I(trat^4))
-  mod05a=lm(resp~trat+I(trat^0.5))
+  if(degree=="1"){moda=lm(resp~trat)}
+  if(degree=="2"){mod1a=lm(resp~trat+I(trat^2))}
+  if(degree=="3"){mod2a=lm(resp~trat+I(trat^2)+I(trat^3))}
+  if(degree=="4"){mod3a=lm(resp~trat+I(trat^2)+I(trat^3)+I(trat^4))}
+  if(degree=="0.5"){mod05a=lm(resp~trat+I(trat^0.5))}
 
   if(degree=="1"){
   models=mods

@@ -1,3 +1,11 @@
+# AgroReg 1.2.5
+
+* Fixed the bug of the `LM` function, where when the quantitative factor is negative and when using the midpoint, the curve is generated in reverse order.
+
+* The `plot_arrange` function has been improved
+
+* Added colorline and fillshape arguments
+
 # AgroReg 1.2.4
 
 * Fix `stat_param` bug in me, mse and rmse
@@ -8,7 +16,7 @@
 
 # AgroReg 1.2.3
 
-* Fix breakpoint response bug in linear.linear function
+* Fix breakpoint response bug in `linear.linear` function
 
 * Fix regression "N" model bug  
 

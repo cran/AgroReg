@@ -17,6 +17,8 @@
 #' @param pointsize	shape size
 #' @param linesize	line size
 #' @param pointshape format point (default is 21)
+#' @param colorline Color lines
+#' @param fillshape Fill shape
 #' @param round round equation
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
@@ -54,6 +56,8 @@ potential=function(trat,
                    pointsize = 4.5,
                    linesize = 0.8,
                    pointshape = 21,
+                   fillshape = "gray",
+                   colorline = "black",
                    round = NA,
                    yname.formula = "y",
                    xname.formula = "x",
@@ -81,8 +85,6 @@ potential=function(trat,
     A=round(coef$coefficients[,1][1],round)
     B=round(coef$coefficients[,1][2],round)}
 
-  # if(r2=="all"){r2=cor(resp, fitted(model))^2}
-  # if(r2=="mean"){r2=cor(ymean, predict(model,newdata=data.frame(trat=unique(trat))))^2}
   if(r2=="all"){r2=1-deviance(model)/deviance(lm(resp~1))}
   if(r2=="mean"){
     model1=nls(ymean~A*xmean^B,start = list(A=exp(coef(mod)[1]),
@@ -113,15 +115,15 @@ potential=function(trat,
                                                  width=width.bar,
                                                  size=linesize)}
     graph=graph+
-      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   if(point=="all"){
     graph=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     graph=graph+
-      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
 
   graph=graph+theme+geom_line(data=preditos,aes(x=x,
                                                 y=y,color="black"),size=linesize)+
-    scale_color_manual(name="",values=1,label=parse(text = equation))+
+    scale_color_manual(name="",values=colorline,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),
           legend.position = legend.position,

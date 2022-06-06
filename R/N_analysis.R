@@ -20,6 +20,8 @@
 #' @param add.line.mean Add line mean
 #' @param linesize	line size
 #' @param pointshape format point (default is 21)
+#' @param colorline Color lines
+#' @param fillshape Fill shape
 #' @param fontfamily Font family
 #' @return The function returns an exploratory graph of segments
 #' @keywords non-significant
@@ -48,6 +50,8 @@ Nreg=function(trat,
               linesize=0.8,
               pointsize = 4.5,
               pointshape = 21,
+              fillshape = "gray",
+              colorline = "black",
               fontfamily="sans"){
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   requireNamespace("ggplot2")
@@ -74,18 +78,18 @@ Nreg=function(trat,
                                                  width=width.bar,
                     size=linesize)}
     grafico=grafico+
-      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)
     }
   if(point=="all"){
     grafico=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     if(add.line==TRUE){grafico=grafico+stat_summary(geom="line",fun = "mean",
-                                                    size=linesize)}
-    if(add.line.mean==TRUE){grafico=grafico+geom_hline(yintercept = mean(resp,na.rm=TRUE),lty=2)}
+                                                    size=linesize,color=colorline)}
+    if(add.line.mean==TRUE){grafico=grafico+geom_hline(yintercept = mean(resp,na.rm=TRUE),lty=2,color=colorline)}
     grafico=grafico+
-      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   if(add.line.mean==TRUE){result=mean(media)}
   grafico=grafico+theme+ylab(ylab)+xlab(xlab)+
-    scale_color_manual(values="black",label=c(parse(text=s)),name="")+
+    scale_color_manual(values=colorline,label=c(parse(text=s)),name="")+
     theme(text = element_text(size=textsize,color="black"),
           axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),

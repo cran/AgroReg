@@ -21,6 +21,8 @@
 #' @param pointsize	Shape size
 #' @param linesize	Line size
 #' @param pointshape Format point (default is 21)
+#' @param colorline Color lines
+#' @param fillshape Fill shape
 #' @param round round equation
 #' @param xname.formula Name of x in the equation
 #' @param yname.formula Name of y in the equation
@@ -85,6 +87,8 @@ BC=function(trat,
             pointsize = 4.5,
             linesize = 0.8,
             pointshape = 21,
+            fillshape = "gray",
+            colorline = "black",
             round=NA,
             xname.formula="x",
             yname.formula="y",
@@ -190,11 +194,11 @@ BC=function(trat,
       geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),size=linesize,
                                                  width=width.bar)}
     graph=graph+
-      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   if(point=="all"){
     graph=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     graph=graph+
-      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill="gray")}
+      geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
 
   if(ic==TRUE){
   pred=data.frame(x=xp,
@@ -207,7 +211,7 @@ BC=function(trat,
     geom_line(data=preditos,aes(x=x,
                                 y=y,
                                 color="black"),size=linesize)+
-    scale_color_manual(name="",values=1,label=parse(text = equation))+
+    scale_color_manual(name="",values=colorline,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black", family = fontfamily),
           legend.position = legend.position,
