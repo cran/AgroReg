@@ -21,12 +21,10 @@ Change the colors of a graph from the plot_arrange function
 library(AgroReg)
 data("aristolochia")
 attach(aristolochia)
-a=LM(trat,resp)
-b=LL(trat,resp,npar = "LL.3")
-c=BC(trat,resp, npar = "BC.4")
-d=CD(trat,resp, npar = "CRS.4")
-graph=plot_arrange(list(a,b,c,d))
-coloredit_arrange(graph,color=c("black","red","blue","green"))
+graph1=LM(trat,resp)
+graph2=LL(trat,resp,npar = "LL.3")
+graph=plot_arrange(list(graph1,graph2))
+coloredit_arrange(graph,color=c("red","blue"))
 }
 \author{
 Gabriel Danilo Shimizu

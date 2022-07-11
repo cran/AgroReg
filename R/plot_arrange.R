@@ -20,13 +20,12 @@
 #' @export
 #' @examples
 #' library(AgroReg)
+#' library(ggplot2)
 #' data("aristolochia")
 #' attach(aristolochia)
 #' a=LM(trat,resp)
 #' b=LL(trat,resp,npar = "LL.3")
-#' c=BC(trat,resp, npar = "BC.4")
-#' d=CD(trat,resp, npar = "CRS.4")
-#' plot_arrange(list(a,b,c,d))
+#' plot_arrange(list(a,b))
 
 plot_arrange=function(plots,
                       point="mean",
@@ -49,13 +48,13 @@ plot_arrange=function(plots,
   grafico=ggplot()
   if(gray==FALSE & point=="mean"){
   for(i in 1:length(plots)){
-    equation[[i]]=plots[[i]][[]]$plot$s
-    x=plots[[i]][[]]$plot$temp1
-    y=plots[[i]][[]]$plot$result
+    equation[[i]]=plots[[i]][[3]]$plot$s
+    x=plots[[i]][[3]]$plot$temp1
+    y=plots[[i]][[3]]$plot$result
     data=data.frame(x,y,color=as.factor(i))
-    pontosx=plots[[i]][[]]$plot$data1$trat
-    pontosy=plots[[i]][[]]$plot$data1$resp
-    desvio=plots[[i]][[]]$plot$desvio
+    pontosx=plots[[i]][[3]]$plot$data1$trat
+    pontosy=plots[[i]][[3]]$plot$data1$resp
+    desvio=plots[[i]][[3]]$plot$desvio
     pontos=data.frame(x=pontosx,
                       y=pontosy,
                       desvio=desvio,
@@ -91,13 +90,13 @@ plot_arrange=function(plots,
           legend.text.align = 0)}
   if(gray==TRUE & point=="mean"){
     for(i in 1:length(plots)){
-      equation[[i]]=plots[[i]][[]]$plot$s
-      x=plots[[i]][[]]$plot$temp1
-      y=plots[[i]][[]]$plot$result
+      equation[[i]]=plots[[i]][[3]]$plot$s
+      x=plots[[i]][[3]]$plot$temp1
+      y=plots[[i]][[3]]$plot$result
       data=data.frame(x,y,color=as.factor(i))
-      pontosx=plots[[i]][[]]$plot$data1$trat
-      pontosy=plots[[i]][[]]$plot$data1$resp
-      desvio=plots[[i]][[]]$plot$desvio
+      pontosx=plots[[i]][[3]]$plot$data1$trat
+      pontosy=plots[[i]][[3]]$plot$data1$resp
+      desvio=plots[[i]][[3]]$plot$desvio
       pontos=data.frame(x=pontosx,y=pontosy,desvio=desvio,color=as.factor(i))
       grafico=grafico+
         geom_errorbar(data=pontos,
@@ -130,12 +129,12 @@ plot_arrange=function(plots,
             legend.text.align = 0)}
   if(gray==FALSE & point=="all"){
     for(i in 1:length(plots)){
-      equation[[i]]=plots[[i]][[]]$plot$s
-      x=plots[[i]][[]]$plot$temp1
-      y=plots[[i]][[]]$plot$result
+      equation[[i]]=plots[[i]][[3]]$plot$s
+      x=plots[[i]][[3]]$plot$temp1
+      y=plots[[i]][[3]]$plot$result
       data=data.frame(x,y,color=as.factor(i))
-      pontosx=plots[[i]][[]]$plot$trat
-      pontosy=plots[[i]][[]]$plot$resp
+      pontosx=plots[[i]][[3]]$plot$trat
+      pontosy=plots[[i]][[3]]$plot$resp
       pontos=data.frame(x=pontosx,
                         y=pontosy,
                         color=as.factor(i))
@@ -162,12 +161,12 @@ plot_arrange=function(plots,
             legend.text.align = 0)}
   if(gray==TRUE  & point=="all"){
     for(i in 1:length(plots)){
-      equation[[i]]=plots[[i]][[]]$plot$s
-      x=plots[[i]][[]]$plot$temp1
-      y=plots[[i]][[]]$plot$result
+      equation[[i]]=plots[[i]][[3]]$plot$s
+      x=plots[[i]][[3]]$plot$temp1
+      y=plots[[i]][[3]]$plot$result
       data=data.frame(x,y,color=as.factor(i))
-      pontosx=plots[[i]][[]]$plot$trat
-      pontosy=plots[[i]][[]]$plot$resp
+      pontosx=plots[[i]][[3]]$plot$trat
+      pontosy=plots[[i]][[3]]$plot$resp
       pontos=data.frame(x=pontosx,
                         y=pontosy,
                         color=as.factor(i))

@@ -94,7 +94,7 @@ attach(granada)
 asymptotic_i(time,100-WL)
 }
 \references{
-Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley & Sons (p. 330).
+Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley and Sons (p. 330).
 
 Siqueira, V. C., Resende, O., & Chaves, T. H. (2013). Mathematical modelling of the drying of jatropha fruit: an empirical comparison. Revista Ciencia Agronomica, 44, 278-285.
 }

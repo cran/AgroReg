@@ -110,7 +110,7 @@ attach(aristolochia)
 GP(trat,resp, npar="g3")
 }
 \references{
-Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley \& Sons (p. 330).
+Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley and Sons (p. 330).
 
 Ritz, C.; Strebig, J.C. and Ritz, M.C. Package ‘drc’. Creative Commons: Mountain View, CA, USA, 2016.
 }

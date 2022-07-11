@@ -64,13 +64,12 @@ Merge multiple curves into a single graph
 }
 \examples{
 library(AgroReg)
+library(ggplot2)
 data("aristolochia")
 attach(aristolochia)
 a=LM(trat,resp)
 b=LL(trat,resp,npar = "LL.3")
-c=BC(trat,resp, npar = "BC.4")
-d=CD(trat,resp, npar = "CRS.4")
-plot_arrange(list(a,b,c,d))
+plot_arrange(list(a,b))
 }
 \author{
 Gabriel Danilo Shimizu

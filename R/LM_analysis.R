@@ -449,7 +449,7 @@ LM=function(trat,
                                rmse))
   graficos=list("Coefficients"=models,
                 "values"=graphs,
-                "VIF"=vif,
-                grafico)
+                grafico,
+                "VIF"=vif)
   print(graficos)
 }

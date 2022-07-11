@@ -94,7 +94,7 @@ attach(granada)
 asymptotic(time,100-WL)
 }
 \references{
-Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley \& Sons (p. 330).
+Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley and Sons (p. 330).
 }
 \author{
 Gabriel Danilo Shimizu

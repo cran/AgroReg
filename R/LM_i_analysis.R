@@ -411,7 +411,7 @@ LM_i=function(trat,
                                rmse))
   graficos=list("Coefficients"=models,
                 "test"=graphs,
-                "VIF"=vif,
-                grafico)
+                grafico,
+                "VIF"=vif)
   print(graficos)
 }

@@ -35,8 +35,8 @@ stat_param<-function(models,
   ACU=c()
   ACs=c()
   for(i in 1:length(models)){
-  mod=models[[i]][[]]$plot$model
-  resp=models[[i]][[]]$plot$resp
+  mod=models[[i]][[3]]$plot$model
+  resp=models[[i]][[3]]$plot$resp
   mbe[i]=mean((predict(mod)-resp))
   rmbe[i]=mean((predict(mod)-resp))/mean(resp)*100
   mae[i]=1/length(resp)*sum(abs(predict(mod)-resp))

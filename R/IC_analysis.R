@@ -13,5 +13,5 @@
 #' interval.confidence(a)
 
 interval.confidence=function(model){
-  modelo=model[[]]$plot$model
+  modelo=model[[3]]$plot$model
   confint(modelo)}

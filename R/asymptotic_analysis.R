@@ -30,7 +30,7 @@
 #' \deqn{y = \alpha \times e^{-\beta \cdot x} + \theta}
 #' @author Gabriel Danilo Shimizu
 #' @author Leandro Simoes Azeredo Goncalves
-#' @references Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley \& Sons (p. 330).
+#' @references Seber, G. A. F. and Wild, C. J (1989) Nonlinear Regression, New York: Wiley and Sons (p. 330).
 #' @export
 #'
 #' @examples

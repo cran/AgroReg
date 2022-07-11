@@ -98,6 +98,6 @@ Nreg=function(trat,
           legend.direction = "vertical",
           legend.text.align = 0,
           legend.justification = 0)
-  graficos=list(teste="not significant",grafico)
+  graficos=list(teste="not significant",NA,grafico)
   print(graficos)
 }
