@@ -1,3 +1,13 @@
+# AgroReg 1.2.7
+
+* Added `linetype` argument to functions
+
+* `adjusted_scale_x`, `adjusted_scale_y` and `adjusted_scale` functions have been added
+
+* Fix `quadratic.plateau` bug  
+
+* The `plot_arrange` function bug when adding a number greater than 10 curves has been fixed.
+
 # AgroReg 1.2.5
 
 * Fixed the bug of the `LM` function, where when the quantitative factor is negative and when using the midpoint, the curve is generated in reverse order.

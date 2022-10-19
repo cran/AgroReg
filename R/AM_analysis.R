@@ -13,10 +13,11 @@
 #' @param r2 coefficient of determination of the mean or all values (\emph{default} is all)
 #' @param scale Sets x scale (\emph{default} is none, can be "log")
 #' @param point defines whether you want to plot all points ("all") or only the mean ("mean")
-#' @param width.bar	Bar width
+#' @param width.bar Bar width
 #' @param textsize Font size
-#' @param pointsize	shape size
-#' @param linesize	line size
+#' @param pointsize shape size
+#' @param linesize line size
+#' @param linetype line type
 #' @param pointshape format point (default is 21)
 #' @param colorline Color lines
 #' @param fillshape Fill shape
@@ -57,6 +58,7 @@ AM=function(trat,
             textsize = 12,
             pointsize = 4.5,
             linesize = 0.8,
+            linetype=1,
             pointshape = 21,
             fillshape = "gray",
             colorline = "black",
@@ -126,7 +128,7 @@ AM=function(trat,
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
 
   graph=graph+theme+geom_line(data=preditos,aes(x=x,
-                                                y=y,color="black"),size=linesize)+
+                                                y=y,color="black"),size=linesize,lty=linetype)+
     scale_color_manual(name="",values=colorline,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black", family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),

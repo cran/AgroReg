@@ -21,6 +21,7 @@ Nreg(
   add.line = FALSE,
   add.line.mean = FALSE,
   linesize = 0.8,
+  linetype = 1,
   pointsize = 4.5,
   pointshape = 21,
   fillshape = "gray",
@@ -60,6 +61,8 @@ Nreg(
 \item{add.line.mean}{Add line mean}
 
 \item{linesize}{line size}
+
+\item{linetype}{line type}
 
 \item{pointsize}{shape size}
 

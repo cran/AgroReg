@@ -51,14 +51,14 @@ plot_arrange=function(plots,
     equation[[i]]=plots[[i]][[3]]$plot$s
     x=plots[[i]][[3]]$plot$temp1
     y=plots[[i]][[3]]$plot$result
-    data=data.frame(x,y,color=as.factor(i))
+    data=data.frame(x,y,color=factor(i,unique(i)))
     pontosx=plots[[i]][[3]]$plot$data1$trat
     pontosy=plots[[i]][[3]]$plot$data1$resp
     desvio=plots[[i]][[3]]$plot$desvio
     pontos=data.frame(x=pontosx,
                       y=pontosy,
                       desvio=desvio,
-                      color=as.factor(i))
+                      color=factor(i,unique(i)))
     color=pontos$color
     grafico=grafico+
       geom_errorbar(data=pontos,
@@ -78,12 +78,12 @@ plot_arrange=function(plots,
   }
   texto=parse(text=paste(trat,"~",unlist(equation)))
   grafico=grafico+
-    scale_color_discrete(label=texto)+
+    scale_color_discrete(breaks=1:length(plots),label=texto)+
     theme+labs(color=legend.title)+ylab(ylab)+xlab(xlab)+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),
-          legend.title = element_text(size=textsize,family = fontfamily),
-          legend.text = element_text(size=textsize,family = fontfamily),
+          legend.text = element_text(size=legendsize,family = fontfamily),
+          legend.title = element_text(size=legendtitlesize,family = fontfamily),
           legend.position = legend.position,
           legend.justification='left',
           legend.direction = "vertical",
@@ -116,14 +116,14 @@ plot_arrange=function(plots,
     }
     texto=parse(text=paste(trat,"~",unlist(equation)))
     grafico=grafico+
-      scale_linetype_discrete(label=texto)+
-      scale_shape_discrete(label=texto)+
+      scale_linetype_discrete(label=texto,breaks=1:length(plots))+
+      scale_shape_discrete(label=texto,breaks=1:length(plots))+
       theme+labs(lty=legend.title,shape=legend.title)+ylab(ylab)+xlab(xlab)+
       theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
             axis.title = element_text(size=textsize,color="black",family = fontfamily),
             legend.position = legend.position,
-            legend.title = element_text(size=textsize,family = fontfamily),
-            legend.text=element_text(size=textsize,family = fontfamily),
+            legend.text = element_text(size=legendsize,family = fontfamily),
+            legend.title = element_text(size=legendtitlesize,family = fontfamily),
             legend.justification='left',
             legend.direction = "vertical",
             legend.text.align = 0)}
@@ -149,7 +149,7 @@ plot_arrange=function(plots,
                                 group=color),size=linesize)}
     texto=parse(text=paste(trat,"~",unlist(equation)))
     grafico=grafico+
-      scale_color_discrete(label=texto)+
+      scale_color_discrete(label=texto,breaks=1:length(plots))+
       theme+labs(color=legend.title)+ylab(ylab)+xlab(xlab)+
       theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
             axis.title = element_text(size=textsize,color="black",family = fontfamily),
@@ -183,8 +183,8 @@ plot_arrange=function(plots,
     }
     texto=parse(text=paste(trat,"~",unlist(equation)))
     grafico=grafico+
-      scale_linetype_discrete(label=texto)+
-      scale_shape_discrete(label=texto)+ylab(ylab)+xlab(xlab)+
+      scale_linetype_discrete(label=texto,breaks=1:length(plots))+
+      scale_shape_discrete(label=texto,breaks=1:length(plots))+ylab(ylab)+xlab(xlab)+
       theme+labs(lty=legend.title,shape=legend.title)+
       theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
             axis.title = element_text(size=textsize,color="black",family = fontfamily),

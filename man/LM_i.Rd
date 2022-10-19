@@ -24,6 +24,7 @@ LM_i(
   textsize = 12,
   pointsize = 4.5,
   linesize = 0.8,
+  linetype = 1,
   pointshape = 21,
   fillshape = "gray",
   colorline = "black",
@@ -73,6 +74,8 @@ LM_i(
 
 \item{linesize}{line size}
 
+\item{linetype}{line type}
+
 \item{pointshape}{format point (default is 21)}
 
 \item{fillshape}{Fill shape}
@@ -111,7 +114,7 @@ The quartic model is defined by:
 library(AgroReg)
 data("aristolochia")
 attach(aristolochia)
-LM(trat,resp, degree = 3)
+LM_i(trat,resp, degree = 3)
 }
 \author{
 Gabriel Danilo Shimizu

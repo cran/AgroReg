@@ -16,6 +16,7 @@
 #' @param textsize Font size
 #' @param pointsize	shape size
 #' @param linesize	line size
+#' @param linetype line type
 #' @param pointshape format point (default is 21)
 #' @param colorline Color lines
 #' @param fillshape Fill shape
@@ -53,6 +54,7 @@ yieldloss=function(trat,
             textsize = 12,
             pointsize = 4.5,
             linesize = 0.8,
+            linetype=1,
             pointshape = 21,
             fillshape = "gray",
             colorline = "black",
@@ -146,7 +148,7 @@ yieldloss=function(trat,
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   graph=graph+theme+
-    geom_line(data=preditos,aes(x=x,y=y,color="black"))+
+    geom_line(data=preditos,aes(x=x,y=y,color="black"),size=linesize,lty=linetype)+
     scale_color_manual(name="",values=colorline,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),

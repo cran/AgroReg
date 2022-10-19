@@ -21,6 +21,7 @@ midillim(
   textsize = 12,
   pointsize = 4.5,
   linesize = 0.8,
+  linetype = 1,
   pointshape = 21,
   fillshape = "gray",
   colorline = "black",
@@ -63,6 +64,8 @@ midillim(
 \item{pointsize}{shape size}
 
 \item{linesize}{line size}
+
+\item{linetype}{line type}
 
 \item{pointshape}{format point (default is 21)}
 

@@ -24,6 +24,7 @@ BC(
   textsize = 12,
   pointsize = 4.5,
   linesize = 0.8,
+  linetype = 1,
   pointshape = 21,
   fillshape = "gray",
   colorline = "black",
@@ -72,6 +73,8 @@ BC(
 \item{pointsize}{Shape size}
 
 \item{linesize}{Line size}
+
+\item{linetype}{line type}
 
 \item{pointshape}{Format point (default is 21)}
 

@@ -17,6 +17,7 @@
 #' @param textsize Font size
 #' @param pointsize	Shape size
 #' @param linesize	Line size
+#' @param linetype line type
 #' @param pointshape Format point (default is 21)
 #' @param round round equation
 #' @param colorline Color lines
@@ -55,6 +56,7 @@ SH=function(trat,
             textsize = 12,
             pointsize = 4.5,
             linesize = 0.8,
+            linetype=1,
             pointshape = 21,
             fillshape = "gray",
             colorline = "black",
@@ -132,7 +134,7 @@ SH=function(trat,
   graph=graph+theme+
     geom_line(data=preditos,aes(x=x,
                                 y=y,
-                                color="black"),size=linesize)+
+                                color="black"),size=linesize,lty=linetype)+
     scale_color_manual(name="",values=colorline,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),

@@ -19,6 +19,7 @@
 #' @param add.line Add line
 #' @param add.line.mean Add line mean
 #' @param linesize	line size
+#' @param linetype line type
 #' @param pointshape format point (default is 21)
 #' @param colorline Color lines
 #' @param fillshape Fill shape
@@ -48,6 +49,7 @@ Nreg=function(trat,
               add.line=FALSE,
               add.line.mean=FALSE,
               linesize=0.8,
+              linetype=1,
               pointsize = 4.5,
               pointshape = 21,
               fillshape = "gray",
@@ -83,7 +85,7 @@ Nreg=function(trat,
   if(point=="all"){
     grafico=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     if(add.line==TRUE){grafico=grafico+stat_summary(geom="line",fun = "mean",
-                                                    size=linesize,color=colorline)}
+                                                    size=linesize,color=colorline,lty=linetype)}
     if(add.line.mean==TRUE){grafico=grafico+geom_hline(yintercept = mean(resp,na.rm=TRUE),lty=2,color=colorline)}
     grafico=grafico+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}

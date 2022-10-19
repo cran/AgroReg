@@ -20,7 +20,9 @@ regression(
   round = NA,
   fontfamily = "sans",
   error = "SE",
-  width.bar = NA
+  width.bar = NA,
+  xname.formula = "x",
+  yname.formula = "y"
 )
 }
 \arguments{
@@ -55,6 +57,10 @@ regression(
 \item{error}{Error bar (It can be SE - \emph{default}, SD or FALSE)}
 
 \item{width.bar}{Bar width}
+
+\item{xname.formula}{Name of x in the equation}
+
+\item{yname.formula}{Name of y in the equation}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.

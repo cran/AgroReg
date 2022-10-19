@@ -21,6 +21,7 @@
 #' @param textsize Font size
 #' @param pointsize	shape size
 #' @param linesize	line size
+#' @param linetype line type
 #' @param pointshape format point (default is 21)
 #' @param colorline Color lines
 #' @param fillshape Fill shape
@@ -70,6 +71,7 @@ LM=function(trat,
             textsize = 12,
             pointsize = 4.5,
             linesize = 0.8,
+            linetype=1,
             pointshape = 21,
             fillshape = "gray",
             colorline = "black",
@@ -302,11 +304,11 @@ LM=function(trat,
 
   grafico=grafico+
     theme+ylab(ylab)+xlab(xlab)
-  if(degree=="1"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x,size=linesize,color=colorline)}
-  if(degree=="2"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2),size=linesize,color=colorline)}
-  if(degree=="3"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3),size=linesize,color=colorline)}
-  if(degree=="4"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)+I(x^4),size=linesize,color=colorline)}
-  if(degree=="0.5"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^0.5),size=linesize,color=colorline)}
+  if(degree=="1"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x,size=linesize,color=colorline,lty=linetype)}
+  if(degree=="2"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2),size=linesize,color=colorline,lty=linetype)}
+  if(degree=="3"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3),size=linesize,color=colorline,lty=linetype)}
+  if(degree=="4"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)+I(x^4),size=linesize,color=colorline,lty=linetype)}
+  if(degree=="0.5"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^0.5),size=linesize,color=colorline,lty=linetype)}
   if(degree=="1"){grafico=grafico+
     scale_fill_manual(values=fillshape,label=c(parse(text=s1)),name="")}
   if(degree=="2"){grafico=grafico+

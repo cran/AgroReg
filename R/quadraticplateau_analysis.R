@@ -16,6 +16,7 @@
 #' @param textsize Font size
 #' @param pointsize	shape size
 #' @param linesize	line size
+#' @param linetype line type
 #' @param pointshape format point (default is 21)
 #' @param colorline Color lines
 #' @param fillshape Fill shape
@@ -63,6 +64,7 @@ quadratic.plateau=function(trat,resp,
                       textsize = 12,
                       pointsize = 4.5,
                       linesize = 0.8,
+                      linetype=1,
                       pointshape = 21,
                       fillshape = "gray",
                       colorline = "black",
@@ -155,7 +157,7 @@ quadratic.plateau=function(trat,resp,
     coef3=round(coef(model1)[3],round)
     coef4=round(breakpoint,round)}
 
-  s <- sprintf("~~~%s == %e %s %e * %s %s %e * %s^2~(%s^'<'^%e) ~~~~~ italic(R^2) ==  %0.2f",
+  s <- sprintf("~~~%s == %e %s %e * %s %s %e * %s^2~(%s~'<'~%e) ~~~~~ italic(R^2) ==  %0.2f",
                yname.formula,
                coef1,
                ifelse(coef2 >= 0, "+", "-"),
@@ -197,7 +199,7 @@ quadratic.plateau=function(trat,resp,
   graph=graph+theme+
     geom_line(data=preditos,aes(x=x,
                                 y=y,
-                                color="black"),size=linesize)+
+                                color="black"),size=linesize,lty=linetype)+
     scale_color_manual(name="",values=colorline,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),
@@ -230,8 +232,8 @@ quadratic.plateau=function(trat,resp,
                                rmse))
   graficos=list("Coefficients quadratic model"=model1,
                 "Coefficients segmented"=model2,
-                "values"=graphs,
-                graph)
+                graph,
+                "values"=graphs)
   print(graficos)
 
 }
