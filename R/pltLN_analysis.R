@@ -47,7 +47,8 @@
 #' x=time[length(time):1]
 #' plateau.linear(x,WL)
 
-plateau.linear=function(trat,resp,
+plateau.linear=function(trat,
+                        resp,
                         sample.curve=1000,
                         ylab="Dependent",
                         xlab="Independent",
@@ -191,9 +192,8 @@ plateau.linear=function(trat,resp,
                                bic,
                                r2,
                                rmse))
-  graficos=list("Coefficients segmented"=model2,
+  graficos=list("Coefficients"=model2,
                 "values"=graphs,
-                graph)
-  print(graficos)
-
+                "plot"=graph)
+  graficos
 }

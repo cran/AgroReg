@@ -26,6 +26,12 @@
 #' a=LM(trat,resp)
 #' b=LL(trat,resp,npar = "LL.3")
 #' plot_arrange(list(a,b))
+#'
+#' models <- c("LM1", "LL3")
+#' r <- lapply(models, function(x) {
+#' r <- with(granada, regression(time, WL, model = x))
+#' })
+#' plot_arrange(r,trat=models,ylab="WL (%)",xlab="Time (Minutes)")
 
 plot_arrange=function(plots,
                       point="mean",

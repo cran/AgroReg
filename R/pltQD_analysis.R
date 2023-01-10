@@ -68,7 +68,8 @@
 #' @rdname plateau.quadratic
 #' @export
 
-plateau.quadratic=function(trat,resp,
+plateau.quadratic=function(trat,
+                           resp,
                            sample.curve=1000,
                            ylab="Dependent",
                            xlab="Independent",
@@ -204,11 +205,10 @@ plateau.quadratic=function(trat,resp,
                                bic,
                                r2,
                                rmse))
-  graficos=list("Coefficients quadratic model"=model2,
+  graficos=list("Coefficients"=model2,
                 "values"=graphs,
-                graph)
-  print(graficos)
-
+                "plot"=graph)
+  graficos
 }
 
 

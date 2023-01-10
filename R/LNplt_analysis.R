@@ -193,7 +193,6 @@ linear.plateau=function(trat,resp,
                                rmse))
   graficos=list("Coefficients segmented"=model2,
                 "values"=graphs,
-                graph)
-  print(graficos)
-
+                "plot"=graph)
+  graficos
 }

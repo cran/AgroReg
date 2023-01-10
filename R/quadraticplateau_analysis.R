@@ -232,8 +232,7 @@ quadratic.plateau=function(trat,resp,
                                rmse))
   graficos=list("Coefficients quadratic model"=model1,
                 "Coefficients segmented"=model2,
-                graph,
+                "plot"=graph,
                 "values"=graphs)
-  print(graficos)
-
+  graficos
 }

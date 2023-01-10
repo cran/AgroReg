@@ -190,7 +190,7 @@ LM23=function(trat,
                                rmse))
   graficos=list("Coefficients"=models,
                 "values"=graphs,
-                grafico,
+                "plot"=grafico,
                 "VIF"=vif)
-  print(graficos)
+  graficos
 }

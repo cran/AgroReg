@@ -154,6 +154,6 @@ newton=function(trat,
                                rmse))
   graficos=list("Coefficients"=coef,
                 "values"=graphs,
-                graph)
-  print(graficos)
+                "plot"=graph)
+  graficos
 }

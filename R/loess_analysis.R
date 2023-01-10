@@ -107,6 +107,8 @@ loessreg=function(trat,
                                respmax,
                                minimo,
                                respmin))
-  graficos=list("test"=graphs,graph)
-  print(graficos)
+  graficos=list("Coefficients"=NA,
+                "values"=graphs,
+                "plot"=graph)
+  graficos
 }

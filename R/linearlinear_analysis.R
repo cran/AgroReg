@@ -26,6 +26,7 @@
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @param fontfamily Font family
+#' @import purrr
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); breakpoint and the graph using ggplot2 with the equation automatically.
 #' @details
 #' The linear-linear model is defined by:
@@ -74,6 +75,7 @@ linear.linear=function (trat,
                     comment=NA,
                     fontfamily="sans"){
   requireNamespace("ggplot2")
+  requireNamespace("purrr")
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   piecewise.linear.simple <- function(x, y, middle=1){
     piecewise.linear.likelihood <- function(alpha, x, y){
@@ -96,7 +98,6 @@ linear.linear=function (trat,
     temp <- stats::optimize(piecewise.linear.likelihood, c(low, high), x=x, y=y, maximum=TRUE);
     return(temp$maximum);
   }
-  requireNamespace("ggplot2")
   x=trat
   y=resp
   alpha <- piecewise.linear.simple(x, y, middle)
@@ -224,6 +225,6 @@ linear.linear=function (trat,
                                rmse))
   graficos=list("Coefficients"=summary(mod$model),
                 "values"=graphs,
-                graph)
-  print(graficos)
+                "plot"=graph)
+  graficos
 }

@@ -11,7 +11,7 @@ Linear and nonlinear regression analysis common in agricultural science articles
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://agror.shinyapps.io/agroreg_shiny/}
+  \item \url{https://fisher.uel.br/AgroReg_shiny/}
 }
 
 }

@@ -163,7 +163,6 @@ yieldloss=function(trat,
   result=predict(mod,newdata = data.frame(trat=temp1),type="response")
   aic=AIC(mod)
   bic=BIC(mod)
-  print(coef)
   predesp=predict(mod)
   predobs=resp
   rmse=sqrt(mean((predesp-predobs)^2))
@@ -175,6 +174,8 @@ yieldloss=function(trat,
                                bic,
                                r2,
                                rmse))
-  graficos=list("teste"=graphs,graph)
-  print(graficos)
+  graficos=list("Coefficients"=coef,
+                "values"=graphs,
+                "plot"=graph)
+  graficos
 }
