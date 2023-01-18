@@ -32,6 +32,12 @@
 #' r <- with(granada, regression(time, WL, model = x))
 #' })
 #' plot_arrange(r,trat=models,ylab="WL (%)",xlab="Time (Minutes)")
+#'
+#' models = c("asymptotic_neg", "biexponential", "LL4", "BC4", "CD5", "linear.linear",
+#'            "linear.plateau", "quadratic.plateau", "mitscherlich", "MM2")
+#' m = lapply(models, function(x) {
+#'            m = with(granada, regression(time, WL, model = x))})
+#'            plot_arrange(m, trat = paste("(",models,")"))
 
 plot_arrange=function(plots,
                       point="mean",

@@ -21,22 +21,6 @@ Returns a table and/or graph with the statistical parameters for choosing the mo
 \description{
 This function allows the construction of a table and/or graph with the statistical parameters to choose the model from the analysis functions.
 }
-\examples{
-library(AgroReg)
-data(granada)
-attach(granada)
-a=LM(time,WL)
-b=LL(time,WL)
-c=BC(time,WL)
-d=weibull(time,WL)
-comparative_model(models=list(a,b,c,d),names_model=c("LM","LL","BC","Weibull"))
-
-models <- c("LM1", "LM4", "L3", "weibull3","mitscherlich", "linear.plateau", "VG")
-r <- lapply(models, function(x) {
-r <- with(granada, regression(time, WL, model = x))
-})
-comparative_model(r,plot = TRUE)
-}
 \author{
 Gabriel Danilo Shimizu
 }

@@ -1,3 +1,13 @@
+# AgroReg 1.2.9
+
+* Fix `regression` bug for Cedergreen-Ritz-Streibig model.
+
+* The third element of the output has been named "plot" and function outputs to models no longer return a print.
+
+* The shiny apps are now implemented on the server of the State University of Londrina.
+
+
+
 # AgroReg 1.2.7
 
 * Added `linetype` argument to functions

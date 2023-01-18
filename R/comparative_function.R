@@ -18,7 +18,7 @@
 #' d=weibull(time,WL)
 #' comparative_model(models=list(a,b,c,d),names_model=c("LM","LL","BC","Weibull"))
 #'
-#' models <- c("LM1", "LM4", "L3", "weibull3","mitscherlich", "linear.plateau", "VG")
+#' models <- c("LM1", "LM4", "L3", "BC4,"weibull3","mitscherlich", "linear.plateau", "VG")
 #' r <- lapply(models, function(x) {
 #' r <- with(granada, regression(time, WL, model = x))
 #' })

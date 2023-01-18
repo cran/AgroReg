@@ -16,10 +16,10 @@
 #' extract.model(a,type = "qqplot")
 
 extract.model=function(model,type="model"){
-  if(type=="model"){results=model[[]]$plot$model}
-  if(type=="resid"){results=resid(model[[]]$plot$model)}
+  if(type=="model"){results=model$plot$plot$model}
+  if(type=="resid"){results=resid(model$plot$plot$model)}
   if(type=="residplot"){
-    resids=resid(model[[3]]$plot$model)
+    resids=resid(model$plot$plot$model)
     data=data.frame(ID=1:length(resids),resids)
     requireNamespace("ggplot2")
     results=ggplot(data,aes(x=ID,y=resids))+
@@ -30,7 +30,7 @@ extract.model=function(model,type="model"){
       ylab("Residuals")+
       theme(axis.text = element_text(size=12))}
   if(type=="stdresidplot"){
-    resids=resid(model[[3]]$plot$model)
+    resids=resid(model$plot$plot$model)
     resids=resids/sd(resids)
     ID=1:length(resids)
     data=data.frame(ID=ID,resids)
@@ -46,7 +46,7 @@ extract.model=function(model,type="model"){
       #scale_x_continuous(breaks=seq(1,length(resids)))+
       theme(axis.text = element_text(size=12))}
   if(type=="qqplot"){
-    yres=sort(resid(model[[3]]$plot$model))
+    yres=sort(resid(model$plot$plot$model))
     distribution = qnorm
     probs=c(0.25,0.75)
     stopifnot(length(probs) == 2, is.function(distribution))
