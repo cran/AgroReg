@@ -6,8 +6,6 @@
 
 * The shiny apps are now implemented on the server of the State University of Londrina.
 
-
-
 # AgroReg 1.2.7
 
 * Added `linetype` argument to functions

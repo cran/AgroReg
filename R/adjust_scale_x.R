@@ -20,7 +20,7 @@
 adjust_scale_x=function(plots,
                         scale="default",
                         limits="default"){
-  if(length(plots)==9){plots=plots}else{plots=plots[[3]]}
+  if(length(plots)==3 | length(plots)==3){plots=plots[[3]]}else{plots=plots}
   requireNamespace("ggplot2")
   if(limits[1]=="default"){limits=c(min(plots$plot$data$x),
                                     max(plots$plot$data$x))}

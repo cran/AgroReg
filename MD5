@@ -1,6 +1,6 @@
-01e42fd165fb9ea4f26c0dd283a8b99c *DESCRIPTION
+eb4c092b2c17dc2bde03e9d8d11e320b *DESCRIPTION
 6871843ef874dec406d050cec9e4aecd *NAMESPACE
-b9d691c69fc313a03be8fd64a1542af2 *NEWS.md
+05b92c5e31cf8fe3f8cec465993d0559 *NEWS.md
 e50e70bf78d961ecd809cad26c6512bc *R/AM_analysis.R
 ef522045c6c0c93423178b706d26a6c6 *R/BC_analysis.R
 0eb6d14fe02f99aaebb8efe305fb912d *R/BIEXP_analysis.R
@@ -23,9 +23,9 @@ c95c43bc8d0344574915a111397d8482 *R/MM_analysis.R
 5bba7ec0c7a1e0d88325eafa8c96606f *R/SH_function.R
 d5f0ad30bd19a2e1608b94aa870d2d0c *R/VB_analysis.R
 aec7607f9d651e319571311ec20bf49b *R/VG_analysis.R
-118a9e6fbfe24e0edc05976f2e2050a2 *R/adjust_scale.R
-c7c0d950251d341b027a4f1089ee47ca *R/adjust_scale_x.R
-73917bb56c6582b503143c774c078bef *R/adjust_scale_y.R
+f85304934e8c1194ba4c75a92267854f *R/adjust_scale.R
+220f46ce8daabe8971c188ba4a7ad26d *R/adjust_scale_x.R
+f37b2e102547f5de8bb2640a4aa67113 *R/adjust_scale_y.R
 a09028f2894e60eb8ddb5f5909b4f49e *R/aristolochia_dataset.R
 391fe18099daed08e9f5b89a604fba6f *R/asymptotic_analysis.R
 3a96cabed1c09a39fa8d93f733116208 *R/asymptotic_i_analysis.R
@@ -62,11 +62,11 @@ c7f29e6e15838c935be9abdccba5171a *R/valcam_analysis.R
 b98b559d8dcc06f054073f58d96e9b03 *R/weibull_analysis.R
 ae8fec62bfd33576e7025e8bd819fcbb *R/yieldloss_analysis.R
 cd03030e8ed2ce81dac99cffc1355b0a *README.md
-f762ed377c477acbf30e1a3fc6c05689 *build/partial.rdb
+2836b2c5db38c9819380bd093383d89d *build/partial.rdb
 088606691e0d9519a9dc1fcb11426c73 *data/aristolochia.RData
 41dda6ba99d57307d5b825b6817ff10d *data/granada.RData
 da29ccd89e09507cf7bdb3a41594294e *man/AM.Rd
-100393b14ae28bc946c40bb8f24e1a77 *man/AgroReg-package.Rd
+4a25ae5b7f9204926023c8c998edb05d *man/AgroReg-package.Rd
 975c37846ad80c7839642a019479a894 *man/BC.Rd
 e236304b685d88191e0d7843022554d9 *man/CD.Rd
 4c0886368e86e5c3c06ba2ef955025c4 *man/GP.Rd
