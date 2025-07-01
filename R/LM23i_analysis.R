@@ -27,6 +27,7 @@
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @param fontfamily Font family
+#' @param print.on Print output
 #'
 #' @details
 #' Inverse degree 3 polynomial model without the beta 1 coefficient  is defined by:
@@ -63,7 +64,8 @@ LM23i=function(trat,
                xname.formula="x",
                yname.formula="y",
                comment=NA,
-               fontfamily="sans"){
+               fontfamily="sans",
+               print.on=TRUE){
   requireNamespace("ggplot2")
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   dados=data.frame(trat,resp)
@@ -109,7 +111,7 @@ LM23i=function(trat,
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=media-desvio,
                                                      ymax=media+desvio),
                                                  width=width.bar,
-                                                 size=linesize)}
+                                                 linewidth=linesize)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   if(point=="all"){
@@ -118,7 +120,7 @@ LM23i=function(trat,
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   grafico=graph+theme+
     geom_line(data=preditos,aes(x=x,
-                                y=y,color="black"),size=linesize,lty=linetype)+
+                                y=y,color="black"),linewidth=linesize,lty=linetype)+
     scale_color_manual(name="",values=colorline,label=parse(text = s1))+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),
@@ -191,6 +193,14 @@ LM23i=function(trat,
   graficos=list("Coefficients"=models,
                 "values"=graphs,
                 "plot"=grafico,
-                "VIF"=vif)
-  graficos
+                "VIF"=vif,
+                "expression"=s,
+                "xaxisp"=temp1,
+                "yaxisp"=result,
+                "trt"=trat,
+                "resp"=resp,
+                "desvio"=desvio,
+                "model"=model)
+  if(print.on==TRUE){print(graficos[1:3])}
+  output=graficos
 }

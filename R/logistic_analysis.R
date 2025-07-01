@@ -29,6 +29,7 @@
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @param fontfamily Font family
+#' @param print.on Print output
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @details The three-parameter logistic function with lower limit 0 is
 #' \deqn{y = 0 + \frac{d}{1+\exp(b(x-e))}}
@@ -77,7 +78,8 @@ logistic=function(trat,
             xname.formula="x",
             yname.formula="y",
             comment=NA,
-            fontfamily="sans"){
+            fontfamily="sans",
+            print.on=TRUE){
   requireNamespace("drc")
   requireNamespace("ggplot2")
   ymean=tapply(resp,trat,mean)
@@ -201,7 +203,7 @@ logistic=function(trat,
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
                                                  width=width.bar,
-                                                 size=linesize)}
+                                                 linewidth=linesize)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   if(point=="all"){
@@ -218,7 +220,7 @@ logistic=function(trat,
   graph=graph+
     theme+
     geom_line(data=preditos,aes(x=x,
-                                y=y,color="black"),size=linesize,lty=linetype)+
+                                y=y,color="black"),linewidth=linesize,lty=linetype)+
     scale_color_manual(name="",values=colorline,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),
@@ -255,6 +257,14 @@ logistic=function(trat,
                                rmse))
   graficos=list("Coefficients"=coef,
                 "values"=graphs,
-                "plot"=graph)
-  graficos
+                "plot"=graph,
+                "expression"=s,
+                "xaxisp"=temp1,
+                "yaxisp"=result,
+                "trt"=trat,
+                "resp"=resp,
+                "desvio"=desvio,
+                "model"=model)
+  if(print.on==TRUE){print(graficos[1:3])}
+  output=graficos
 }

@@ -25,7 +25,7 @@ adjust_scale=function(plots,
                       limits.x="default",
                       scale.y="default",
                       limits.y="default"){
-  if(length(plots)==3 | length(plots)==3){plots=plots[[3]]}else{plots=plots}
+  if(length(plots)==3 | length(plots)==4){plots=plots$plot}else{plots=plots}
   requireNamespace("ggplot2")
 
   if(limits.y[1]=="default"){limits.y=c(min(plots$plot$data$y),

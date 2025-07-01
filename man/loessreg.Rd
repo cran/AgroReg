@@ -24,7 +24,8 @@ loessreg(
   pointshape = 21,
   fillshape = "gray",
   colorline = "black",
-  fontfamily = "sans"
+  fontfamily = "sans",
+  print.on = TRUE
 )
 }
 \arguments{
@@ -67,6 +68,8 @@ loessreg(
 \item{colorline}{Color lines}
 
 \item{fontfamily}{Font family}
+
+\item{print.on}{Print output}
 }
 \value{
 The function returns a list containing the loess regression and graph using ggplot2.

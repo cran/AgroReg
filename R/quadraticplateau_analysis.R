@@ -25,6 +25,7 @@
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @param fontfamily Font family
+#' @param print.on Print output
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @details
 #' The quadratic-plateau model is defined by:
@@ -72,7 +73,8 @@ quadratic.plateau=function(trat,resp,
                       yname.formula="y",
                       xname.formula="x",
                       comment=NA,
-                      fontfamily="sans"){
+                      fontfamily="sans",
+                      print.on=TRUE){
   requireNamespace("minpack.lm")
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   requireNamespace("dplyr")
@@ -182,7 +184,7 @@ quadratic.plateau=function(trat,resp,
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
                                                  width=width.bar,
-                                                 size=linesize)}
+                                                 linewidth=linesize)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   if(point=="all"){
@@ -199,7 +201,7 @@ quadratic.plateau=function(trat,resp,
   graph=graph+theme+
     geom_line(data=preditos,aes(x=x,
                                 y=y,
-                                color="black"),size=linesize,lty=linetype)+
+                                color="black"),linewidth=linesize,lty=linetype)+
     scale_color_manual(name="",values=colorline,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),
@@ -233,6 +235,14 @@ quadratic.plateau=function(trat,resp,
   graficos=list("Coefficients quadratic model"=model1,
                 "Coefficients segmented"=model2,
                 "plot"=graph,
-                "values"=graphs)
-  graficos
+                "values"=graphs,
+                "expression"=s,
+                "xaxisp"=temp1,
+                "yaxisp"=result,
+                "trt"=trat,
+                "resp"=resp,
+                "desvio"=desvio,
+                "model"=model)
+  if(print.on==TRUE){print(graficos[1:3])}
+  output=graficos
 }

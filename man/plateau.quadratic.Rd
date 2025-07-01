@@ -29,7 +29,8 @@ plateau.quadratic(
   yname.formula = "y",
   xname.formula = "x",
   comment = NA,
-  fontfamily = "sans"
+  fontfamily = "sans",
+  print.on = TRUE
 )
 
 plquadratic(x, a, breakpoint, b, c)
@@ -82,6 +83,8 @@ plquadratic(x, a, breakpoint, b, c)
 \item{comment}{Add text after equation}
 
 \item{fontfamily}{Font family}
+
+\item{print.on}{Print output}
 
 \item{x}{Numeric vector with dependent variable.}
 

@@ -26,6 +26,7 @@
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @param fontfamily Font family
+#' @param print.on Print output
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @details The model function for the von Bertalanffy model is:
 #' \deqn{ y = L(1-exp(-k(t-t0)))}
@@ -63,7 +64,8 @@ VB=function(trat,
             yname.formula="y",
             xname.formula="x",
             comment=NA,
-            fontfamily="sans"){
+            fontfamily="sans",
+            print.on=TRUE){
   requireNamespace("ggplot2")
   requireNamespace("drc")
   ymean=tapply(resp,trat,mean)
@@ -122,7 +124,7 @@ VB=function(trat,
   if(point=="mean"){
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+
-      geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),size=linesize,
+      geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),linewidth=linesize,
                     width=width.bar)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
@@ -133,7 +135,7 @@ VB=function(trat,
   graph=graph+theme+
     geom_line(data=preditos,aes(x=x,
                                 y=y,
-                                color="black"),size=linesize,lty=linetype)+
+                                color="black"),linewidth=linesize,lty=linetype)+
     scale_color_manual(name="",values=colorline,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),
@@ -171,6 +173,14 @@ VB=function(trat,
                                rmse))
   graficos=list("Coefficients"=coef,
                 "values"=graphs,
-                "plot"=graph)
-  graficos
+                "plot"=graph,
+                "expression"=s,
+                "xaxisp"=temp1,
+                "yaxisp"=result,
+                "trt"=trat,
+                "resp"=resp,
+                "desvio"=desvio,
+                "model"=model)
+  if(print.on==TRUE){print(graficos[1:3])}
+  output=graficos
 }

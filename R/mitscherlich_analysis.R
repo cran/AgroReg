@@ -27,6 +27,7 @@
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @param fontfamily Font family
+#' @param print.on Print output
 #' @details
 #' The Mitscherlich model is defined by:
 #' \deqn{y = A \times (1-10^{-eb-ex})}
@@ -69,7 +70,8 @@ mitscherlich=function(trat,
                      yname.formula="y",
                      xname.formula="x",
                      comment=NA,
-                     fontfamily="sans"){
+                     fontfamily="sans",
+                     print.on=TRUE){
   requireNamespace("ggplot2")
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   ymean=tapply(resp,trat,mean)
@@ -128,7 +130,7 @@ mitscherlich=function(trat,
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
                                                  width=width.bar,
-                                                 size=linesize)}
+                                                 linewidth=linesize)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   if(point=="all"){
@@ -137,7 +139,7 @@ mitscherlich=function(trat,
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
 
   graph=graph+theme+geom_line(data=preditos,aes(x=x,
-                                                y=y,color="black"),size=linesize,lty=linetype)+
+                                                y=y,color="black"),linewidth=linesize,lty=linetype)+
     scale_color_manual(name="",values=colorline,label=parse(text = equation))+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),
@@ -174,6 +176,14 @@ mitscherlich=function(trat,
                                rmse))
   graficos=list("Coefficients"=coef,
                 "values"=graphs,
-                "plot"=graph)
-  graficos
+                "plot"=graph,
+                "expression"=s,
+                "xaxisp"=temp1,
+                "yaxisp"=result,
+                "trt"=trat,
+                "resp"=resp,
+                "desvio"=desvio,
+                "model"=model)
+  if(print.on==TRUE){print(graficos[1:3])}
+  output=graficos
 }

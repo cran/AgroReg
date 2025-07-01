@@ -29,14 +29,14 @@
 #'
 #' models <- c("LM1", "LL3")
 #' r <- lapply(models, function(x) {
-#' r <- with(granada, regression(time, WL, model = x))
+#' r <- with(granada, regression(time, WL, model = x,print.on=FALSE))
 #' })
 #' plot_arrange(r,trat=models,ylab="WL (%)",xlab="Time (Minutes)")
 #'
 #' models = c("asymptotic_neg", "biexponential", "LL4", "BC4", "CD5", "linear.linear",
 #'            "linear.plateau", "quadratic.plateau", "mitscherlich", "MM2")
 #' m = lapply(models, function(x) {
-#'            m = with(granada, regression(time, WL, model = x))})
+#'            m = with(granada, regression(time, WL, model = x,print.on=FALSE))})
 #'            plot_arrange(m, trat = paste("(",models,")"))
 
 plot_arrange=function(plots,
@@ -60,17 +60,17 @@ plot_arrange=function(plots,
   grafico=ggplot()
   if(gray==FALSE & point=="mean"){
   for(i in 1:length(plots)){
-    equation[[i]]=plots[[i]][[3]]$plot$s
-    x=plots[[i]][[3]]$plot$temp1
-    y=plots[[i]][[3]]$plot$result
+    equation[[i]]=plots[[i]]$expression
+    x=plots[[i]]$xaxisp
+    y=plots[[i]]$yaxisp
     data=data.frame(x,y,color=factor(i,unique(i)))
-    pontosx=plots[[i]][[3]]$plot$data1$trat
-    pontosy=plots[[i]][[3]]$plot$data1$resp
-    desvio=plots[[i]][[3]]$plot$desvio
+    pontosx=plots[[i]]$trt
+    pontosy=plots[[i]]$resp
+    desvio=plots[[i]]$desvio
     pontos=data.frame(x=pontosx,
                       y=pontosy,
                       desvio=desvio,
-                      color=factor(i,unique(i)))
+                      color=factor(rep(i,length(desvio)),unique(i)))
     color=pontos$color
     grafico=grafico+
       geom_errorbar(data=pontos,
@@ -79,14 +79,14 @@ plot_arrange=function(plots,
                         ymin=y-desvio,
                         ymax=y+desvio,
                         color=color,
-                        group=color),width=widthbar, size=linesize)+
+                        group=color),width=widthbar, linewidth=linesize)+
       geom_point(data=pontos,aes(x=x,y=y,
                                  color=color,
                                  group=color),size=pointsize)+
       geom_line(data=data,aes(x=x,
                               y=y,
                               color=color,
-                              group=color),size=linesize)
+                              group=color),linewidth=linesize)
   }
   texto=parse(text=paste(trat,"~",unlist(equation)))
   grafico=grafico+
@@ -102,20 +102,21 @@ plot_arrange=function(plots,
           legend.text.align = 0)}
   if(gray==TRUE & point=="mean"){
     for(i in 1:length(plots)){
-      equation[[i]]=plots[[i]][[3]]$plot$s
-      x=plots[[i]][[3]]$plot$temp1
-      y=plots[[i]][[3]]$plot$result
-      data=data.frame(x,y,color=as.factor(i))
-      pontosx=plots[[i]][[3]]$plot$data1$trat
-      pontosy=plots[[i]][[3]]$plot$data1$resp
-      desvio=plots[[i]][[3]]$plot$desvio
-      pontos=data.frame(x=pontosx,y=pontosy,desvio=desvio,color=as.factor(i))
+      equation[[i]]=plots[[i]]$expression
+      x=plots[[i]]$xaxisp
+      y=plots[[i]]$yaxisp
+      data=data.frame(x,y,color=factor(i,unique(i)))
+      pontosx=plots[[i]]$trt
+      pontosy=plots[[i]]$resp
+      desvio=plots[[i]]$desvio
+      pontos=data.frame(x=pontosx,y=pontosy,desvio=desvio,
+                        color=factor(rep(i,length(desvio)),unique(i)))
       grafico=grafico+
         geom_errorbar(data=pontos,
                       aes(x=x,
                           y=y,
                           ymin=y-desvio,
-                          ymax=y+desvio),width=widthbar, size=linesize)+
+                          ymax=y+desvio),width=widthbar, linewidth=linesize)+
         geom_point(data=pontos,aes(x=x,
                                    y=y,
                                    pch=color,
@@ -124,7 +125,7 @@ plot_arrange=function(plots,
         geom_line(data=data,aes(x=x,
                                 y=y,
                                 lty=color,
-                                group=color),size=linesize)
+                                group=color),linewidth=linesize)
     }
     texto=parse(text=paste(trat,"~",unlist(equation)))
     grafico=grafico+
@@ -141,15 +142,16 @@ plot_arrange=function(plots,
             legend.text.align = 0)}
   if(gray==FALSE & point=="all"){
     for(i in 1:length(plots)){
-      equation[[i]]=plots[[i]][[3]]$plot$s
-      x=plots[[i]][[3]]$plot$temp1
-      y=plots[[i]][[3]]$plot$result
-      data=data.frame(x,y,color=as.factor(i))
-      pontosx=plots[[i]][[3]]$plot$trat
-      pontosy=plots[[i]][[3]]$plot$resp
+      equation[[i]]=plots[[i]]$expression
+      x=plots[[i]]$xaxisp
+      y=plots[[i]]$yaxisp
+      data=data.frame(x,y,color=factor(i,unique(i)))
+      pontosx=plots[[i]]$trt
+      pontosy=plots[[i]]$resp
       pontos=data.frame(x=pontosx,
                         y=pontosy,
-                        color=as.factor(i))
+                        color=factor(rep(i,length(pontosx)),unique(i)))
+
       color=pontos$color
       grafico=grafico+
         geom_point(data=pontos,aes(x=x,y=y,
@@ -158,7 +160,7 @@ plot_arrange=function(plots,
         geom_line(data=data,aes(x=x,
                                 y=y,
                                 color=color,
-                                group=color),size=linesize)}
+                                group=color),linewidth=linesize)}
     texto=parse(text=paste(trat,"~",unlist(equation)))
     grafico=grafico+
       scale_color_discrete(label=texto,breaks=1:length(plots))+
@@ -173,15 +175,16 @@ plot_arrange=function(plots,
             legend.text.align = 0)}
   if(gray==TRUE  & point=="all"){
     for(i in 1:length(plots)){
-      equation[[i]]=plots[[i]][[3]]$plot$s
-      x=plots[[i]][[3]]$plot$temp1
-      y=plots[[i]][[3]]$plot$result
-      data=data.frame(x,y,color=as.factor(i))
-      pontosx=plots[[i]][[3]]$plot$trat
-      pontosy=plots[[i]][[3]]$plot$resp
+      equation[[i]]=plots[[i]]$expression
+      x=plots[[i]]$xaxisp
+      y=plots[[i]]$yaxisp
+      data=data.frame(x,y,color=factor(i,unique(i)))
+      pontosx=plots[[i]]$trt
+      pontosy=plots[[i]]$resp
       pontos=data.frame(x=pontosx,
                         y=pontosy,
-                        color=as.factor(i))
+                        color=factor(rep(i,length(pontosx)),unique(i)))
+
       grafico=grafico+
         geom_point(data=pontos,aes(x=x,
                                    y=y,
@@ -191,7 +194,7 @@ plot_arrange=function(plots,
         geom_line(data=data,aes(x=x,
                                 y=y,
                                 lty=color,
-                                group=color),size=linesize)
+                                group=color),linewidth=linesize)
     }
     texto=parse(text=paste(trat,"~",unlist(equation)))
     grafico=grafico+

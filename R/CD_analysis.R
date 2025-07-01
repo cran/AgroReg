@@ -29,6 +29,7 @@
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @param fontfamily Font family
+#' @param print.on Print output
 #' @return The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.
 #' @details The four-parameter model is given by the expression:
 #'
@@ -77,7 +78,8 @@ CD=function(trat,
             xname.formula="x",
             yname.formula="y",
             comment=NA,
-            fontfamily="sans"){
+            fontfamily="sans",
+            print.on=TRUE){
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   requireNamespace("ggplot2")
   requireNamespace("drc")
@@ -230,6 +232,14 @@ CD=function(trat,
                                rmse))
   graficos=list("Coefficients"=coef,
                 "values"=graphs,
-                "plot"=graph)
-  graficos
+                "plot"=graph,
+                "expression"=s,
+                "xaxisp"=temp1,
+                "yaxisp"=result,
+                "trt"=trat,
+                "resp"=resp,
+                "desvio"=desvio,
+                "model"=model)
+  if(print.on==TRUE){print(graficos[1:3])}
+  output=graficos
 }

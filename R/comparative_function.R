@@ -18,7 +18,7 @@
 #' d=weibull(time,WL)
 #' comparative_model(models=list(a,b,c,d),names_model=c("LM","LL","BC","Weibull"))
 #'
-#' models <- c("LM1", "LM4", "L3", "BC4,"weibull3","mitscherlich", "linear.plateau", "VG")
+#' models <- c("LM1", "LM4", "L3", "BC4","weibull3","mitscherlich", "linear.plateau", "VG")
 #' r <- lapply(models, function(x) {
 #' r <- with(granada, regression(time, WL, model = x))
 #' })
@@ -44,14 +44,14 @@ comparative_model=function(models,
     RMSE=tabela$RMSE
     a=ggplot(tabela,aes(y=modelo,x=AIC))+
       geom_col(aes(fill=modelo),color="black",
-               show.legend = FALSE,size=1)+
+               show.legend = FALSE)+
       geom_label(aes(x=(AIC/2),label=round(AIC,round.label)),show.legend = FALSE)+
       theme_bw()+labs(y="Models")+
       theme(axis.text = element_text(size=12,color="black"),
             axis.title = element_text(size=12))
     b=ggplot(tabela,aes(y=modelo,x=BIC))+
         geom_col(aes(fill=modelo),color="black",
-                 show.legend = FALSE,size=1)+
+                 show.legend = FALSE)+
       geom_label(aes(x=(BIC/2),label=round(BIC,round.label)),
                  show.legend = FALSE)+
       theme_bw()+labs(y="Models")+
@@ -61,7 +61,7 @@ comparative_model=function(models,
             axis.title.x = element_text(size=12))
     c=ggplot(tabela,aes(y=modelo,x=R2))+
         geom_col(aes(fill=modelo),color="black",
-                 show.legend = FALSE,size=1)+
+                 show.legend = FALSE)+
         theme_bw()+labs(y="Models",x=expression(R^2))+
       geom_label(aes(x=(R2/2),label=round(R2,2)),show.legend = FALSE)+
       theme(axis.text.y = element_blank(),
@@ -70,7 +70,7 @@ comparative_model=function(models,
             axis.title.x = element_text(size=12))
     d=ggplot(tabela,aes(y=modelo,x=RMSE))+
         geom_col(aes(fill=modelo),color="black",
-                 show.legend = FALSE,size=1)+
+                 show.legend = FALSE)+
         theme_bw()+labs(y="Models")+
       geom_label(aes(x=(RMSE/2),label=round(RMSE,round.label)),show.legend = FALSE)+
       theme(axis.text.y = element_blank(),

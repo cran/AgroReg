@@ -73,14 +73,14 @@ plot_arrange(list(a,b))
 
 models <- c("LM1", "LL3")
 r <- lapply(models, function(x) {
-r <- with(granada, regression(time, WL, model = x))
+r <- with(granada, regression(time, WL, model = x,print.on=FALSE))
 })
 plot_arrange(r,trat=models,ylab="WL (\%)",xlab="Time (Minutes)")
 
 models = c("asymptotic_neg", "biexponential", "LL4", "BC4", "CD5", "linear.linear",
            "linear.plateau", "quadratic.plateau", "mitscherlich", "MM2")
 m = lapply(models, function(x) {
-           m = with(granada, regression(time, WL, model = x))})
+           m = with(granada, regression(time, WL, model = x,print.on=FALSE))})
            plot_arrange(m, trat = paste("(",models,")"))
 }
 \author{

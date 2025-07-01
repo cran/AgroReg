@@ -26,7 +26,8 @@ Nreg(
   pointshape = 21,
   fillshape = "gray",
   colorline = "black",
-  fontfamily = "sans"
+  fontfamily = "sans",
+  print.on = TRUE
 )
 }
 \arguments{
@@ -73,6 +74,8 @@ Nreg(
 \item{colorline}{Color lines}
 
 \item{fontfamily}{Font family}
+
+\item{print.on}{Print output}
 }
 \value{
 The function returns an exploratory graph of segments

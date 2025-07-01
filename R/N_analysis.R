@@ -24,6 +24,7 @@
 #' @param colorline Color lines
 #' @param fillshape Fill shape
 #' @param fontfamily Font family
+#' @param print.on Print output
 #' @return The function returns an exploratory graph of segments
 #' @keywords non-significant
 #' @export
@@ -54,7 +55,8 @@ Nreg=function(trat,
               pointshape = 21,
               fillshape = "gray",
               colorline = "black",
-              fontfamily="sans"){
+              fontfamily="sans",
+              print.on=TRUE){
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   requireNamespace("ggplot2")
   dados=data.frame(trat,resp)
@@ -78,14 +80,14 @@ Nreg=function(trat,
     if(error!="FALSE"){grafico=grafico+
       geom_errorbar(aes(ymin=resp-desvio,ymax=resp+desvio),
                                                  width=width.bar,
-                    size=linesize)}
+                    linewidth=linesize)}
     grafico=grafico+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)
     }
   if(point=="all"){
     grafico=ggplot(data.frame(trat,resp),aes(x=trat,y=resp))
     if(add.line==TRUE){grafico=grafico+stat_summary(geom="line",fun = "mean",
-                                                    size=linesize,color=colorline,lty=linetype)}
+                                                    linewidth=linesize,color=colorline,lty=linetype)}
     if(add.line.mean==TRUE){grafico=grafico+geom_hline(yintercept = mean(resp,na.rm=TRUE),lty=2,color=colorline)}
     grafico=grafico+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
@@ -102,6 +104,14 @@ Nreg=function(trat,
           legend.justification = 0)
   graficos=list("values"="not significant",
                 NA,
-                "plot"=grafico)
-  graficos
+                "plot"=grafico,
+                "expression"=s,
+                "xaxisp"=temp1,
+                "yaxisp"=result,
+                "trt"=trat,
+                "resp"=resp,
+                "desvio"=desvio,
+                "model"=NA)
+  if(print.on==TRUE){print(graficos[1:3])}
+  output=graficos
 }

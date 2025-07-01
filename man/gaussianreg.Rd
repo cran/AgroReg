@@ -29,7 +29,8 @@ gaussianreg(
   xname.formula = "x",
   yname.formula = "y",
   comment = NA,
-  fontfamily = "sans"
+  fontfamily = "sans",
+  print.on = TRUE
 )
 }
 \arguments{
@@ -82,6 +83,8 @@ gaussianreg(
 \item{comment}{Add text after equation}
 
 \item{fontfamily}{Font family}
+
+\item{print.on}{Print output}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.

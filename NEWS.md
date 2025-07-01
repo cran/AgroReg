@@ -1,3 +1,7 @@
+# AgroReg 1.2.11
+
+* Align to new ggplot2 release
+
 # AgroReg 1.2.9
 
 * Fix `regression` bug for Cedergreen-Ritz-Streibig model.

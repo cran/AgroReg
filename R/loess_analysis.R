@@ -21,6 +21,7 @@
 #' @param colorline Color lines
 #' @param fillshape Fill shape
 #' @param fontfamily Font family
+#' @param print.on Print output
 #' @return The function returns a list containing the loess regression and graph using ggplot2.
 #' @seealso \link{loess}
 #' @export
@@ -51,7 +52,8 @@ loessreg=function(trat,
                   pointshape = 21,
                   fillshape = "gray",
                   colorline = "black",
-                  fontfamily="sans"){
+                  fontfamily="sans",
+                  print.on=TRUE){
   requireNamespace("ggplot2")
   ymean=tapply(resp,trat,mean)
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
@@ -73,7 +75,7 @@ loessreg=function(trat,
     graph=ggplot(data,aes(x=xmean,y=ymean))
     if(error!="FALSE"){graph=graph+geom_errorbar(aes(ymin=ymean-ysd,ymax=ymean+ysd),
                                                  width=width.bar,
-                                                 size=linesize)}
+                                                 linewidth=linesize)}
     graph=graph+
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   if(point=="all"){
@@ -82,7 +84,7 @@ loessreg=function(trat,
       geom_point(aes(color="black"),size=pointsize,shape=pointshape,fill=fillshape)}
   graph=graph+theme+
     geom_line(data=preditos,aes(x=preditos$x,
-                                y=preditos$y,color="black"),size=linesize,lty=linetype)+
+                                y=preditos$y,color="black"),linewidth=linesize,lty=linetype)+
     scale_color_manual(name="",values=colorline,label="Loess regression")+
     theme(axis.text = element_text(size=textsize,color="black",family = fontfamily),
           axis.title = element_text(size=textsize,color="black",family = fontfamily),
@@ -109,6 +111,14 @@ loessreg=function(trat,
                                respmin))
   graficos=list("Coefficients"=NA,
                 "values"=graphs,
-                "plot"=graph)
-  graficos
+                "plot"=graph,
+                "expression"=s,
+                "xaxisp"=temp1,
+                "yaxisp"=result,
+                "trt"=trat,
+                "resp"=resp,
+                "desvio"=desvio,
+                "model"=NA)
+  if(print.on==TRUE){print(graficos[1:3])}
+  output=graficos
 }

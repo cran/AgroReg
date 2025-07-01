@@ -28,7 +28,8 @@ yieldloss(
   xname.formula = "x",
   comment = NA,
   scale = "none",
-  fontfamily = "sans"
+  fontfamily = "sans",
+  print.on = TRUE
 )
 }
 \arguments{
@@ -79,6 +80,8 @@ yieldloss(
 \item{scale}{Sets x scale (\emph{default} is none, can be "log")}
 
 \item{fontfamily}{Font family}
+
+\item{print.on}{Print output}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.

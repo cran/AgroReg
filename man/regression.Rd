@@ -22,7 +22,8 @@ regression(
   error = "SE",
   width.bar = NA,
   xname.formula = "x",
-  yname.formula = "y"
+  yname.formula = "y",
+  print.on = TRUE
 )
 }
 \arguments{
@@ -61,6 +62,8 @@ regression(
 \item{xname.formula}{Name of x in the equation}
 
 \item{yname.formula}{Name of y in the equation}
+
+\item{print.on}{Print output}
 }
 \value{
 The function returns a list containing the coefficients and their respective values of p; statistical parameters such as AIC, BIC, pseudo-R2, RMSE (root mean square error); largest and smallest estimated value and the graph using ggplot2 with the equation automatically.

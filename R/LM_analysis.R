@@ -30,6 +30,7 @@
 #' @param yname.formula Name of y in the equation
 #' @param comment Add text after equation
 #' @param fontfamily Font family
+#' @param print.on Print output
 #'
 #' @details
 #' The linear model is defined by:
@@ -79,7 +80,8 @@ LM=function(trat,
             xname.formula="x",
             yname.formula="y",
             comment=NA,
-            fontfamily="sans"){
+            fontfamily="sans",
+            print.on=TRUE){
   requireNamespace("ggplot2")
   if(is.na(width.bar)==TRUE){width.bar=0.01*mean(trat)}
   if(is.na(degree)==TRUE){degree=1}
@@ -293,7 +295,7 @@ LM=function(trat,
     grafico=ggplot(data1,aes(x=trat,y=resp))+
       geom_errorbar(aes(ymin=resp-desvio, ymax=resp+desvio),
                     width=width.bar,
-                    size=linesize)+
+                    linewidth=linesize)+
       geom_point(aes(fill=as.factor(rep(1,length(resp)))),na.rm=TRUE,
                  size=pointsize,color="black",shape=pointshape)}
 
@@ -304,11 +306,11 @@ LM=function(trat,
 
   grafico=grafico+
     theme+ylab(ylab)+xlab(xlab)
-  if(degree=="1"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x,size=linesize,color=colorline,lty=linetype)}
-  if(degree=="2"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2),size=linesize,color=colorline,lty=linetype)}
-  if(degree=="3"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3),size=linesize,color=colorline,lty=linetype)}
-  if(degree=="4"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)+I(x^4),size=linesize,color=colorline,lty=linetype)}
-  if(degree=="0.5"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^0.5),size=linesize,color=colorline,lty=linetype)}
+  if(degree=="1"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic, na.rm=TRUE, formula = y~x,linewidth=linesize,color=colorline,lty=linetype)}
+  if(degree=="2"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2),linewidth=linesize,color=colorline,lty=linetype)}
+  if(degree=="3"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3),linewidth=linesize,color=colorline,lty=linetype)}
+  if(degree=="4"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^2)+I(x^3)+I(x^4),linewidth=linesize,color=colorline,lty=linetype)}
+  if(degree=="0.5"){grafico=grafico+geom_smooth(method = "lm",se=ic, fill=fill.ic, alpha=alpha.ic,na.rm=TRUE, formula = y~x+I(x^0.5),linewidth=linesize,color=colorline,lty=linetype)}
   if(degree=="1"){grafico=grafico+
     scale_fill_manual(values=fillshape,label=c(parse(text=s1)),name="")}
   if(degree=="2"){grafico=grafico+
@@ -452,6 +454,14 @@ LM=function(trat,
   graficos=list("Coefficients"=models,
                 "values"=graphs,
                 "plot"=grafico,
-                "VIF"=vif)
-  graficos
+                "VIF"=vif,
+                "expression"=s,
+                "xaxisp"=temp1,
+                "yaxisp"=result,
+                "trt"=trat,
+                "resp"=resp,
+                "desvio"=desvio,
+                "model"=model)
+  if(print.on==TRUE){print(graficos[1:4])}
+  output=graficos
 }
